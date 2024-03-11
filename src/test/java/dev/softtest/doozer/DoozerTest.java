@@ -101,10 +101,6 @@ public class DoozerTest {
         }
     }
 
-    private void url(String url) {
-        driver.get(url);
-    }
-
     private void assertPageTitle(String title) {
         String pageTitle = driver.getTitle();
         assertEquals(title, pageTitle);
