@@ -19,6 +19,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import dev.softtest.doozer.actions.TakeScreenshot;
 import dev.softtest.doozer.actions.Url;
 
 import java.util.ArrayList;
@@ -94,6 +95,9 @@ public class DoozerTest {
                     break;
                 case "assertInnerText":
                     assertInnerText(action.getOptions());
+                    break;
+                case "takeScreenshot":
+                    new TakeScreenshot(driver, action.getOptions()).execute();
                     break;
                 default:
                     throw new Exception("don't know this action: " + action.getActionName());
