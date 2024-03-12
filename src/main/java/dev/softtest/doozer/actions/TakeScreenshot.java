@@ -9,7 +9,7 @@ import org.openqa.selenium.WebDriver;
 
 import com.google.common.io.Files;
 
-public class TakeScreenshot {
+public class TakeScreenshot implements IAction {
     WebDriver driver;
     String options;
 

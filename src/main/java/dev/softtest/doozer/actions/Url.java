@@ -2,7 +2,7 @@ package dev.softtest.doozer.actions;
 
 import org.openqa.selenium.WebDriver;
 
-public class Url {
+public class Url implements IAction {
     WebDriver driver;
     String options;
 

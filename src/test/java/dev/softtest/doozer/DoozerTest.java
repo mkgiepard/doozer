@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -19,6 +20,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
+import dev.softtest.doozer.actions.IAction;
 import dev.softtest.doozer.actions.TakeScreenshot;
 import dev.softtest.doozer.actions.Url;
 
@@ -80,9 +82,11 @@ public class DoozerTest {
                 System.out.println("...empty line");
                 continue;
             }
+
             switch (action.getActionName()) {
                 case "url":
-                    new Url(driver, action.getOptions()).execute();
+                    IAction urlAction = getActionInstanceForActionName("url", action.getOptions());
+                    urlAction.execute();
                     break;
                 case "assertPageTitle":
                     assertPageTitle(action.getOptions());
@@ -97,7 +101,9 @@ public class DoozerTest {
                     assertInnerText(action.getOptions());
                     break;
                 case "takeScreenshot":
-                    new TakeScreenshot(driver, action.getOptions()).execute();
+                    IAction takeScreenshotAction = getActionInstanceForActionName("takeScreenshot",
+                            action.getOptions());
+                    takeScreenshotAction.execute();
                     break;
                 default:
                     throw new Exception("don't know this action: " + action.getActionName());
@@ -124,6 +130,16 @@ public class DoozerTest {
         WebElement message = driver.findElement(By.id("message"));
         String value = message.getText();
         assertEquals(text, value);
+    }
+
+    private IAction getActionInstanceForActionName(String actionName, String actionOptions) throws Exception {
+        String actionClassPrefix = "dev.softtest.doozer.actions.";
+        String actionClassName = actionName.substring(0, 1).toUpperCase()
+                + actionName.substring(1);
+        return (IAction) Class.forName(actionClassPrefix +
+                actionClassName).getConstructor(WebDriver.class,
+                        String.class)
+                .newInstance(driver, actionOptions);
     }
 
 }
