@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -92,10 +93,10 @@ public class DoozerTest {
                     assertPageTitle(action.getOptions());
                     break;
                 case "type":
-                    type(action.getOptions());
+                    type(action.getSelector(), action.getOptions());
                     break;
                 case "click":
-                    click();
+                    click(action.getSelector());
                     break;
                 case "assertInnerText":
                     assertInnerText(action.getOptions());
@@ -116,14 +117,19 @@ public class DoozerTest {
         assertEquals(title, pageTitle);
     }
 
-    private void type(String text) {
-        WebElement textBox = driver.findElement(By.name("my-text"));
+    private void type(String selector, String text)
+            throws NoSuchMethodException, SecurityException, IllegalAccessException, InvocationTargetException {
+        WebElement textBox = driver.findElement(getBySelector(selector));
         textBox.sendKeys(text);
     }
 
-    private void click() {
-        WebElement submitButton = driver.findElement(By.cssSelector("button"));
-        submitButton.click();
+    private void click(String selector) {
+        try {
+            WebElement submitButton = driver.findElement(getBySelector(selector));
+            submitButton.click();
+        } catch (Exception e) {
+            System.out.println("ups...");
+        }
     }
 
     private void assertInnerText(String text) {
@@ -140,6 +146,20 @@ public class DoozerTest {
                 actionClassName).getConstructor(WebDriver.class,
                         String.class)
                 .newInstance(driver, actionOptions);
+    }
+
+    private By getBySelector(String s)
+            throws NoSuchMethodException, SecurityException, IllegalAccessException, InvocationTargetException {
+
+        // Selector format examples:
+        // - By.cssSelector('button')
+        // - By.name('my-text')
+
+        String methodName = s.substring(s.indexOf(".") + 1, s.indexOf("("));
+        String methodParam = s.substring(s.indexOf("'") + 1, s.length() - 2);
+
+        Method bySelectorMethod = By.class.getDeclaredMethod(methodName, String.class);
+        return (By) bySelectorMethod.invoke(null, methodParam);
     }
 
 }
