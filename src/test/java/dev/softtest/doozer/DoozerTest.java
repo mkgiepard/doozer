@@ -86,7 +86,8 @@ public class DoozerTest {
 
             switch (action.getActionName()) {
                 case "url":
-                    IAction urlAction = getActionInstanceForActionName("url", action.getOptions());
+                    IAction urlAction = getActionInstanceForActionName("url", action.getSelector(),
+                            action.getOptions());
                     urlAction.execute();
                     break;
                 case "assertPageTitle":
@@ -96,13 +97,16 @@ public class DoozerTest {
                     type(action.getSelector(), action.getOptions());
                     break;
                 case "click":
-                    click(action.getSelector());
+                    IAction clickAction = getActionInstanceForActionName("click", action.getSelector(),
+                            action.getOptions());
+                    clickAction.execute();
                     break;
                 case "assertInnerText":
                     assertInnerText(action.getOptions());
                     break;
                 case "takeScreenshot":
                     IAction takeScreenshotAction = getActionInstanceForActionName("takeScreenshot",
+                            action.getSelector(),
                             action.getOptions());
                     takeScreenshotAction.execute();
                     break;
@@ -117,19 +121,9 @@ public class DoozerTest {
         assertEquals(title, pageTitle);
     }
 
-    private void type(String selector, String text)
-            throws NoSuchMethodException, SecurityException, IllegalAccessException, InvocationTargetException {
+    private void type(String selector, String text) throws Exception {
         WebElement textBox = driver.findElement(getBySelector(selector));
         textBox.sendKeys(text);
-    }
-
-    private void click(String selector) {
-        try {
-            WebElement submitButton = driver.findElement(getBySelector(selector));
-            submitButton.click();
-        } catch (Exception e) {
-            System.out.println("ups...");
-        }
     }
 
     private void assertInnerText(String text) {
@@ -138,18 +132,18 @@ public class DoozerTest {
         assertEquals(text, value);
     }
 
-    private IAction getActionInstanceForActionName(String actionName, String actionOptions) throws Exception {
+    private IAction getActionInstanceForActionName(String actionName, String actionSelector, String actionOptions)
+            throws Exception {
         String actionClassPrefix = "dev.softtest.doozer.actions.";
         String actionClassName = actionName.substring(0, 1).toUpperCase()
                 + actionName.substring(1);
         return (IAction) Class.forName(actionClassPrefix +
                 actionClassName).getConstructor(WebDriver.class,
-                        String.class)
-                .newInstance(driver, actionOptions);
+                        String.class, String.class)
+                .newInstance(driver, actionSelector, actionOptions);
     }
 
-    private By getBySelector(String s)
-            throws NoSuchMethodException, SecurityException, IllegalAccessException, InvocationTargetException {
+    private By getBySelector(String s) throws Exception {
 
         // Selector format examples:
         // - By.cssSelector('button')

@@ -6,7 +6,7 @@ public class Url implements IAction {
     WebDriver driver;
     String options;
 
-    public Url(WebDriver driver, String options) {
+    public Url(WebDriver driver, String selector, String options) {
         this.driver = driver;
         this.options = options;
     }

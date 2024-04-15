@@ -13,7 +13,7 @@ public class TakeScreenshot implements IAction {
     WebDriver driver;
     String options;
 
-    public TakeScreenshot(WebDriver driver, String options) {
+    public TakeScreenshot(WebDriver driver, String selector, String options) {
         this.driver = driver;
         this.options = options;
     }
