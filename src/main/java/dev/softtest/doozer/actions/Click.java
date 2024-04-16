@@ -13,13 +13,8 @@ public class Click extends DoozerAction implements IAction {
         this.driver = driver;
     }
 
-    public void execute() {
-        try {
-            WebElement submitButton = driver.findElement(getBySelector(selector));
-            submitButton.click();
-        } catch (Exception e) {
-            System.out.println("ups...");
-            System.out.println(e);
-        }
+    public void execute() throws Exception {
+        WebElement submitButton = driver.findElement(getBySelector(selector));
+        submitButton.click();
     }
 }

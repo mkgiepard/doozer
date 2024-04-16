@@ -18,12 +18,8 @@ public class TakeScreenshot implements IAction {
         this.options = options;
     }
 
-    public void execute() {
+    public void execute() throws Exception {
         byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-        try {
-            Files.write(screenshot, new File("/tmp/" + options + ".png"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Files.write(screenshot, new File("/tmp/" + options + ".png"));
     }
 }

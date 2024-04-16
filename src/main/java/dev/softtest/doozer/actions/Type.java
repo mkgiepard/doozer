@@ -13,14 +13,9 @@ public class Type extends DoozerAction implements IAction {
         this.driver = driver;
     }
 
-    public void execute() {
-        try {
-            WebElement textBox = driver.findElement(getBySelector(selector));
-            textBox.sendKeys(this.options);
-        } catch (Exception e) {
-            System.out.println("ups...");
-            System.out.println(e);
-        }
+    public void execute() throws Exception {
+        WebElement textBox = driver.findElement(getBySelector(selector));
+        textBox.sendKeys(this.options);
     }
 
 }
