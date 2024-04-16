@@ -94,7 +94,6 @@ public class DoozerTest {
                     assertPageTitle(action.getOptions());
                     break;
                 case "type":
-                    // type(action.getSelector(), action.getOptions());
                     IAction typeAction = getActionInstanceForActionName("type", action.getSelector(),
                             action.getOptions());
                     typeAction.execute();
@@ -105,7 +104,9 @@ public class DoozerTest {
                     clickAction.execute();
                     break;
                 case "assertInnerText":
-                    assertInnerText(action.getOptions());
+                    IAction assertInnerTextAction = getActionInstanceForActionName("assertInnerText",
+                            action.getSelector(), action.getOptions());
+                    assertInnerTextAction.execute();
                     break;
                 case "takeScreenshot":
                     IAction takeScreenshotAction = getActionInstanceForActionName("takeScreenshot",
@@ -122,12 +123,6 @@ public class DoozerTest {
     private void assertPageTitle(String title) {
         String pageTitle = driver.getTitle();
         assertEquals(title, pageTitle);
-    }
-
-    private void assertInnerText(String text) {
-        WebElement message = driver.findElement(By.id("message"));
-        String value = message.getText();
-        assertEquals(text, value);
     }
 
     private IAction getActionInstanceForActionName(String actionName, String actionSelector, String actionOptions)

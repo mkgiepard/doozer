@@ -1,5 +1,5 @@
 package dev.softtest.doozer.actions;
 
 public interface IAction {
-    public void execute();
+    public void execute() throws Exception;
 }
