@@ -94,7 +94,10 @@ public class DoozerTest {
                     assertPageTitle(action.getOptions());
                     break;
                 case "type":
-                    type(action.getSelector(), action.getOptions());
+                    // type(action.getSelector(), action.getOptions());
+                    IAction typeAction = getActionInstanceForActionName("type", action.getSelector(),
+                            action.getOptions());
+                    typeAction.execute();
                     break;
                 case "click":
                     IAction clickAction = getActionInstanceForActionName("click", action.getSelector(),
@@ -119,11 +122,6 @@ public class DoozerTest {
     private void assertPageTitle(String title) {
         String pageTitle = driver.getTitle();
         assertEquals(title, pageTitle);
-    }
-
-    private void type(String selector, String text) throws Exception {
-        WebElement textBox = driver.findElement(getBySelector(selector));
-        textBox.sendKeys(text);
     }
 
     private void assertInnerText(String text) {
