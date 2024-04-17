@@ -1,7 +1,6 @@
 package dev.softtest.doozer.actions;
 
 import java.io.File;
-import java.io.IOException;
 
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -9,15 +8,15 @@ import org.openqa.selenium.WebDriver;
 
 import com.google.common.io.Files;
 
-public class TakeScreenshot implements IAction {
-    WebDriver driver;
-    String options;
+import dev.softtest.doozer.DoozerAction;
 
-    public TakeScreenshot(WebDriver driver, String selector, String options) {
-        this.driver = driver;
-        this.options = options;
+public class TakeScreenshot extends DoozerAction {
+
+    public TakeScreenshot(WebDriver driver, String name, String selector, String options) {
+        super(driver, name, selector, options);
     }
 
+    @Override
     public void execute() throws Exception {
         byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
         Files.write(screenshot, new File("/tmp/" + options + ".png"));

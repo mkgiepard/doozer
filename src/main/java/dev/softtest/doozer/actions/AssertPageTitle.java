@@ -4,14 +4,13 @@ import org.openqa.selenium.WebDriver;
 
 import dev.softtest.doozer.DoozerAction;
 
-public class AssertPageTitle extends DoozerAction implements IAction {
-    WebDriver driver;
+public class AssertPageTitle extends DoozerAction {
 
-    public AssertPageTitle(WebDriver driver, String selector, String options) {
-        super("assertPageTitle", selector, options);
-        this.driver = driver;
+    public AssertPageTitle(WebDriver driver, String name, String selector, String options) {
+        super(driver, name, selector, options);
     }
 
+    @Override
     public void execute() throws Exception {
         String pageTitle = driver.getTitle();
         if (!pageTitle.equals(options))

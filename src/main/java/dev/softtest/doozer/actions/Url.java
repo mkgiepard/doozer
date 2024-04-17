@@ -2,15 +2,15 @@ package dev.softtest.doozer.actions;
 
 import org.openqa.selenium.WebDriver;
 
-public class Url implements IAction {
-    WebDriver driver;
-    String options;
+import dev.softtest.doozer.DoozerAction;
 
-    public Url(WebDriver driver, String selector, String options) {
-        this.driver = driver;
-        this.options = options;
+public class Url extends DoozerAction {
+
+    public Url(WebDriver driver, String name, String selector, String options) {
+        super(driver, name, selector, options);
     }
 
+    @Override
     public void execute() {
         driver.get(options);
     }
