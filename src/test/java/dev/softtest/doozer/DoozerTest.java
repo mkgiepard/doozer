@@ -91,7 +91,10 @@ public class DoozerTest {
                     urlAction.execute();
                     break;
                 case "assertPageTitle":
-                    assertPageTitle(action.getOptions());
+                    IAction assertPageTitleAction = getActionInstanceForActionName("assertPageTitle",
+                            action.getSelector(), action.getOptions());
+                    assertPageTitleAction.execute();
+
                     break;
                 case "type":
                     IAction typeAction = getActionInstanceForActionName("type", action.getSelector(),
@@ -120,11 +123,6 @@ public class DoozerTest {
         }
     }
 
-    private void assertPageTitle(String title) {
-        String pageTitle = driver.getTitle();
-        assertEquals(title, pageTitle);
-    }
-
     private IAction getActionInstanceForActionName(String actionName, String actionSelector, String actionOptions)
             throws Exception {
         String actionClassPrefix = "dev.softtest.doozer.actions.";
@@ -134,19 +132,6 @@ public class DoozerTest {
                 actionClassName).getConstructor(WebDriver.class,
                         String.class, String.class)
                 .newInstance(driver, actionSelector, actionOptions);
-    }
-
-    private By getBySelector(String s) throws Exception {
-
-        // Selector format examples:
-        // - By.cssSelector('button')
-        // - By.name('my-text')
-
-        String methodName = s.substring(s.indexOf(".") + 1, s.indexOf("("));
-        String methodParam = s.substring(s.indexOf("'") + 1, s.length() - 2);
-
-        Method bySelectorMethod = By.class.getDeclaredMethod(methodName, String.class);
-        return (By) bySelectorMethod.invoke(null, methodParam);
     }
 
 }
