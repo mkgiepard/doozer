@@ -5,9 +5,9 @@ import java.lang.reflect.Method;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
-import dev.softtest.doozer.actions.IAction;
+import dev.softtest.doozer.actions.Action;
 
-public class DoozerAction implements IAction {
+public class DoozerAction implements Action {
     public WebDriver driver;
     public String actionName;
     public String selector;
