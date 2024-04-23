@@ -1,6 +1,7 @@
 package dev.softtest.doozer;
 
 import java.io.BufferedReader;
+import java.util.stream.*;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,8 +10,13 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -22,13 +28,13 @@ public class DoozerTest {
     private static ArrayList<DoozerAction> actions = new ArrayList<DoozerAction>();
     private static final String splitterChar = " \"";
 
-    @BeforeAll
-    public static void setup() throws Exception {
+    // @BeforeAll
+    public static void setup(String testFile) throws Exception {
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
 
         Charset charset = StandardCharsets.UTF_8;
-        Path path = FileSystems.getDefault().getPath(doozerTestFile).toAbsolutePath();
+        Path path = FileSystems.getDefault().getPath(testFile).toAbsolutePath();
 
         try (BufferedReader reader = Files.newBufferedReader(path, charset)) {
             String line = null;
@@ -63,17 +69,34 @@ public class DoozerTest {
         }
     }
 
+    @AfterEach
+    public void cleanUp() {
+        actions.clear();
+        driver.quit();
+    }
+
     @AfterAll
     public static void tearDown() {
         driver.quit();
     }
 
-    @Test
-    public void runner() throws Exception {
+    @ParameterizedTest
+    @MethodSource("provideDoozerTestFiles")
+    public void runner(String testFile) throws Exception {
+        setup(testFile);
         for (DoozerAction action : actions) {
             System.out.println(action.toString());
             action.execute();
         }
+    }
+
+    private static Stream<Arguments> provideDoozerTestFiles() {
+        String testFolder = System.getProperty("test.folder");
+        return Stream.of(
+          Arguments.of(testFolder + "firstTest.doozer"),
+          Arguments.of(testFolder + "secondTest.doozer"),
+          Arguments.of(testFolder + "googleTest.doozer")
+        );
     }
 
     private static DoozerAction createActionInstance(String actionName, String actionSelector, String actionOptions)

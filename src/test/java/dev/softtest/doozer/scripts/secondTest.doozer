@@ -1,0 +1,8 @@
+url "" "https://www.selenium.dev/selenium/web/web-form.html"
+assertPageTitle "" "Web form"
+takeScreenshot "" "first"
+
+type "By.name('my-text')" "Selenium"
+click "By.cssSelector('button')"
+assertInnerText "By.id('message')" "Received!"
+takeScreenshot "" "second"
