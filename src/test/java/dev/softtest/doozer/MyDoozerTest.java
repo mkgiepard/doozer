@@ -6,7 +6,7 @@ import org.junit.jupiter.params.provider.Arguments;
 public class MyDoozerTest extends DoozerTest {
     
     @Override
-    protected Stream<Arguments> provideDoozerTestFiles() {
+    public Stream<Arguments> provideDoozerTestFiles() {
         String testFolder = System.getProperty("test.folder");
         return Stream.of(
           Arguments.of(testFolder + "firstTest.doozer"),

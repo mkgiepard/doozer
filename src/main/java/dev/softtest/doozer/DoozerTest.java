@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 @TestInstance(Lifecycle.PER_CLASS)
-public class DoozerTest {
+public abstract class DoozerTest {
     public static WebDriver driver;
     private static List<DoozerAction> actions = new ArrayList<DoozerAction>();
 
@@ -54,12 +54,5 @@ public class DoozerTest {
         }
     }
 
-    protected Stream<Arguments> provideDoozerTestFiles() {
-        String testFolder = System.getProperty("test.folder");
-        return Stream.of(
-          Arguments.of(testFolder + "firstTest.doozer"),
-          Arguments.of(testFolder + "secondTest.doozer"),
-          Arguments.of(testFolder + "googleTest.doozer")
-        );
-    }
+    public abstract Stream<Arguments> provideDoozerTestFiles();
 }
