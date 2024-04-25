@@ -3,6 +3,9 @@ package dev.softtest.doozer;
 import java.util.stream.*;
 import java.time.Duration;
 
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -14,6 +17,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import java.util.List;
 import java.util.ArrayList;
 
+@TestInstance(Lifecycle.PER_CLASS)
 public class DoozerTest {
     public static WebDriver driver;
     private static List<DoozerAction> actions = new ArrayList<DoozerAction>();
@@ -50,7 +54,7 @@ public class DoozerTest {
         }
     }
 
-    private static Stream<Arguments> provideDoozerTestFiles() {
+    protected Stream<Arguments> provideDoozerTestFiles() {
         String testFolder = System.getProperty("test.folder");
         return Stream.of(
           Arguments.of(testFolder + "firstTest.doozer"),
