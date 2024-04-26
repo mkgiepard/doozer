@@ -23,6 +23,17 @@ takeScreenshot "" "{name:mainPage,timeout:2}"
 
 ### Actions
 
+- `assertCurrentUrl`
+- `assertInnerText`
+- `assertPageTitle`
+- `click`
+- `navigateBack`
+- `navigateForward`
+- `navigateTo`
+- `refresh`
+- `takeScreenshot`
+- `type`
+- `url`
 
 ### Selectors
 
