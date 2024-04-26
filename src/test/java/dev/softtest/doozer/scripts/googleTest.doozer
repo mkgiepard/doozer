@@ -1,2 +1,8 @@
-url "" "https://www.google.com"
+navigateTo "" "https://www.google.com"
 takeScreenshot "" "google.com"
+navigateBack
+takeScreenshot "" "back"
+navigateForward
+takeScreenshot "" "forward"
+refresh
+takeScreenshot "" "refresh"
