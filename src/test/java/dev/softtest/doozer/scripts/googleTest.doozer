@@ -6,3 +6,4 @@ navigateForward
 takeScreenshot "" "forward"
 refresh
 takeScreenshot "" "refresh"
+assertCurrentUrl "" "https://www.google.com/"
