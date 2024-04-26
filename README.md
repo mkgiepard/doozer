@@ -23,17 +23,24 @@ takeScreenshot "" "{name:mainPage,timeout:2}"
 
 ### Actions
 
-- `assertCurrentUrl`
-- `assertInnerText`
-- `assertPageTitle`
-- `click`
-- `navigateBack`
-- `navigateForward`
-- `navigateTo`
-- `refresh`
-- `takeScreenshot`
-- `type`
-- `url`
+- Assertions
+  - `assertCurrentUrl`
+  - `assertInnerText`
+  - `assertPageTitle`
+
+- Interactions
+  - `click`
+  - `type`
+
+- Navigation
+  - `navigateBack`
+  - `navigateForward`
+  - `navigateTo`
+  - `refresh`
+  - `url`
+
+- Generics
+  - `takeScreenshot`
 
 ### Selectors
 
