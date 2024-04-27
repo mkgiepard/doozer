@@ -10,15 +10,21 @@ import com.google.common.io.Files;
 
 import dev.softtest.doozer.DoozerAction;
 
+import java.util.Map;
+
 public class TakeScreenshot extends DoozerAction {
 
-    public TakeScreenshot(WebDriver driver, String name, String selector, String options) {
+    public TakeScreenshot(WebDriver driver, String name, String selector, Map<String, String> options) {
         super(driver, name, selector, options);
     }
 
     @Override
     public void execute() throws Exception {
         byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-        Files.write(screenshot, new File("/tmp/" + options + ".png"));
+        String fileName = options.get("default");
+        if (fileName == null) {
+            fileName = options.getOrDefault("fileName", "screenshot");
+        }
+        Files.write(screenshot, new File("/tmp/" + fileName + ".png"));
     }
 }

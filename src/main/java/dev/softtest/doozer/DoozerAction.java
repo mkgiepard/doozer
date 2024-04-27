@@ -7,14 +7,16 @@ import org.openqa.selenium.WebDriver;
 
 import dev.softtest.doozer.actions.Action;
 
+import java.util.Map;
+
 public class DoozerAction implements Action {
     public WebDriver driver;
     public String actionName;
     public String selector;
-    public String options;
+    public Map<String, String> options;
     public int lineNumber;
 
-    public DoozerAction(WebDriver driver, String actionName, String selector, String options) {
+    public DoozerAction(WebDriver driver, String actionName, String selector, Map<String, String> options) {
         this.driver = driver;
         this.actionName = actionName;
         this.selector = selector;
@@ -29,8 +31,12 @@ public class DoozerAction implements Action {
         return selector;
     }
 
-    public String getOptions() {
+    public Map<String, String> getOptions() {
         return options;
+    }
+
+    public String getOption(String key) {
+        return options.getOrDefault(key, "");
     }
 
     public int getLineNumber() {

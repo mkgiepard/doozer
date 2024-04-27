@@ -1,9 +1,9 @@
 navigateTo "" "https://www.google.com"
 takeScreenshot "" "google.com"
 navigateBack
-takeScreenshot "" "back"
+takeScreenshot "" "fileName=back-withOption"
 navigateForward
-takeScreenshot "" "forward"
+takeScreenshot
 refresh
 takeScreenshot "" "refresh"
 assertCurrentUrl "" "https://www.google.com/"

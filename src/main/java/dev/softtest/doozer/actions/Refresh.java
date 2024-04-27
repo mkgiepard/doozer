@@ -3,9 +3,11 @@ package dev.softtest.doozer.actions;
 import org.openqa.selenium.WebDriver;
 import dev.softtest.doozer.DoozerAction;
 
+import java.util.Map;
+
 public class Refresh extends DoozerAction {
 
-    public Refresh(WebDriver driver, String name, String selector, String options) {
+    public Refresh(WebDriver driver, String name, String selector, Map<String, String> options) {
         super(driver, name, selector, options);
     }
 

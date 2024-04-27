@@ -8,7 +8,9 @@ import java.nio.charset.StandardCharsets;
 
 import java.io.BufferedReader;
 import java.util.List;
+import java.util.Map;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.openqa.selenium.WebDriver;
 
@@ -51,11 +53,12 @@ public class Parser {
 
         String name = null;
         String selector = null;
-        String options = null;
+        Map<String, String> options = new HashMap<>();
         if (splitLine.length == 3) {
             name = splitLine[0].replaceAll("\"", "");
             selector = splitLine[1].replaceAll("\"", "");
-            options = splitLine[2].replaceAll("\"", "");
+            OptionParser oParser = new OptionParser(splitLine[2].replaceAll("\"", ""));
+            options = oParser.parse();
         } else if (splitLine.length == 2) {
             name = splitLine[0].replaceAll("\"", "");
             selector = splitLine[1].replaceAll("\"", "");
@@ -73,14 +76,14 @@ public class Parser {
         return action;
     }
 
-    private DoozerAction createActionInstance(String actionName, String actionSelector, String actionOptions)
-            throws Exception {
+    private DoozerAction createActionInstance(String actionName, String actionSelector,
+      Map<String, String> actionOptions) throws Exception {
         String actionClassPrefix = "dev.softtest.doozer.actions.";
         String actionClassName = actionName.substring(0, 1).toUpperCase()
                 + actionName.substring(1);
         return (DoozerAction) Class.forName(actionClassPrefix +
                 actionClassName).getConstructor(WebDriver.class, String.class,
-                        String.class, String.class)
+                        String.class, Map.class)
                 .newInstance(driver, actionName, actionSelector, actionOptions);
     }
 }

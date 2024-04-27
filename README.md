@@ -12,11 +12,11 @@ Examples:
 click "By.cssSelector('button')"
 
 type "By.name('title')" "doozer"
-click "By.cssSelector('button')" "{button:2,offsetX:10,offsetY:10}"
+click "By.cssSelector('button')" "button=2,offsetX=10,offsetY=10"
 
 click? "By.cssSelector('button')"
 
-takeScreenshot "" "{name:mainPage,timeout:2}"
+takeScreenshot "" "{name=mainPage,timeout=2}"
 ```
 
 `?` - optional parameter indicating the execution should proceed despite action failure
@@ -53,5 +53,5 @@ takeScreenshot "" "{name:mainPage,timeout:2}"
 
 One of:
 - single parameter
-- a map of `key=value` pairs separated with `,` surrounded by `{}`.
+- a list of `key=value` pairs separated with `,`.
 
