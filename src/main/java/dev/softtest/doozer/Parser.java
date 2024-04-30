@@ -54,6 +54,7 @@ public class Parser {
         String name = null;
         String selector = null;
         Map<String, String> options = new HashMap<>();
+        Boolean isOptional = false;
         if (splitLine.length == 3) {
             name = splitLine[0].replaceAll("\"", "").trim();
             selector = splitLine[1].replaceAll("\"", "").trim();
@@ -66,8 +67,13 @@ public class Parser {
             name = splitLine[0].replaceAll("\"", "").trim();
         }
         
+        if (name.endsWith("?")) {
+            isOptional = true;
+            name = name.substring(0, name.length()-1);
+        }
+
         try {
-            action = createActionInstance(name, selector, options);
+            action = createActionInstance(name, selector, options, isOptional);
         } catch (Exception e) {
             System.err.format("Exception: %s%n", e);
             throw e;
@@ -77,13 +83,13 @@ public class Parser {
     }
 
     private DoozerAction createActionInstance(String actionName, String actionSelector,
-      Map<String, String> actionOptions) throws Exception {
+      Map<String, String> actionOptions, Boolean isOptional) throws Exception {
         String actionClassPrefix = "dev.softtest.doozer.actions.";
         String actionClassName = actionName.substring(0, 1).toUpperCase()
                 + actionName.substring(1);
         return (DoozerAction) Class.forName(actionClassPrefix +
                 actionClassName).getConstructor(WebDriver.class, String.class,
-                        String.class, Map.class)
-                .newInstance(driver, actionName, actionSelector, actionOptions);
+                        String.class, Map.class, Boolean.class)
+                .newInstance(driver, actionName, actionSelector, actionOptions, isOptional);
     }
 }

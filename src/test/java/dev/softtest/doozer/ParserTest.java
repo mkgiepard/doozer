@@ -96,6 +96,21 @@ public class ParserTest {
     }
 
     @Test
+    public void parse_type_action_with_optional_parameter() throws Exception {
+        // type? "By.name('my-text')" "text=Selenium"
+        String line = "type? " + '"' + "By.name('my-text')" + '"' + ' ' + '"' + "text=Selenium" + '"';
+
+        DoozerAction action = parser.parseAction(1, line);
+        
+        assertEquals(Type.class, action.getClass());
+        assertEquals("type", action.getActionName());
+        assertEquals("By.name('my-text')", action.getSelector());
+        assertEquals(1, action.getOptions().size());
+        assertEquals("Selenium", action.getOptions().get("text"));
+        assertEquals(true, action.isOptional());
+    }
+
+    @Test
     public void parse_firstTest_file() throws Exception {
         path = "src/test/java/dev/softtest/doozer/scripts/firstTest.doozer";
         parser = new Parser(path, driver);

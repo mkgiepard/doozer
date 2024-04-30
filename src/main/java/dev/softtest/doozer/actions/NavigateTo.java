@@ -7,8 +7,8 @@ import java.util.Map;
 
 public class NavigateTo extends DoozerAction {
 
-    public NavigateTo(WebDriver driver, String name, String selector, Map<String, String> options) {
-        super(driver, name, selector, options);
+    public NavigateTo(WebDriver driver, String name, String selector, Map<String, String> options, Boolean isOptional) {
+        super(driver, name, selector, options, isOptional);
     }
 
     @Override

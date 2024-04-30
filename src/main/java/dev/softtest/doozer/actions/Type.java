@@ -8,8 +8,8 @@ import java.util.Map;
 
 public class Type extends DoozerAction {
 
-    public Type(WebDriver driver, String name, String selector, Map<String, String> options) {
-        super(driver, name, selector, options);
+    public Type(WebDriver driver, String name, String selector, Map<String, String> options, Boolean isOptional) {
+        super(driver, name, selector, options, isOptional);
     }
 
     @Override

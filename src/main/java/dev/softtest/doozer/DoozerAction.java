@@ -15,12 +15,19 @@ public class DoozerAction implements Action {
     public String selector;
     public Map<String, String> options;
     public int lineNumber;
+    public boolean isOptional = false;
 
-    public DoozerAction(WebDriver driver, String actionName, String selector, Map<String, String> options) {
+    public DoozerAction(
+            WebDriver driver,
+            String actionName,
+            String selector,
+            Map<String, String> options,
+            Boolean isOptional) {
         this.driver = driver;
         this.actionName = actionName;
         this.selector = selector;
         this.options = options;
+        this.isOptional = isOptional;
     }
 
     public String getActionName() {
@@ -39,6 +46,10 @@ public class DoozerAction implements Action {
         return options.getOrDefault(key, "");
     }
 
+    public Boolean isOptional() {
+        return isOptional;
+    }
+
     public int getLineNumber() {
         return lineNumber;
     }
@@ -55,7 +66,8 @@ public class DoozerAction implements Action {
     public String toString() {
         return Integer.toString(lineNumber) + ": " + "actionName: " + actionName + "\n"
                 + "selector: " + selector + "\n"
-                + "options: " + options + "\n";
+                + "options: " + options + "\n"
+                + "isOptional: " + isOptional + "\n";
     }
 
     public By getBySelector(String s) throws Exception {

@@ -7,8 +7,8 @@ import java.util.Map;
 
 public class NavigateBack extends DoozerAction {
 
-    public NavigateBack(WebDriver driver, String name, String selector, Map<String, String> options) {
-        super(driver, name, selector, options);
+    public NavigateBack(WebDriver driver, String name, String selector, Map<String, String> options, Boolean isOptional) {
+        super(driver, name, selector, options, isOptional);
     }
 
     @Override

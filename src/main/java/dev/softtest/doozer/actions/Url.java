@@ -8,8 +8,8 @@ import java.util.Map;
 
 public class Url extends DoozerAction {
 
-    public Url(WebDriver driver, String name, String selector, Map<String, String> options) {
-        super(driver, name, selector, options);
+    public Url(WebDriver driver, String name, String selector, Map<String, String> options, Boolean isOptional) {
+        super(driver, name, selector, options, isOptional);
     }
 
     @Override

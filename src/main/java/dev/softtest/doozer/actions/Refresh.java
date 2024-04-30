@@ -7,8 +7,8 @@ import java.util.Map;
 
 public class Refresh extends DoozerAction {
 
-    public Refresh(WebDriver driver, String name, String selector, Map<String, String> options) {
-        super(driver, name, selector, options);
+    public Refresh(WebDriver driver, String name, String selector, Map<String, String> options, Boolean isOptional) {
+        super(driver, name, selector, options, isOptional);
     }
 
     @Override
