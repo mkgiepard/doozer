@@ -8,13 +8,13 @@ import dev.softtest.doozer.actions.Type;
 import dev.softtest.doozer.actions.Url;
 import dev.softtest.doozer.actions.Refresh;
 
-import java.net.URL;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.util.List;
 
 public class ParserTest {
     public static WebDriver driver = new ChromeDriver();
@@ -23,7 +23,6 @@ public class ParserTest {
 
     @BeforeAll
     public static void setup() {
-        // this.driver = new ChromeDriver();
         path = "/some/path";
         parser = new Parser(path, driver);
     }
@@ -96,7 +95,19 @@ public class ParserTest {
         assertEquals("Selenium", action.getOptions().get("text"));
     }
 
+    @Test
+    public void parse_firstTest_file() throws Exception {
+        path = "src/test/java/dev/softtest/doozer/scripts/firstTest.doozer";
+        parser = new Parser(path, driver);
 
+        List<DoozerAction> actions = parser.parse();
+
+        assertEquals(7, actions.size());
+        assertEquals("url", actions.get(0).getActionName());
+        assertEquals(1, actions.get(0).getLineNumber());
+        assertEquals("takeScreenshot", actions.get(6).getActionName());
+        assertEquals(8, actions.get(6).getLineNumber());
+    }
 
     @AfterAll
     public static void tearDown() {
