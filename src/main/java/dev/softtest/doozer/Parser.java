@@ -55,15 +55,15 @@ public class Parser {
         String selector = null;
         Map<String, String> options = new HashMap<>();
         if (splitLine.length == 3) {
-            name = splitLine[0].replaceAll("\"", "");
-            selector = splitLine[1].replaceAll("\"", "");
-            OptionParser oParser = new OptionParser(splitLine[2].replaceAll("\"", ""));
+            name = splitLine[0].replaceAll("\"", "").trim();
+            selector = splitLine[1].replaceAll("\"", "").trim();
+            OptionParser oParser = new OptionParser(splitLine[2].replaceAll("\"", "").trim());
             options = oParser.parse();
         } else if (splitLine.length == 2) {
-            name = splitLine[0].replaceAll("\"", "");
-            selector = splitLine[1].replaceAll("\"", "");
+            name = splitLine[0].replaceAll("\"", "").trim();
+            selector = splitLine[1].replaceAll("\"", "").trim();
         } else if (splitLine.length == 1) {
-            name = splitLine[0].replaceAll("\"", "");
+            name = splitLine[0].replaceAll("\"", "").trim();
         }
         
         try {
