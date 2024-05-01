@@ -1,6 +1,7 @@
 navigateTo "" "https://www.google.com"
 takeScreenshot "" "google.com"
 navigateBack
+click? "By.id('someid')"
 takeScreenshot "" "fileName=back-withOption"
 navigateForward
 takeScreenshot

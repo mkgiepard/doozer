@@ -50,7 +50,12 @@ public abstract class DoozerTest {
         setup(testFile);
         for (DoozerAction action : actions) {
             System.out.println(action.toString());
+            try {
             action.execute();
+            } catch (Exception e) {
+                if (!action.isOptional) throw e;
+                else {System.out.println(">>> Ingnoring failure as the action is optional.");}
+            }
         }
     }
 

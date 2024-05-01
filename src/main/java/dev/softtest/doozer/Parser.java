@@ -85,11 +85,9 @@ public class Parser {
     private DoozerAction createActionInstance(String actionName, String actionSelector,
       Map<String, String> actionOptions, Boolean isOptional) throws Exception {
         String actionClassPrefix = "dev.softtest.doozer.actions.";
-        String actionClassName = actionName.substring(0, 1).toUpperCase()
-                + actionName.substring(1);
-        return (DoozerAction) Class.forName(actionClassPrefix +
-                actionClassName).getConstructor(WebDriver.class, String.class,
-                        String.class, Map.class, Boolean.class)
+        String actionClassName = actionName.substring(0, 1).toUpperCase() + actionName.substring(1);
+        return (DoozerAction) Class.forName(actionClassPrefix + actionClassName)
+                .getConstructor(WebDriver.class, String.class, String.class, Map.class, Boolean.class)
                 .newInstance(driver, actionName, actionSelector, actionOptions, isOptional);
     }
 }
