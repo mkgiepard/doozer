@@ -54,13 +54,17 @@ public abstract class DoozerTest {
     public void runner(String testFile) throws Exception {
         setup(testFile);
         for (DoozerAction action : actions) {
-            System.out.println(action.toString());
             try {
-                logger.info("DOOZER> execute:\n" + action.toString());
+                logger.info("execute: " + action.lineNumber + ": " + action.print());
                 action.execute();
             } catch (Exception e) {
-                if (!action.isOptional) throw e;
-                else {System.out.println(">>> Ignoring failure as the action is optional.");}
+                if (!action.isOptional) {
+                    logger.error("last action FAILED\n" + e);
+                    throw e;
+                }
+                else {
+                    logger.info("last action FAILED but ignoring the failure as the action is optional.");
+                }
             }
         }
     }

@@ -62,6 +62,10 @@ public class DoozerAction implements Action {
         throw new Exception("!!! Should never be called !!!");
     }
 
+    public String print() {
+        return actionName + " " + selector + " " + options;
+    }
+
     @Override
     public String toString() {
         return Integer.toString(lineNumber) + ": " + "actionName: " + actionName + "\n"
