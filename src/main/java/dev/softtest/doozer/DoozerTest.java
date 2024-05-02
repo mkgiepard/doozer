@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.nio.file.Paths;
+import java.nio.file.Files;
+
 @TestInstance(Lifecycle.PER_CLASS)
 public abstract class DoozerTest {
     protected static final Logger logger = LogManager.getLogger();
@@ -31,6 +34,8 @@ public abstract class DoozerTest {
     // hint: https://code-case.hashnode.dev/how-to-pass-parameterized-test-parameters-to-beforeeachaftereach-method-in-junit5
     // hint: https://stackoverflow.com/questions/62036724/how-to-parameterize-beforeeach-in-junit-5
     public static void setup(String testFile) throws Exception {
+        Files.createDirectories(Paths.get("target/doozer-tests/"));
+
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
 
