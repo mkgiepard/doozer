@@ -1,20 +1,17 @@
 package dev.softtest.doozer.actions;
 
-import org.openqa.selenium.WebDriver;
 import dev.softtest.doozer.DoozerAction;
-
-import java.util.Map;
 
 public class AssertCurrentUrl extends DoozerAction {
     
-    public AssertCurrentUrl(WebDriver driver, String name, String selector, Map<String, String> options, Boolean isOptional) {
-        super(driver, name, selector, options, isOptional);
+    public AssertCurrentUrl(Integer lineNumber, String actionName, String originalAction) {
+        super(lineNumber, actionName, originalAction);
     }
 
     @Override
     public void execute() throws Exception {
-        String url = driver.getCurrentUrl();
-        if (!url.equals(options.get("default")))
-            throw new Exception("The current URL content is different!\nExpected: " + options + "\nIs: " + url);
+        String url = getDriver().getCurrentUrl();
+        if (!url.equals(getOptions().get("default")))
+            throw new Exception("The current URL content is different!\nExpected: " + getOptions() + "\nIs: " + url);
     } 
 }

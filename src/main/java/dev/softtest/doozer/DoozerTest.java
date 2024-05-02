@@ -60,10 +60,10 @@ public abstract class DoozerTest {
         setup(testFile);
         for (DoozerAction action : actions) {
             try {
-                logger.info("execute: " + action.lineNumber + ": " + action.print());
+                logger.info("execute: " + action.getOriginalAction());
                 action.execute();
             } catch (Exception e) {
-                if (!action.isOptional) {
+                if (!action.isOptional()) {
                     logger.error("last action FAILED\n" + e);
                     throw e;
                 }

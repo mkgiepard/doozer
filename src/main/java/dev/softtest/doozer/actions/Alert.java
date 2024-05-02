@@ -8,27 +8,22 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import dev.softtest.doozer.DoozerAction;
 
 import java.time.Duration;
-import java.util.Map;
 
 public class Alert extends DoozerAction {
 
-    public Alert(WebDriver driver,
-            String name,
-            String selector,
-            Map<String, String> options,
-            Boolean isOptional) {
-        super(driver, name, selector, options, isOptional);
+    public Alert(Integer lineNumber, String actionName, String originalAction) {
+        super(lineNumber, actionName, originalAction);
     }
 
     @Override
     public void execute() throws Exception {
-        Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+        Wait<WebDriver> wait = new WebDriverWait(getDriver(), Duration.ofSeconds(2));
         org.openqa.selenium.Alert alert = wait.until(ExpectedConditions.alertIsPresent());
 
-        if (options.get("default").equals("confirm")) alert.accept();
-        if (options.get("default").equals("dismiss")) alert.dismiss();
-        if (!options.get("prompt").isEmpty()) {
-            alert.sendKeys(options.get("prompt"));
+        if (getOptions().get("default").equals("confirm")) alert.accept();
+        if (getOptions().get("default").equals("dismiss")) alert.dismiss();
+        if (!getOptions().get("prompt").isEmpty()) {
+            alert.sendKeys(getOptions().get("prompt"));
             alert.accept();
         }
 

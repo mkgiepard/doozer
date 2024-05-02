@@ -73,21 +73,26 @@ public class Parser {
         }
 
         try {
-            action = createActionInstance(name, selector, options, isOptional);
+            action = createActionInstance(lineNumber, name, line);
+            action.setSelector(selector);
+            action.setDriver(driver);
+            action.setOptions(options);
+            action.setIsOptional(isOptional);
         } catch (Exception e) {
             System.err.format("Exception: %s%n", e);
             throw e;
         }
-        action.setLineNumber(lineNumber);
         return action;
     }
 
-    private DoozerAction createActionInstance(String actionName, String actionSelector,
-      Map<String, String> actionOptions, Boolean isOptional) throws Exception {
+    private DoozerAction createActionInstance(Integer lineNumber, String actionName, String originalAction) throws Exception {
         String actionClassPrefix = "dev.softtest.doozer.actions.";
         String actionClassName = actionName.substring(0, 1).toUpperCase() + actionName.substring(1);
+        // return (DoozerAction) Class.forName(actionClassPrefix + actionClassName)
+        //         .getConstructor(WebDriver.class, String.class, String.class, Map.class, Boolean.class)
+        //         .newInstance(driver, actionName, actionSelector, actionOptions, isOptional);
         return (DoozerAction) Class.forName(actionClassPrefix + actionClassName)
-                .getConstructor(WebDriver.class, String.class, String.class, Map.class, Boolean.class)
-                .newInstance(driver, actionName, actionSelector, actionOptions, isOptional);
+                .getConstructor(Integer.class, String.class, String.class)
+                .newInstance(lineNumber, actionName, originalAction);
     }
 }

@@ -5,7 +5,7 @@ click? "By.id('someid')"
 takeScreenshot "" "fileName=back-withOption"
 navigateForward
 takeScreenshot
-click "By.id('someid')"
+click? "By.id('someid')"
 refresh
 takeScreenshot "" "refresh"
 assertCurrentUrl "" "https://www.google.com/"

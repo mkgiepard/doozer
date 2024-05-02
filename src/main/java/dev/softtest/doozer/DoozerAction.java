@@ -10,32 +10,35 @@ import dev.softtest.doozer.actions.Action;
 import java.util.Map;
 
 public class DoozerAction implements Action {
-    public WebDriver driver;
-    public String actionName;
-    public String selector;
-    public Map<String, String> options;
-    public int lineNumber;
-    public boolean isOptional = false;
+    private final Integer lineNumber;
+    private final String actionName;
+    private final String originalAction;
 
-    public DoozerAction(
-            WebDriver driver,
-            String actionName,
-            String selector,
-            Map<String, String> options,
-            Boolean isOptional) {
-        this.driver = driver;
+    private WebDriver driver;
+    private String selector;
+    private Map<String, String> options;
+    private boolean isOptional = false;
+    
+    public DoozerAction(Integer lineNumber, String actionName, String originalAction) {
+        this.lineNumber = lineNumber;
         this.actionName = actionName;
-        this.selector = selector;
-        this.options = options;
-        this.isOptional = isOptional;
+        this.originalAction = originalAction;
     }
 
     public String getActionName() {
         return actionName;
     }
 
+    public String getOriginalAction() {
+        return originalAction;
+    }
+
     public String getSelector() {
         return selector;
+    }
+
+    public WebDriver getDriver() {
+        return driver;
     }
 
     public Map<String, String> getOptions() {
@@ -50,20 +53,29 @@ public class DoozerAction implements Action {
         return isOptional;
     }
 
-    public int getLineNumber() {
+    public Integer getLineNumber() {
         return lineNumber;
     }
 
-    public void setLineNumber(int lineNumber) {
-        this.lineNumber = lineNumber;
+    public void setDriver(WebDriver driver) {
+        this.driver = driver;
     }
+
+    public void setSelector(String selector) {
+        this.selector = selector;
+    }
+
+    public void setOptions(Map<String, String> options) {
+        this.options = options;
+    }
+
+    public void setIsOptional(Boolean isOptional) {
+        this.isOptional = isOptional;
+    }
+
 
     public void execute() throws Exception {
         throw new Exception("!!! Should never be called !!!");
-    }
-
-    public String print() {
-        return actionName + " " + selector + " " + options;
     }
 
     @Override

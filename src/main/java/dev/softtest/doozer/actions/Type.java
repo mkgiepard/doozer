@@ -1,21 +1,18 @@
 package dev.softtest.doozer.actions;
 
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-
 import dev.softtest.doozer.DoozerAction;
-import java.util.Map;
 
 public class Type extends DoozerAction {
 
-    public Type(WebDriver driver, String name, String selector, Map<String, String> options, Boolean isOptional) {
-        super(driver, name, selector, options, isOptional);
+    public Type(Integer lineNumber, String actionName, String originalAction) {
+        super(lineNumber, actionName, originalAction);
     }
 
     @Override
     public void execute() throws Exception {
-        WebElement textBox = driver.findElement(getBySelector(selector));
-        textBox.sendKeys(this.options.getOrDefault("default", ""));
+        WebElement textBox = getDriver().findElement(getBySelector(getSelector()));
+        textBox.sendKeys(getOptions().getOrDefault("default", ""));
     }
 
 }

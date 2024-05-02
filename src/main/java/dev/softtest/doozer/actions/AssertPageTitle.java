@@ -1,22 +1,18 @@
 package dev.softtest.doozer.actions;
 
-import org.openqa.selenium.WebDriver;
-
 import dev.softtest.doozer.DoozerAction;
-
-import java.util.Map;
 
 public class AssertPageTitle extends DoozerAction {
 
-    public AssertPageTitle(WebDriver driver, String name, String selector, Map<String, String> options, Boolean isOptional) {
-        super(driver, name, selector, options, isOptional);
+    public AssertPageTitle(Integer lineNumber, String actionName, String originalAction) {
+        super(lineNumber, actionName, originalAction);
     }
 
     @Override
     public void execute() throws Exception {
-        String pageTitle = driver.getTitle();
-        if (!pageTitle.equals(options.get("default")))
-            throw new Exception("The pageTitle content is different!\nExpected: " + options + "\nIs: " + pageTitle);
+        String pageTitle = getDriver().getTitle();
+        if (!pageTitle.equals(getOptions().get("default")))
+            throw new Exception("The pageTitle content is different!\nExpected: " + getOptions() + "\nIs: " + pageTitle);
     }
 
 }
