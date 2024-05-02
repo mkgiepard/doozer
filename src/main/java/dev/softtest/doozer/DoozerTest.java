@@ -17,8 +17,13 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import java.util.List;
 import java.util.ArrayList;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 @TestInstance(Lifecycle.PER_CLASS)
 public abstract class DoozerTest {
+    protected static final Logger logger = LogManager.getLogger();
+
     public static WebDriver driver;
     private static List<DoozerAction> actions = new ArrayList<DoozerAction>();
 
@@ -51,10 +56,11 @@ public abstract class DoozerTest {
         for (DoozerAction action : actions) {
             System.out.println(action.toString());
             try {
-            action.execute();
+                logger.info("DOOZER> execute:\n" + action.toString());
+                action.execute();
             } catch (Exception e) {
                 if (!action.isOptional) throw e;
-                else {System.out.println(">>> Ingnoring failure as the action is optional.");}
+                else {System.out.println(">>> Ignoring failure as the action is optional.");}
             }
         }
     }
