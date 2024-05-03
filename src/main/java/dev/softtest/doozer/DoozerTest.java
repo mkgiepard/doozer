@@ -62,7 +62,9 @@ public abstract class DoozerTest {
     @MethodSource("provideDoozerTestFiles")
     public void runner(String testFile) throws Exception {
         setup(testFile);
-        logger.info("========================== START ==========================");
+        logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        logger.info("========================== START =========================");
+        logger.info("Test: " + testFile);
         long startTime = System.nanoTime();
         for (DoozerAction action : actions) {
             try {
@@ -75,13 +77,14 @@ public abstract class DoozerTest {
                     throw e;
                 }
                 else {
-                    logger.info("last action FAILED but ignoring the failure as the action is optional.");
+                    logger.warn("last action FAILED but ignoring the failure as the action is optional.");
                 }
             }
         }
-        logger.info("========================== STOP ==========================");
+        logger.info("========================== STOP =========================");
         long duration = System.nanoTime() - startTime;
         logger.info("Execution time: " + TimeUnit.NANOSECONDS.toMillis(duration) + "[ms]");
+        logger.info("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
     }
 
     public void waitForPageLoaded() {
