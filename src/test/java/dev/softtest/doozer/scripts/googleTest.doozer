@@ -9,7 +9,7 @@ takeScreenshot "" "search-doozer"
 sendKeys "" "doozer"
 takeScreenshot "" "doozer"
 navigateBack
-click? "By.id('someid')"
+click "By.id('someid')"
 takeScreenshot "" "fileName=back-withOption"
 navigateForward
 takeScreenshot

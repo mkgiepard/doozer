@@ -25,7 +25,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.nio.file.Paths;
+import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 
 @TestInstance(Lifecycle.PER_CLASS)
 public abstract class DoozerTest {
@@ -74,6 +76,7 @@ public abstract class DoozerTest {
             } catch (Exception e) {
                 if (!action.isOptional()) {
                     logger.error("last action FAILED\n" + e);
+                    saveDom(testFile);
                     throw e;
                 }
                 else {
@@ -92,6 +95,18 @@ public abstract class DoozerTest {
         wait.until(
                 d -> ((JavascriptExecutor) d).executeScript("return document.readyState")
                         .equals("complete"));
+    }
+
+    public void saveDom(String name) {
+        String[] s = name.split("/");
+        Path path = Paths.get("target/doozer-tests/" + s[s.length-1] + "-DOM.html");
+        byte[] domDump = driver.getPageSource().getBytes();
+    
+        try {
+            Files.write(path, domDump);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public abstract Stream<Arguments> provideDoozerTestFiles();
