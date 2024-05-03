@@ -124,6 +124,15 @@ public class ParserTest {
         assertEquals(8, actions.get(6).getLineNumber());
     }
 
+    @Test void parse_selector_with_xpath() throws Exception {
+        String selector = "By.xpath('//*[contains(string()," + '"' + "Accept all" + '"' + ")]')";
+        String click = "click " + '"' + selector + '"';
+
+        DoozerAction action = parser.parseAction(1, click);
+
+        assertEquals(selector, action.getSelector());
+    }
+
     @AfterAll
     public static void tearDown() {
         driver.quit();
