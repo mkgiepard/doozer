@@ -57,14 +57,18 @@ public class Parser {
         Boolean isOptional = false;
         if (splitLine.length == 3) {
             name = splitLine[0].replaceAll("\"", "").trim();
+            // TODO: make it simpler
+            // 1. Trim white spaces
+            // 2. Remove trailing '"'
+            // 3. Replace escaped quote '\"' with '"' 
             selector = splitLine[1].trim();
-            selector = selector.substring(0, selector.length() - 1);
+            selector = selector.substring(0, selector.length() - 1).replace("\\" + '"' , "\"");
             OptionParser oParser = new OptionParser(splitLine[2].replaceAll("\"", "").trim());
             options = oParser.parse();
         } else if (splitLine.length == 2) {
             name = splitLine[0].replaceAll("\"", "").trim();
             selector = splitLine[1].trim();
-            selector = selector.substring(0, selector.length() - 1);
+            selector = selector.substring(0, selector.length() - 1).replace("\\" + '"' , "\"");
         } else if (splitLine.length == 1) {
             name = splitLine[0].replaceAll("\"", "").trim();
         }

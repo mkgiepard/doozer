@@ -133,6 +133,22 @@ public class ParserTest {
         assertEquals(selector, action.getSelector());
     }
 
+    @Test void parse_action_with_selector_containing_inner_quotes() throws Exception {
+        // click "By.xpath('//button[contains(., \"Accept all\")]')" "some-option"
+        // selectorInAction: By.xpath('//button[contains(., \"Accept all\")]')
+        // selectorParsed: By.xpath('//button[contains(., "Accept all")]')
+        String selectorInAction = "By.xpath('//button[contains(., \\" + '"' + "Accept all\\" + '"' + ")]')";
+        String selectorParsed = "By.xpath('//button[contains(., " + '"' + "Accept all" + '"' + ")]')";
+        String click = "click " + '"' + selectorInAction + '"' + " " + '"' + "some-option" + '"';
+        System.out.println(click);
+
+        DoozerAction action = parser.parseAction(1, click);
+
+        assertEquals(selectorParsed, action.getSelector());
+        assertEquals(1, action.getOptions().size());
+        assertEquals("some-option", action.getOptions().get("default"));
+    }
+
     @AfterAll
     public static void tearDown() {
         driver.quit();
