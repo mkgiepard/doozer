@@ -1,13 +1,12 @@
 package dev.softtest.doozer;
 
 import java.lang.reflect.Method;
+import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import dev.softtest.doozer.actions.Action;
-
-import java.util.Map;
 
 public class DoozerAction implements Action {
     private final Integer lineNumber;

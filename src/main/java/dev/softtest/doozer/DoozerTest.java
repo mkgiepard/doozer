@@ -13,8 +13,12 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.support.ui.Wait;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
 
 import org.apache.logging.log4j.LogManager;
@@ -58,9 +62,12 @@ public abstract class DoozerTest {
     @MethodSource("provideDoozerTestFiles")
     public void runner(String testFile) throws Exception {
         setup(testFile);
+        logger.info("========================== START ==========================");
+        long startTime = System.nanoTime();
         for (DoozerAction action : actions) {
             try {
                 logger.info("execute: " + action.getOriginalAction());
+                waitForPageLoaded();
                 action.execute();
             } catch (Exception e) {
                 if (!action.isOptional()) {
@@ -72,6 +79,16 @@ public abstract class DoozerTest {
                 }
             }
         }
+        logger.info("========================== STOP ==========================");
+        long duration = System.nanoTime() - startTime;
+        logger.info("Execution time: " + TimeUnit.NANOSECONDS.toMillis(duration) + "[ms]");
+    }
+
+    public void waitForPageLoaded() {
+        Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+        wait.until(
+                d -> ((JavascriptExecutor) d).executeScript("return document.readyState")
+                        .equals("complete"));
     }
 
     public abstract Stream<Arguments> provideDoozerTestFiles();
