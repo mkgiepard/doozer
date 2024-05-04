@@ -1,4 +1,6 @@
-navigateTo "" "https://www.google.com"
+set "google.url" "https://www.google.com"
+
+navigateTo "" "${google.url}"
 
 click "By.xpath('//button[contains(.,"Accept")]')"
 type "By.cssSelector('textarea')" "doozer"
@@ -9,7 +11,6 @@ takeScreenshot "" "search-doozer"
 sendKeys "" "doozer"
 takeScreenshot "" "doozer"
 navigateBack
-click "By.id('someid')"
 takeScreenshot "" "fileName=back-withOption"
 navigateForward
 takeScreenshot

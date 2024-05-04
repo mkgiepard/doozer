@@ -24,7 +24,8 @@ public class ParserTest {
     @BeforeAll
     public static void setup() {
         path = "/some/path";
-        parser = new Parser(path, driver);
+
+        parser = new Parser(new Context(), path, driver);
     }
 
     @Test
@@ -113,7 +114,7 @@ public class ParserTest {
     @Test
     public void parse_firstTest_file() throws Exception {
         path = "src/test/java/dev/softtest/doozer/scripts/firstTest.doozer";
-        parser = new Parser(path, driver);
+        parser = new Parser(new Context(), path, driver);
 
         List<DoozerAction> actions = parser.parse();
 

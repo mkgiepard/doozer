@@ -35,6 +35,7 @@ public abstract class DoozerTest {
 
     public static WebDriver driver;
     private static List<DoozerAction> actions = new ArrayList<DoozerAction>();
+    private static Context ctx;
 
     // @BeforeAll
     // hint: https://code-case.hashnode.dev/how-to-pass-parameterized-test-parameters-to-beforeeachaftereach-method-in-junit5
@@ -45,7 +46,9 @@ public abstract class DoozerTest {
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
 
-        Parser p = new Parser(testFile, driver);
+        ctx = new Context();
+
+        Parser p = new Parser(ctx, testFile, driver);
         actions = p.parse();
     }
 
@@ -72,6 +75,7 @@ public abstract class DoozerTest {
             try {
                 logger.info("execute: " + action.getOriginalAction());
                 waitForPageLoaded();
+                action.resolveVariables();
                 action.execute();
             } catch (Exception e) {
                 if (!action.isOptional()) {

@@ -4,12 +4,14 @@ import java.io.File;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import com.google.common.io.Files;
+
+import dev.softtest.doozer.Context;
 import dev.softtest.doozer.DoozerAction;
 
 public class TakeScreenshot extends DoozerAction {
 
-    public TakeScreenshot(Integer lineNumber, String actionName, String originalAction) {
-        super(lineNumber, actionName, originalAction);
+    public TakeScreenshot(Context ctx, Integer lineNumber, String actionName, String originalAction) {
+        super(ctx, lineNumber, actionName, originalAction);
     }
 
     @Override

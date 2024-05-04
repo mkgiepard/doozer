@@ -15,13 +15,15 @@ import java.util.HashMap;
 import org.openqa.selenium.WebDriver;
 
 public class Parser {
+    private Context ctx;
     private String filePath;
     private Charset charset = StandardCharsets.UTF_8;
     private final String splitter = " \"";
     private List<DoozerAction> actions = new ArrayList<DoozerAction>();
     private WebDriver driver;
 
-    public Parser(String filePath, WebDriver driver) {
+    public Parser(Context ctx, String filePath, WebDriver driver) {
+        this.ctx = ctx;
         this.filePath = filePath;
         this.driver = driver;
     }
@@ -79,7 +81,7 @@ public class Parser {
         }
 
         try {
-            action = createActionInstance(lineNumber, name, line);
+            action = createActionInstance(ctx, lineNumber, name, line);
             action.setSelector(selector);
             action.setDriver(driver);
             action.setOptions(options);
@@ -91,14 +93,12 @@ public class Parser {
         return action;
     }
 
-    private DoozerAction createActionInstance(Integer lineNumber, String actionName, String originalAction) throws Exception {
+    private DoozerAction createActionInstance(Context ctx, Integer lineNumber, String actionName, String originalAction)
+            throws Exception {
         String actionClassPrefix = "dev.softtest.doozer.actions.";
         String actionClassName = actionName.substring(0, 1).toUpperCase() + actionName.substring(1);
-        // return (DoozerAction) Class.forName(actionClassPrefix + actionClassName)
-        //         .getConstructor(WebDriver.class, String.class, String.class, Map.class, Boolean.class)
-        //         .newInstance(driver, actionName, actionSelector, actionOptions, isOptional);
         return (DoozerAction) Class.forName(actionClassPrefix + actionClassName)
-                .getConstructor(Integer.class, String.class, String.class)
-                .newInstance(lineNumber, actionName, originalAction);
+                .getConstructor(Context.class, Integer.class, String.class, String.class)
+                .newInstance(ctx, lineNumber, actionName, originalAction);
     }
 }

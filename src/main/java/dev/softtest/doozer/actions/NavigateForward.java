@@ -1,11 +1,12 @@
 package dev.softtest.doozer.actions;
 
+import dev.softtest.doozer.Context;
 import dev.softtest.doozer.DoozerAction;
 
 public class NavigateForward extends DoozerAction {
 
-    public NavigateForward(Integer lineNumber, String actionName, String originalAction) {
-        super(lineNumber, actionName, originalAction);
+    public NavigateForward(Context ctx, Integer lineNumber, String actionName, String originalAction) {
+        super(ctx, lineNumber, actionName, originalAction);
     }
 
     @Override

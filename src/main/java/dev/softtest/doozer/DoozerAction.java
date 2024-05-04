@@ -3,12 +3,17 @@ package dev.softtest.doozer;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import dev.softtest.doozer.actions.Action;
 
 public class DoozerAction implements Action {
+    protected static final Logger logger = LogManager.getLogger();
+    
+    private final Context ctx;
     private final Integer lineNumber;
     private final String actionName;
     private final String originalAction;
@@ -18,10 +23,15 @@ public class DoozerAction implements Action {
     private Map<String, String> options;
     private boolean isOptional = false;
     
-    public DoozerAction(Integer lineNumber, String actionName, String originalAction) {
+    public DoozerAction(Context ctx, Integer lineNumber, String actionName, String originalAction) {
+        this.ctx = ctx;
         this.lineNumber = lineNumber;
         this.actionName = actionName;
         this.originalAction = originalAction;
+    }
+
+    public Context getContext() {
+        return ctx;
     }
 
     public String getActionName() {
@@ -72,6 +82,22 @@ public class DoozerAction implements Action {
         this.isOptional = isOptional;
     }
 
+
+    public void resolveVariables() {
+        if (this.selector != null && this.selector.contains("${")) {
+            String varName = this.selector.substring(this.selector.indexOf("${")+2, this.selector.indexOf("}"));
+            setSelector(getContext().getVariable(varName));
+            logger.info("resolveVariable: '${" + varName + "}' ==> '" + getContext().getVariable(varName) + "'"); 
+        }
+        for (String key : getOptions().keySet()) {
+            if (this.options.get(key).contains("${")) {
+                String value = this.options.get(key);
+                String varName = value.substring(value.indexOf("${")+2, value.indexOf("}"));
+                this.options.put(key, getContext().getVariable(varName));
+                logger.info("resolveVariable: '${" + varName + "}' ==> '" + getContext().getVariable(varName) + "'");
+            }
+        }
+    }
 
     public void execute() throws Exception {
         throw new Exception("!!! Should never be called !!!");

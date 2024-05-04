@@ -5,14 +5,15 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import dev.softtest.doozer.Context;
 import dev.softtest.doozer.DoozerAction;
 
 import java.time.Duration;
 
 public class Alert extends DoozerAction {
 
-    public Alert(Integer lineNumber, String actionName, String originalAction) {
-        super(lineNumber, actionName, originalAction);
+    public Alert(Context ctx, Integer lineNumber, String actionName, String originalAction) {
+        super(ctx, lineNumber, actionName, originalAction);
     }
 
     @Override
