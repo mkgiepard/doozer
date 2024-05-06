@@ -60,6 +60,11 @@ public class Parser {
 
     public DoozerAction parseAction(int lineNumber, String line) throws Exception {
         DoozerAction action;
+
+        if (!validate(line)) {
+            throw new ParserException("Could not parse the action, in: " + Integer.toString(lineNumber) + ": " + line);
+        }
+
         String[] splitLine = line.split(splitter);
 
         String name = null;
@@ -102,12 +107,66 @@ public class Parser {
         return action;
     }
 
+    public boolean validate(String line) throws ParserException {
+        String lineCopy = line.trim().replace("\\" + '"', "<ESCAPED>");
+        String[] tokens = line.trim().split(splitter);
+
+        // The number of escaped quote must be even
+        if (count(lineCopy, "<ESCAPED>") % 2 != 0) {
+            throw new ParserException("Missing escaped quote - '\\" + "\"' in: '" + line + "'");
+        }
+                
+        // The last character of a parameter token must be a double quote mark
+        if (tokens.length > 1) {
+            for (int i = 1; i < tokens.length; i++) {
+                if (!tokens[i].trim().endsWith("\"")) {
+                    throw new ParserException("Missing quote - '\"' in: '" + line + "'");
+                }
+            }
+        }
+
+        // The number of tokens cannot be higher than 3
+        if (tokens.length > 3) {
+            throw new ParserException("Too many action parameters in: '" + line + "'");
+        }
+
+        // The last character of a called variable should be a closing curly bracket
+        if (tokens.length > 1) {
+            for (int i = 1; i < tokens.length; i++) {
+                if (tokens[i].contains("${")) {
+                    if (tokens[i].indexOf("${") > tokens[i].indexOf("}")) {
+                        throw new ParserException("Wrong variable syntax in: '" + line + "'");
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private int count(String line, String elem) {
+        String[] s = line.split(elem);
+        if (line.startsWith(elem) && line.endsWith(elem)) return s.length + 1;
+        if (line.startsWith(elem) || line.endsWith(elem)) return s.length;
+        return s.length - 1;
+    }
+
     private DoozerAction createActionInstance(Context ctx, Integer lineNumber, String actionName, String originalAction)
-            throws Exception {
+            throws ParserException {
         String actionClassPrefix = "dev.softtest.doozer.actions.";
         String actionClassName = actionName.substring(0, 1).toUpperCase() + actionName.substring(1);
-        return (DoozerAction) Class.forName(actionClassPrefix + actionClassName)
+        try {
+            return (DoozerAction) Class.forName(actionClassPrefix + actionClassName)
                 .getConstructor(Context.class, Integer.class, String.class, String.class)
                 .newInstance(ctx, lineNumber, actionName, originalAction);
+        } catch (Exception e) {
+            throw new ParserException("Action '" + actionName + "' is not supported, in: '" + originalAction + "'");
+        }
+    }
+
+    public class ParserException extends Exception {
+        public ParserException(String errorMessage) {
+            super(errorMessage);
+        }
     }
 }
