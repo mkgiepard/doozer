@@ -1,0 +1,8 @@
+url "" "https://www.selenium.dev/selenium/web/web-form.html"
+assertPageTitle "" "Web form"
+
+// This is just a commented line
+// click "By.id('some-id')
+  // Commented line with some white spaces before
+
+type "By.name('my-text')" "this is not // a comment"

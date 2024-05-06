@@ -12,9 +12,13 @@ import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 
 public class Parser {
+    protected static final Logger logger = LogManager.getLogger();
+
     private Context ctx;
     private String filePath;
     private Charset charset = StandardCharsets.UTF_8;
@@ -36,10 +40,15 @@ public class Parser {
             int lineCounter = 1;
             while ((line = reader.readLine()) != null) {
                 if (line.length() == 0) {
-                    System.out.println(Integer.toString(lineCounter++) + ": ...empty line");
+                    logger.info("parse: " + Integer.toString(lineCounter++) + ":\t EMPTY LINE");
+                    continue;
+                }
+                if (line.trim().startsWith("//")) {
+                    logger.info("parse: " + Integer.toString(lineCounter++) + ":\t COMMENT");
                     continue;
                 }
                 DoozerAction action = parseAction(lineCounter++, line);
+                logger.info("parse: " + Integer.toString(lineCounter) + ":\t " + action.getActionName());
                 actions.add(action);
             }
         } catch (Exception e) {
