@@ -131,16 +131,6 @@ public class ParserTest {
     }
 
     @Test
-    public void parse_selector_with_xpath() throws Exception {
-        String selector = "By.xpath('//*[contains(string()," + '"' + "Accept all" + '"' + ")]')";
-        String click = "click " + '"' + selector + '"';
-
-        DoozerAction action = parser.parseAction(1, click);
-
-        assertEquals(selector, action.getSelector());
-    }
-
-    @Test
     public void parse_action_with_selector_containing_inner_quotes() throws Exception {
         // click "By.xpath('//button[contains(., \"Accept all\")]')" "some-option"
         // selectorInAction: By.xpath('//button[contains(., \"Accept all\")]')
@@ -169,96 +159,147 @@ public class ParserTest {
     @Test
     public void parse_unknown_action_throws_exception() {
         // unknown "By.name('my-text')"
-        String line = "unknown " + '"' + "By.name('my-text')" + '"';
-        
+        String line = "unknown " + '"' + "By.name('my-text')" + '"';      
         ParserException thrown = assertThrows(ParserException.class, () -> {
             parser.parseAction(1, line);
         });
-
         assertEquals("Action 'unknown' is not supported, in: '" + line + "'", thrown.getMessage());
     }
 
     @Test
     public void validate_missing_quote_selector() {
         String line = "click \"selector";
-
         ParserException thrown = assertThrows(ParserException.class, () -> {
             parser.validate(line);
         });
-
         assertEquals("Missing quote - '\"' in: '" + line + "'", thrown.getMessage());
     }
 
     @Test
     public void validate_missing_quote_options() {
         String line = "click \"selector\" \"option1";
-
         ParserException thrown = assertThrows(ParserException.class, () -> {
             parser.validate(line);
         });
-
         assertEquals("Missing quote - '\"' in: '" + line + "'", thrown.getMessage());
     }
 
     @Test
     public void validate_missing_escaped_quote() {
         String line = "click \"By.selector(\\" + "\"some-id)\"" + " \"option1\"";
-
         ParserException thrown = assertThrows(ParserException.class, () -> {
             parser.validate(line);
         });
-
         assertEquals("Missing escaped quote - '\\" + "\"' in: '" + line + "'", thrown.getMessage());
     }
 
     @Test
     public void validate_extra_split_sequence() {
-        String line = "click \"selector\" \"option1\" \"too-many!\"";
-        
+        String line = "click \"selector\" \"option1\" \"too-many!\"";      
         ParserException thrown = assertThrows(ParserException.class, () -> {
             parser.validate(line);
         });
-
         assertEquals("Too many action parameters in: '" + line + "'", thrown.getMessage());
 
     }
 
     @Test
     public void validate_invalid_variable_string() {
-        String line = "click \"${wrongVar\"";
-        
+        String line = "click \"${wrongVar\"";       
         ParserException thrown = assertThrows(ParserException.class, () -> {
             parser.validate(line);
         });
-
         assertEquals("Wrong variable syntax in: '" + line + "'", thrown.getMessage());
     }
-
-    @Disabled
-    @Test
-    public void validate_missing_variable() {
-
-    }
-
+    
     @Test
     public void validate_correct_line_only_action() throws ParameterException, ParserException {
         String line = "refresh";
-
         assertTrue(parser.validate(line));
     }
 
     @Test
     public void validate_correct_line_action_selector() throws ParameterException, ParserException {
         String line = "click \"selector\"";
-
         assertTrue(parser.validate(line));
     }
 
     @Test
     public void validate_correct_line_action_selector_options() throws ParameterException, ParserException {
         String line = "click \"selector\" \"option1\"";
-
         assertTrue(parser.validate(line));
+    }
+
+
+    @Test
+    public void tokenize_action() {
+        String in = "click";
+        String[] result = parser.tokenize(in);
+        assertEquals(1, result.length);
+    }
+
+    @Test
+    public void tokenize_action_selector() {
+        String in = "click \"selector\"";
+        String[] result = parser.tokenize(in);
+        assertEquals(2, result.length);
+    }
+
+
+    @Test
+    public void tokenize_action_selector_option() {
+        String in = "click \"selector\" \"option\"";
+        String[] result = parser.tokenize(in);
+        assertEquals(3, result.length);
+    }
+
+    @Test
+    public void tokenize_action_empty_selector_option() {
+        String in = "click \"\" \"option\"";
+        String[] result = parser.tokenize(in);
+        assertEquals(3, result.length);
+    }
+
+    @Test
+    public void tokenize_action_selector_with_spaces_option() {
+        String in = "click \"  selector  \" \"option\"";
+        String[] result = parser.tokenize(in);
+        assertEquals(3, result.length);
+    }
+
+    @Test
+    public void tokenize_action_selector_with_spaces_option_with_spaces() {
+        String in = "click \"  selector  \" \"   option   \"";
+        String[] result = parser.tokenize(in);
+        assertEquals(3, result.length);
+    }
+    
+    @Test
+    public void tokenize_action_selector_option_with_spaces() {
+        String in = "click \"selector\" \"   option   \"";
+        String[] result = parser.tokenize(in);
+        assertEquals(3, result.length);
+    }
+
+    @Test
+    public void tokenize_action_with_spaces_selector_with_spaces_option_with_spaces() {
+        String in = "  click   \"  selector  \" \"   option   \"";
+        String[] result = parser.tokenize(in);
+        assertEquals(3, result.length);
+    }
+
+    @Test
+    public void tokenize_action_selector_with_escaped_quotes() {
+        String in = "click \"ab\\" + "\"bc";
+        String[] result = parser.tokenize(in);
+        assertEquals(2, result.length);
+    }
+
+    @Test
+    public void tokenize_action_selector_option_with_escaped_quotes() {
+        String in = "click \"selector\" \"ab\\" + "\"bc";
+        String[] result = parser.tokenize(in);
+        assertEquals(3, result.length);
     }
 
 

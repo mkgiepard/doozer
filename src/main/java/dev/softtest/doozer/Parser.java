@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Arrays;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -65,28 +66,22 @@ public class Parser {
             throw new ParserException("Could not parse the action, in: " + Integer.toString(lineNumber) + ": " + line);
         }
 
-        String[] splitLine = line.split(splitter);
+        String[] tokens = tokenize(line);
 
         String name = null;
         String selector = null;
         Map<String, String> options = new HashMap<>();
         Boolean isOptional = false;
-        if (splitLine.length == 3) {
-            name = splitLine[0].replaceAll("\"", "").trim();
-            // TODO: make it simpler
-            // 1. Trim white spaces
-            // 2. Remove trailing '"'
-            // 3. Replace escaped quote '\"' with '"' 
-            selector = splitLine[1].trim();
-            selector = selector.substring(0, selector.length() - 1).replace("\\" + '"' , "\"");
-            OptionParser oParser = new OptionParser(splitLine[2].replaceAll("\"", "").trim());
+        if (tokens.length == 3) {
+            name = tokens[0];
+            selector = tokens[1];
+            OptionParser oParser = new OptionParser(tokens[2]);
             options = oParser.parse();
-        } else if (splitLine.length == 2) {
-            name = splitLine[0].replaceAll("\"", "").trim();
-            selector = splitLine[1].trim();
-            selector = selector.substring(0, selector.length() - 1).replace("\\" + '"' , "\"");
-        } else if (splitLine.length == 1) {
-            name = splitLine[0].replaceAll("\"", "").trim();
+        } else if (tokens.length == 2) {
+            name = tokens[0];
+            selector = tokens[1];
+        } else if (tokens.length == 1) {
+            name = tokens[0];
         }
         
         if (name.endsWith("?")) {
@@ -108,21 +103,17 @@ public class Parser {
     }
 
     public boolean validate(String line) throws ParserException {
-        String lineCopy = line.trim().replace("\\" + '"', "<ESCAPED>");
-        String[] tokens = line.trim().split(splitter);
+        String[] tokens = tokenize(line);
 
         // The number of escaped quote must be even
+        String lineCopy = line.trim().replace("\\" + '"', "<ESCAPED>");
         if (count(lineCopy, "<ESCAPED>") % 2 != 0) {
             throw new ParserException("Missing escaped quote - '\\" + "\"' in: '" + line + "'");
         }
-                
-        // The last character of a parameter token must be a double quote mark
-        if (tokens.length > 1) {
-            for (int i = 1; i < tokens.length; i++) {
-                if (!tokens[i].trim().endsWith("\"")) {
-                    throw new ParserException("Missing quote - '\"' in: '" + line + "'");
-                }
-            }
+
+        // The last character after trimming has to be a quotation mark (excl. lines with action only)
+        if (tokens.length > 1 && !line.trim().endsWith("\"")) {
+            throw new ParserException("Missing quote - '\"' in: '" + line + "'");
         }
 
         // The number of tokens cannot be higher than 3
@@ -142,6 +133,25 @@ public class Parser {
         }
 
         return true;
+    }
+
+    public String[] tokenize(String s) {
+        String[] tmp = s.replace("\\" + '"', "<QUOTE>").split("\"");
+        // [0] - action
+        // [1] - selector | empty
+        // [2] - empty
+        // [3] - option | empty
+        // [4+] - not supported
+        List<String> result = new ArrayList<String>();
+        for (int i = 0; i < tmp.length; i++) {
+            if (i == 2) continue;
+            result.add(tmp[i].replace("<QUOTE>", "\"").trim());
+        }
+        // [0] - action
+        // [1] - selector | empty
+        // [2] - option | empty
+        // [3+] - not supported
+        return (String[]) result.toArray(new String[0]);
     }
 
     private int count(String line, String elem) {

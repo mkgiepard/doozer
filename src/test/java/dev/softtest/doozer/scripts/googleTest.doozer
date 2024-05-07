@@ -2,9 +2,9 @@ set "google.url" "https://www.google.com"
 
 navigateTo "" "${google.url}"
 
-click "By.xpath('//button[contains(.,"Accept")]')"
+click "By.xpath('//button[contains(.,\"Accept\")]')"
 type "By.cssSelector('textarea')" "doozer"
-click "By.xpath('//input[@value="Google Search"]')"
+click "By.xpath('//input[@value=\"Google Search\"]')"
 
 takeScreenshot "" "search-doozer"
 
