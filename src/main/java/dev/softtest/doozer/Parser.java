@@ -66,23 +66,23 @@ public class Parser {
             throw new ParserException("Could not parse the action, in: " + Integer.toString(lineNumber) + ": " + line);
         }
 
-        String[] tokens = tokenize(line);
+        Map<String, String> tokens = tokenize(line);
 
         String name = null;
         String selector = null;
         Map<String, String> options = new HashMap<>();
         Boolean isOptional = false;
 
-        if (tokens.length == 3) {
-            name = tokens[0];
-            selector = tokens[1];
-            OptionParser oParser = new OptionParser(tokens[2]);
+        if (tokens.size() == 3) {
+            name = tokens.get("action");
+            selector = tokens.get("selector");
+            OptionParser oParser = new OptionParser(tokens.get("args"));
             options = oParser.parse();
-        } else if (tokens.length == 2) {
-            name = tokens[0];
-            selector = tokens[1];
-        } else if (tokens.length == 1) {
-            name = tokens[0];
+        } else if (tokens.size() == 2) {
+            name = tokens.get("action");
+            selector = tokens.get("selector");
+        } else if (tokens.size() == 1) {
+            name = tokens.get("action");
         }
         
         if (name.endsWith("?")) {
@@ -104,7 +104,7 @@ public class Parser {
     }
     
     public boolean validate(String line) throws ParserException {
-        String[] tokens = tokenize(line);
+        Map<String, String> tokens = tokenize(line);
 
         // The number of escaped quote must be even
         String lineCopy = line.trim().replace("\\" + '"', "<ESCAPED>");
@@ -113,20 +113,20 @@ public class Parser {
         }
 
         // The last character after trimming has to be a quotation mark (excl. lines with action only)
-        if (tokens.length > 1 && !line.trim().endsWith("\"")) {
+        if (tokens.size() > 1 && !line.trim().endsWith("\"")) {
             throw new ParserException("Missing quote - '\"' in: '" + line + "'");
         }
 
         // The number of tokens cannot be higher than 3
-        if (tokens.length > 3) {
+        if (tokens.size() > 3) {
             throw new ParserException("Too many action parameters in: '" + line + "'");
         }
 
         // The last character of a called variable should be a closing curly bracket
-        if (tokens.length > 1) {
-            for (int i = 1; i < tokens.length; i++) {
-                if (tokens[i].contains("${")) {
-                    if (tokens[i].indexOf("${") > tokens[i].indexOf("}")) {
+        if (tokens.size() > 1) {
+            for (String k : tokens.keySet()) {
+                if (tokens.get(k).contains("${")) {
+                    if (tokens.get(k).indexOf("${") > tokens.get(k).indexOf("}")) {
                         throw new ParserException("Wrong variable syntax in: '" + line + "'");
                     }
                 }
@@ -143,23 +143,25 @@ public class Parser {
         return s.contains("selector:") || s.contains("args:");
     }
 
-    public String[] tokenize(String s) {
+    public Map<String, String> tokenize(String s) {
         String[] encoded = s.replace("\\" + '"', "<QUOTE>").split("\"");
         // [0] - action
         // [1] - selector | empty
         // [2] - empty
         // [3] - option | empty
         // [4+] - not supported
-        List<String> result = new ArrayList<String>();
+        Map<String, String> result = new HashMap<String, String>();
+        String[] KEYS = {"action", "selector", "", "args"};
         for (int i = 0; i < encoded.length; i++) {
             if (i == 2) continue;
-            result.add(encoded[i].replace("<QUOTE>", "\"").trim());
+            if (i < 4) {
+                result.put(KEYS[i], encoded[i].replace("<QUOTE>", "\"").trim());
+            }
+            else {
+                result.put("unknown_" + Integer.toString(i), encoded[i].replace("<QUOTE>", "\"").trim());
+            }
         }
-        // [0] - action
-        // [1] - selector | empty
-        // [2] - option | empty
-        // [3+] - not supported
-        return (String[]) result.toArray(new String[0]);
+        return result;
     }
 
     public Map<String, String> tokenizeWithNamedParams(String s) throws ParserException {

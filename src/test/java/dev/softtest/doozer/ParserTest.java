@@ -237,72 +237,72 @@ public class ParserTest {
     @Test
     public void tokenize_action() {
         String in = "click";
-        String[] result = parser.tokenize(in);
-        assertEquals(1, result.length);
+        Map<String, String> result = parser.tokenize(in);
+        assertEquals(1, result.size());
     }
 
     @Test
     public void tokenize_action_selector() {
         String in = "click \"selector\"";
-        String[] result = parser.tokenize(in);
-        assertEquals(2, result.length);
+        Map<String, String> result = parser.tokenize(in);
+        assertEquals(2, result.size());
     }
 
 
     @Test
     public void tokenize_action_selector_option() {
         String in = "click \"selector\" \"option\"";
-        String[] result = parser.tokenize(in);
-        assertEquals(3, result.length);
+        Map<String, String> result = parser.tokenize(in);
+        assertEquals(3, result.size());
     }
 
     @Test
     public void tokenize_action_empty_selector_option() {
         String in = "click \"\" \"option\"";
-        String[] result = parser.tokenize(in);
-        assertEquals(3, result.length);
+        Map<String, String> result = parser.tokenize(in);
+        assertEquals(3, result.size());
     }
 
     @Test
     public void tokenize_action_selector_with_spaces_option() {
         String in = "click \"  selector  \" \"option\"";
-        String[] result = parser.tokenize(in);
-        assertEquals(3, result.length);
+        Map<String, String> result = parser.tokenize(in);
+        assertEquals(3, result.size());
     }
 
     @Test
     public void tokenize_action_selector_with_spaces_option_with_spaces() {
         String in = "click \"  selector  \" \"   option   \"";
-        String[] result = parser.tokenize(in);
-        assertEquals(3, result.length);
+        Map<String, String> result = parser.tokenize(in);
+        assertEquals(3, result.size());
     }
     
     @Test
     public void tokenize_action_selector_option_with_spaces() {
         String in = "click \"selector\" \"   option   \"";
-        String[] result = parser.tokenize(in);
-        assertEquals(3, result.length);
+        Map<String, String> result = parser.tokenize(in);
+        assertEquals(3, result.size());
     }
 
     @Test
     public void tokenize_action_with_spaces_selector_with_spaces_option_with_spaces() {
         String in = "  click   \"  selector  \" \"   option   \"";
-        String[] result = parser.tokenize(in);
-        assertEquals(3, result.length);
+        Map<String, String> result = parser.tokenize(in);
+        assertEquals(3, result.size());
     }
 
     @Test
     public void tokenize_action_selector_with_escaped_quotes() {
         String in = "click \"ab\\" + "\"bc";
-        String[] result = parser.tokenize(in);
-        assertEquals(2, result.length);
+        Map<String, String> result = parser.tokenize(in);
+        assertEquals(2, result.size());
     }
 
     @Test
     public void tokenize_action_selector_option_with_escaped_quotes() {
         String in = "click \"selector\" \"ab\\" + "\"bc";
-        String[] result = parser.tokenize(in);
-        assertEquals(3, result.length);
+        Map<String, String> result = parser.tokenize(in);
+        assertEquals(3, result.size());
     }
 
     @Test
