@@ -12,6 +12,8 @@ import dev.softtest.doozer.actions.Refresh;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
 
 import org.apache.logging.log4j.core.tools.picocli.CommandLine.ParameterException;
 import org.junit.jupiter.api.AfterAll;
@@ -338,6 +340,54 @@ public class ParserTest {
         assertEquals("click", result.get("action"));
         assertEquals("aaa", result.get("selector"));
         assertEquals("bbb", result.get("args"));
+    }
+
+    @Test
+    public void use_named_params_set_true() {
+        String in = "set name:\"aaa\" value:\"bbb\"";
+        assertTrue(parser.useNamedParams(in));
+    }
+
+    @Test
+    public void use_named_params_set_false() {
+        String in = "set \"aaa\" \"bbb\"";
+        assertFalse(parser.useNamedParams(in));
+    }
+
+    @Test
+    public void use_named_params_action_only_false() {
+        String in = "click";
+        assertFalse(parser.useNamedParams(in));
+    }
+
+    @Test
+    public void use_named_params_action_selector_true() {
+        String in = "click selector:\"aaa\"";
+        assertTrue(parser.useNamedParams(in));
+    }
+
+    @Test
+    public void use_named_params_action_selector_false() {
+        String in = "click \"aaa\"";
+        assertFalse(parser.useNamedParams(in));
+    }
+
+    @Test
+    public void use_named_params_action_args_true() {
+        String in = "click args:\"aaa\"";
+        assertTrue(parser.useNamedParams(in));
+    }
+
+    @Test
+    public void use_named_params_action_selector_args_true() {
+        String in = "click selector:\"aaa\" args:\"bbb\"";
+        assertTrue(parser.useNamedParams(in));
+    }
+
+    @Test
+    public void use_named_params_action_selector_args_false() {
+        String in = "click \"aaa\" \"bbb\"";
+        assertFalse(parser.useNamedParams(in));
     }
 
 

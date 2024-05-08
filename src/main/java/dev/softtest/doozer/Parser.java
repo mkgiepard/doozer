@@ -136,6 +136,13 @@ public class Parser {
         return true;
     }
 
+    public boolean useNamedParams(String s) {
+        if (s.trim().startsWith("set")) {
+            return s.contains("name:");
+        }
+        return s.contains("selector:") || s.contains("args:");
+    }
+
     public String[] tokenize(String s) {
         String[] encoded = s.replace("\\" + '"', "<QUOTE>").split("\"");
         // [0] - action
