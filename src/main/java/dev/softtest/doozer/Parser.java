@@ -66,23 +66,22 @@ public class Parser {
             throw new ParserException("Could not parse the action, in: " + Integer.toString(lineNumber) + ": " + line);
         }
 
-        Map<String, String> tokens = tokenize(line);
+        Map<String, String> tokens = useNamedParams(line) ? tokenizeWithNamedParams(line) : tokenize(line);
 
         String name = null;
         String selector = null;
         Map<String, String> options = new HashMap<>();
         Boolean isOptional = false;
 
-        if (tokens.size() == 3) {
-            name = tokens.get("action");
+        name = tokens.get("action");
+        if (tokens.get("action") == "set") {
+            selector = tokens.get("name");
+            OptionParser oParser = new OptionParser(tokens.getOrDefault("value", ""));
+            options = oParser.parse();      
+        } else {
             selector = tokens.get("selector");
-            OptionParser oParser = new OptionParser(tokens.get("args"));
+            OptionParser oParser = new OptionParser(tokens.getOrDefault("args", ""));
             options = oParser.parse();
-        } else if (tokens.size() == 2) {
-            name = tokens.get("action");
-            selector = tokens.get("selector");
-        } else if (tokens.size() == 1) {
-            name = tokens.get("action");
         }
         
         if (name.endsWith("?")) {
@@ -189,7 +188,7 @@ public class Parser {
             m.put("value", value);
         } else {
             String args = getNamedParamValue(s.split("args:"));
-            if (args != null) m.put("args", args);
+            if (args != null) m.put("args", args.replace("\\" + '"', "\""));
 
             String sel;
             if (args != null) {
@@ -197,7 +196,7 @@ public class Parser {
             } else {
                 sel = getNamedParamValue(s.split("selector:"));
             }
-            if (sel != null) m.put("selector", sel);
+            if (sel != null) m.put("selector", sel.replace("\\" + '"', "\""));
 
             String action;
             if (sel != null) {
