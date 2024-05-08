@@ -68,13 +68,13 @@ public class Parser {
 
         Map<String, String> tokens = useNamedParams(line) ? tokenizeWithNamedParams(line) : tokenize(line);
 
-        String name = null;
+        String actionName = null;
         String selector = null;
         Map<String, String> options = new HashMap<>();
         Boolean isOptional = false;
 
-        name = tokens.get("action");
-        if (tokens.get("action") == "set") {
+        actionName = tokens.get("action");
+        if (actionName == "set") {
             selector = tokens.get("name");
             OptionParser oParser = new OptionParser(tokens.getOrDefault("value", ""));
             options = oParser.parse();      
@@ -84,13 +84,13 @@ public class Parser {
             options = oParser.parse();
         }
         
-        if (name.endsWith("?")) {
+        if (actionName.endsWith("?")) {
             isOptional = true;
-            name = name.substring(0, name.length()-1);
+            actionName = actionName.substring(0, actionName.length()-1);
         }
 
         try {
-            action = createActionInstance(ctx, lineNumber, name, line);
+            action = createActionInstance(ctx, lineNumber, actionName, line);
             action.setSelector(selector);
             action.setDriver(driver);
             action.setOptions(options);
