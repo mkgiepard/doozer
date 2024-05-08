@@ -73,17 +73,19 @@ public class Parser {
         Map<String, String> options = new HashMap<>();
         Boolean isOptional = false;
 
+        String firstParam = "selector";
+        String secondParam = "args";
+
         actionName = tokens.get("action");
         if (actionName == "set") {
-            selector = tokens.get("name");
-            OptionParser oParser = new OptionParser(tokens.getOrDefault("value", ""));
-            options = oParser.parse();      
-        } else {
-            selector = tokens.get("selector");
-            OptionParser oParser = new OptionParser(tokens.getOrDefault("args", ""));
-            options = oParser.parse();
+            firstParam = "name";
+            secondParam = "value";
         }
-        
+        selector = tokens.get(firstParam);
+        OptionParser oParser = new OptionParser(tokens.getOrDefault(secondParam, ""));
+        options = oParser.parse();      
+
+
         if (actionName.endsWith("?")) {
             isOptional = true;
             actionName = actionName.substring(0, actionName.length()-1);
