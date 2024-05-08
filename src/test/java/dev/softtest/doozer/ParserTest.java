@@ -20,6 +20,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Disabled;
 
 import java.util.List;
+import java.util.Map;
 
 public class ParserTest {
     public static WebDriver driver = new ChromeDriver();
@@ -300,6 +301,43 @@ public class ParserTest {
         String in = "click \"selector\" \"ab\\" + "\"bc";
         String[] result = parser.tokenize(in);
         assertEquals(3, result.length);
+    }
+
+    @Test
+    public void tokenize_with_named_params_set() throws ParserException {
+        String in = "set name:\"aaa\" value:\"bbb\"";
+        Map<String, String> result = parser.tokenizeWithNamedParams(in);
+        assertEquals(3, result.size());
+        assertEquals("set", result.get("action"));
+        assertEquals("aaa", result.get("name"));
+        assertEquals("bbb", result.get("value"));
+    }
+
+    @Test
+    public void tokenize_with_named_params_action() throws ParserException {
+        String in = "click";
+        Map<String, String> result = parser.tokenizeWithNamedParams(in);
+        assertEquals(1, result.size());
+        assertEquals("click", result.get("action"));
+    }
+
+    @Test
+    public void tokenize_with_named_params_action_selector() throws ParserException {
+        String in = "click selector:\"aaa\"";
+        Map<String, String> result = parser.tokenizeWithNamedParams(in);
+        assertEquals(2, result.size());
+        assertEquals("click", result.get("action"));
+        assertEquals("aaa", result.get("selector"));
+    }
+
+    @Test
+    public void tokenize_with_named_params_action_selector_args() throws ParserException {
+        String in = "click selector:\"aaa\" args:\"bbb\"";
+        Map<String, String> result = parser.tokenizeWithNamedParams(in);
+        assertEquals(3, result.size());
+        assertEquals("click", result.get("action"));
+        assertEquals("aaa", result.get("selector"));
+        assertEquals("bbb", result.get("args"));
     }
 
 

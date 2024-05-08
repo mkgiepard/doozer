@@ -1,20 +1,32 @@
-set "google.url" "https://www.google.com"
+// comment this is
 
-navigateTo "" "${google.url}"
+// this is too
 
-click "By.xpath('//button[contains(.,\"Accept\")]')"
-type "By.cssSelector('textarea')" "doozer"
-click "By.xpath('//input[@value=\"Google Search\"]')"
 
-takeScreenshot "" "search-doozer"
+// set name:"google.url" value:"https://www.google.com"
 
-sendKeys "" "doozer"
-takeScreenshot "" "doozer"
-navigateBack
-takeScreenshot "" "fileName=back-withOption"
-navigateForward
-takeScreenshot
-click? "By.id('someid')"
-refresh
-takeScreenshot "" "refresh"
-assertCurrentUrl? "" "https://www.google.com/"
+// navigateTo args:"${google.url}"
+
+// click selector:"By.xpath('//button[contains(.,\"Accept\")]')"
+// type selector:"By.cssSelector('textarea')" args:"doozer"
+// click selector:"By.xpath('//input[@value=\"Google Search\"]')"
+
+// takeScreenshot args:"search-doozer"
+
+// sendKeys args:"doozer"
+// takeScreenshot args:"doozer"
+// navigateBack
+// takeScreenshot args:"fileName=back-withOption"
+// navigateForward
+// takeScreenshot
+// click? args:"By.id('someid')"
+// refresh
+// takeScreenshot args:"refresh"
+// assertCurrentUrl? args:"https://www.google.com/"
+
+
+// type "By.cssSelector('textarea')" "fileName=back-withOption"
+
+// type selector:"By.cssSelector('textarea')" param:"fileName=back-withOption"
+
+// type selector:"By.cssSelector('textarea')" args:"fileName=back-withOption"

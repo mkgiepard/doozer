@@ -72,6 +72,7 @@ public class Parser {
         String selector = null;
         Map<String, String> options = new HashMap<>();
         Boolean isOptional = false;
+
         if (tokens.length == 3) {
             name = tokens[0];
             selector = tokens[1];
@@ -101,7 +102,7 @@ public class Parser {
         }
         return action;
     }
-
+    
     public boolean validate(String line) throws ParserException {
         String[] tokens = tokenize(line);
 
@@ -136,22 +137,83 @@ public class Parser {
     }
 
     public String[] tokenize(String s) {
-        String[] tmp = s.replace("\\" + '"', "<QUOTE>").split("\"");
+        String[] encoded = s.replace("\\" + '"', "<QUOTE>").split("\"");
         // [0] - action
         // [1] - selector | empty
         // [2] - empty
         // [3] - option | empty
         // [4+] - not supported
         List<String> result = new ArrayList<String>();
-        for (int i = 0; i < tmp.length; i++) {
+        for (int i = 0; i < encoded.length; i++) {
             if (i == 2) continue;
-            result.add(tmp[i].replace("<QUOTE>", "\"").trim());
+            result.add(encoded[i].replace("<QUOTE>", "\"").trim());
         }
         // [0] - action
         // [1] - selector | empty
         // [2] - option | empty
         // [3+] - not supported
         return (String[]) result.toArray(new String[0]);
+    }
+
+    public Map<String, String> tokenizeWithNamedParams(String s) throws ParserException {
+        // Syntax rules:
+        // 
+        // actionName is always first followed by:
+        // - for set:
+        //   - name:"xyz" value:"xyz"
+        //   example of minimum string: set name:"a" value:"b"
+        // - for others:
+        //   - none
+        //   - selector:"xyz"
+        //   - args:"xyz"
+        //   - selector:"xyz" args:"xyz"
+
+        Map<String, String> m = new HashMap<String, String>();
+        if (s.trim().startsWith("set")) {
+            String name = getNamedParamValue(s.split("name:"), "value:");
+            String value = getNamedParamValue(s.split("value:"));
+            if (name == null || value == null) {
+                throw new ParserException("Missing parameters in: '" + s + "'");
+            }
+            m.put("action", "set");
+            m.put("name", name);
+            m.put("value", value);
+        } else {
+            String args = getNamedParamValue(s.split("args:"));
+            if (args != null) m.put("args", args);
+
+            String sel;
+            if (args != null) {
+                sel = getNamedParamValue(s.split("selector:"), "args:");
+            } else {
+                sel = getNamedParamValue(s.split("selector:"));
+            }
+            if (sel != null) m.put("selector", sel);
+
+            String action;
+            if (sel != null) {
+                action = s.substring(0, s.indexOf("selector:")).trim();
+            } else if (args != null) {
+                action = s.substring(0, s.indexOf("args:")).trim();
+            } else {
+                action = s.trim();
+            }
+            m.put("action", action);
+        }
+        return m;
+    }
+
+    private String getNamedParamValue(String[] arr) {
+        return getNamedParamValue(arr, null);
+    }
+
+    private String getNamedParamValue(String[] arr, String follower) {
+        if (arr.length == 2) {
+            int endIndex = follower == null ? arr[1].length() : arr[1].indexOf(follower);
+            String s = arr[1].substring(0, endIndex).trim();
+            return s.substring(1, s.length() - 1);
+        }
+        return null;
     }
 
     private int count(String line, String elem) {
