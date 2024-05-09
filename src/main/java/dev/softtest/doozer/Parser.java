@@ -85,7 +85,6 @@ public class Parser {
         OptionParser oParser = new OptionParser(tokens.getOrDefault(secondParam, ""));
         options = oParser.parse();      
 
-
         if (actionName.endsWith("?")) {
             isOptional = true;
             actionName = actionName.substring(0, actionName.length()-1);
