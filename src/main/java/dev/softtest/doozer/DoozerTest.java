@@ -25,6 +25,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.nio.file.Paths;
+
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -47,7 +50,6 @@ public abstract class DoozerTest {
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
 
         ctx = new Context();
-
         Parser p = new Parser(ctx, testFile, driver);
         actions = p.parse();
     }
@@ -66,10 +68,11 @@ public abstract class DoozerTest {
     @ParameterizedTest
     @MethodSource("provideDoozerTestFiles")
     public void runner(String testFile) throws Exception {
-        setup(testFile);
         logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         logger.info("========================== START =========================");
         logger.info("Test: " + testFile);
+        
+        setup(testFile);
         long startTime = System.nanoTime();
         for (DoozerAction action : actions) {
             try {
@@ -79,15 +82,18 @@ public abstract class DoozerTest {
                 action.execute();
             } catch (Exception e) {
                 if (!action.isOptional()) {
-                    logger.error("last action FAILED\n" + e);
+                    logger.error("EXECUTION FAILED IN ACTION: " + action.getOriginalAction() + " >>> Root cause: " + e.getMessage());
+                    e.printStackTrace();
                     saveDom(testFile);
+                    fail("EXECUTION FAILED IN ACTION: " + action.getOriginalAction() + " >>> Root cause: " + e.getMessage());
                     throw e;
                 }
                 else {
-                    logger.warn("last action FAILED but ignoring the failure as the action is optional.");
+                    logger.warn("EXECUTION FAILED but ignoring the failure as the action is optional.");
                 }
             }
         }
+
         logger.info("========================== STOP =========================");
         long duration = System.nanoTime() - startTime;
         logger.info("Execution time: " + TimeUnit.NANOSECONDS.toMillis(duration) + "[ms]");

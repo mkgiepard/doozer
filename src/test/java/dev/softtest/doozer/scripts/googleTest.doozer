@@ -21,8 +21,9 @@ takeScreenshot args:"fileName=back-withOption"
 navigateForward
 takeScreenshot
 
-click? args:"By.id('someid')"
+click? selector:"By.id('someid')"
 refresh
 takeScreenshot args:"refresh"
 
 assertCurrentUrl? args:"https://www.google.com/"
+
