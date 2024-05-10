@@ -7,9 +7,13 @@ navigateTo args:"${google.url}"
 
 // url args:"https://www.google.com"
 
-click selector:"By.xpath('//button[contains(.,\"Accept\")]')"
+//click selector:"By.xpath('//button[contains(.,\"Accept\")]')"
+//type selector:"By.cssSelector('textarea')" args:"doozer"
+//click selector:"By.xpath('//input[@value=\"Google Search\"]')"
+
+click selector:"Sl({button 'Accept *'})"
 type selector:"By.cssSelector('textarea')" args:"doozer"
-click selector:"By.xpath('//input[@value=\"Google Search\"]')"
+click selector:"SL({button 'Google Search'})"
 
 takeScreenshot args:"search-doozer"
 
