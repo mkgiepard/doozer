@@ -38,17 +38,18 @@ public class Parser {
 
         try (BufferedReader reader = Files.newBufferedReader(path, charset)) {
             String line = null;
-            int lineCounter = 1;
+            int lineCounter = 0;
             while ((line = reader.readLine()) != null) {
+                lineCounter++;
                 if (line.length() == 0) {
-                    logger.info("parse: " + Integer.toString(lineCounter++) + ":\t EMPTY LINE");
+                    logger.info("parse: " + Integer.toString(lineCounter) + ":\t EMPTY LINE");
                     continue;
                 }
                 if (line.trim().startsWith("//")) {
-                    logger.info("parse: " + Integer.toString(lineCounter++) + ":\t COMMENT");
+                    logger.info("parse: " + Integer.toString(lineCounter) + ":\t COMMENT");
                     continue;
                 }
-                DoozerAction action = parseAction(lineCounter++, line);
+                DoozerAction action = parseAction(lineCounter, line);
                 logger.info("parse: " + Integer.toString(lineCounter) + ":\t " + action.getActionName());
                 actions.add(action);
             }
