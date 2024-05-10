@@ -8,6 +8,8 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import com.google.common.base.Strings;
+
 import dev.softtest.doozer.actions.Action;
 
 public class DoozerAction implements Action {
@@ -112,11 +114,12 @@ public class DoozerAction implements Action {
     }
 
     public By getBySelector(String s) throws Exception {
-
         // Selector format examples:
         // - By.cssSelector('button')
         // - By.name('my-text')
-
+        if (Strings.isNullOrEmpty(s) || !s.contains("By."))
+            throw new Exception("Action requires `By.` selector while got: '" + s + "'");
+        
         String methodName = s.substring(s.indexOf(".") + 1, s.indexOf("("));
         String methodParam = s.substring(s.indexOf("'") + 1, s.length() - 2);
 
