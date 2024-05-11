@@ -13,6 +13,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -43,15 +44,20 @@ public abstract class DoozerTest {
     // @BeforeAll
     // hint: https://code-case.hashnode.dev/how-to-pass-parameterized-test-parameters-to-beforeeachaftereach-method-in-junit5
     // hint: https://stackoverflow.com/questions/62036724/how-to-parameterize-beforeeach-in-junit-5
-    public static void setup(String testFile) throws Exception {
+    public void setup(String testFile) throws Exception {
         Files.createDirectories(Paths.get("target/doozer-tests/"));
 
         driver = new ChromeDriver();
+        setupWindow(driver);
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
 
         ctx = new Context();
         Parser p = new Parser(ctx, testFile, driver);
         actions = p.parse();
+    }
+
+    public void setupWindow(WebDriver driver) {
+        driver.manage().window().setSize(new Dimension(1280, 700));
     }
 
     @AfterEach
@@ -61,7 +67,7 @@ public abstract class DoozerTest {
     }
 
     @AfterAll
-    public static void tearDown() {
+    public void tearDown() {
         driver.quit();
     }
 
