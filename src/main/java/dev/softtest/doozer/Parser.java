@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Arrays;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,7 +22,6 @@ public class Parser {
     private Context ctx;
     private String filePath;
     private Charset charset = StandardCharsets.UTF_8;
-    private final String splitter = " \"";
     private List<DoozerAction> actions = new ArrayList<DoozerAction>();
     private WebDriver driver;
 
@@ -42,19 +40,20 @@ public class Parser {
             while ((line = reader.readLine()) != null) {
                 lineCounter++;
                 if (line.length() == 0) {
-                    logger.info("parse: " + Integer.toString(lineCounter) + ":\t EMPTY LINE");
+                    logger.info("parse: " + Integer.toString(lineCounter) + ": EMPTY LINE");
                     continue;
                 }
                 if (line.trim().startsWith("//")) {
-                    logger.info("parse: " + Integer.toString(lineCounter) + ":\t COMMENT");
+                    logger.info("parse: " + Integer.toString(lineCounter) + ": COMMENT");
                     continue;
                 }
                 DoozerAction action = parseAction(lineCounter, line);
-                logger.info("parse: " + Integer.toString(lineCounter) + ":\t " + action.getActionName());
+                logger.info("parse: " + Integer.toString(lineCounter) + ": " + action.getActionName());
                 actions.add(action);
             }
         } catch (Exception e) {
             System.err.format("Exception: %s%n", e);
+            logger.error("Exception: " + e);
             throw e;
         }
         return actions;
@@ -99,6 +98,7 @@ public class Parser {
             action.setIsOptional(isOptional);
         } catch (Exception e) {
             System.err.format("Exception: %s%n", e);
+            logger.error("Exception: " + e);
             throw e;
         }
         return action;
