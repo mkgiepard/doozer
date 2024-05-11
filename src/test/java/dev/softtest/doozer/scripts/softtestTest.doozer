@@ -1,0 +1,3 @@
+url args:"https://www.softtest.dev"
+assertPageTitle args:"softtest.dev"
+takeScreenshot args:"softtest.dev"
