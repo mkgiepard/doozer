@@ -23,8 +23,17 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.ArrayList;
 
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.Appender;
+import org.apache.logging.log4j.core.Layout;
+import org.apache.logging.log4j.core.LoggerContext;
+import org.apache.logging.log4j.core.appender.FileAppender;
+import org.apache.logging.log4j.core.config.AppenderRef;
+import org.apache.logging.log4j.core.config.Configuration;
+import org.apache.logging.log4j.core.config.LoggerConfig;
+import org.apache.logging.log4j.core.layout.PatternLayout;
 
 import java.nio.file.Paths;
 
@@ -63,8 +72,24 @@ public abstract class DoozerTest {
         Files.createDirectories(Paths.get(testResultsDir));
         ctx.setResultsDir(testResultsDir);
 
-        Parser p = new Parser(ctx, testFile, driver);
-        actions = p.parse();
+        // Logger per Test -- START
+        final LoggerContext logCtx = (LoggerContext) LogManager.getContext(false);
+        final Configuration config = logCtx.getConfiguration();     
+        
+        @SuppressWarnings("rawtypes")
+        final Layout layout =  config.getRootLogger().getAppenders().get("logFile").getLayout();
+
+        @SuppressWarnings("unchecked")
+        Appender perTestFileAppender = FileAppender.newBuilder()
+            .setName(testResultsDir)
+            .withFileName(testResultsDir + "doozer.log")
+            .setLayout(layout)
+            .withAdvertise(false)
+            .withAppend(false)
+            .build();
+            perTestFileAppender.start();
+        config.getRootLogger().addAppender(perTestFileAppender, Level.INFO, null);
+        // Logger per Test -- STOP  
     }
 
     public void setupWindow(WebDriver driver) {
@@ -75,6 +100,12 @@ public abstract class DoozerTest {
     public void cleanUp() {
         actions.clear();
         driver.quit();
+        
+        // Logger per Test -- START
+        final LoggerContext logCtx = (LoggerContext) LogManager.getContext(false);
+        final Configuration config = logCtx.getConfiguration();     
+        config.getRootLogger().removeAppender(ctx.getResultsDir());
+        // Logger per Test -- STOP
     }
 
     @AfterAll
@@ -85,12 +116,18 @@ public abstract class DoozerTest {
     @ParameterizedTest
     @MethodSource("provideDoozerTestFiles")
     public void runner(String testFile) throws Exception {
+        
+        setup(testFile);
+
         logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         logger.info("========================== START =========================");
         logger.info("Test: " + testFile);
         
-        setup(testFile);
         long startTime = System.nanoTime();
+
+        Parser p = new Parser(ctx, testFile, driver);
+        actions = p.parse();
+
         for (DoozerAction action : actions) {
             try {
                 logger.info("execute: " + action.getOriginalAction());
