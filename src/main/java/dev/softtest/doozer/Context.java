@@ -1,11 +1,17 @@
 package dev.softtest.doozer;
 
+import org.openqa.selenium.WebDriver;
+
 import java.util.Map;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Context {
     private Map<String, String> variables;
     private String resultsDir;
+    private WebDriver driver;
+    private List<DoozerAction> actions = new ArrayList<DoozerAction>();
 
     public Context() {
         variables = new HashMap<String, String>();
@@ -25,5 +31,21 @@ public class Context {
 
     public String getResultsDir() {
         return resultsDir;
+    }
+
+    public void setWebDriver(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    public WebDriver getWebDriver() {
+        return driver;
+    }
+
+    public void setActions(List<DoozerAction> actions) {
+        this.actions = actions;
+    }
+
+    public List<DoozerAction> getActions() {
+        return actions;
     }
 } 
