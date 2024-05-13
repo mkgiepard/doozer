@@ -21,6 +21,6 @@ public class TakeScreenshot extends DoozerAction {
         if (fileName == null) {
             fileName = getOptions().getOrDefault("fileName", "screenshot");
         }
-        Files.write(screenshot, new File("./target/doozer-tests/" + fileName + ".png"));
+        Files.write(screenshot, new File(getContext().getResultsDir() + fileName + ".png"));
     }
 }

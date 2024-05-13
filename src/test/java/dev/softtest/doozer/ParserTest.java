@@ -121,7 +121,7 @@ public class ParserTest {
 
     @Test
     public void parse_firstTest_file() throws Exception {
-        path = "src/test/java/dev/softtest/doozer/scripts/firstTest.doozer";
+        path = "src/test/java/dev/softtest/doozer/scripts/firstTest/firstTest.doozer";
         parser = new Parser(new Context(), path, driver);
 
         List<DoozerAction> actions = parser.parse();
@@ -151,7 +151,7 @@ public class ParserTest {
 
     @Test
     public void parse_comment_line() throws Exception {
-        path = "src/test/java/dev/softtest/doozer/scripts/commentTest.doozer";
+        path = "src/test/java/dev/softtest/doozer/scripts/commentTest/commentTest.doozer";
         parser = new Parser(new Context(), path, driver);
 
         List<DoozerAction> actions = parser.parse();

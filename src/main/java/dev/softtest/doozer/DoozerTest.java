@@ -43,17 +43,26 @@ public abstract class DoozerTest {
     private static List<DoozerAction> actions = new ArrayList<DoozerAction>();
     private static Context ctx;
 
+    private final String RESULTS_DIR = "target/doozer-tests/";
+
     // @BeforeAll
     // hint: https://code-case.hashnode.dev/how-to-pass-parameterized-test-parameters-to-beforeeachaftereach-method-in-junit5
     // hint: https://stackoverflow.com/questions/62036724/how-to-parameterize-beforeeach-in-junit-5
     public void setup(String testFile) throws Exception {
-        Files.createDirectories(Paths.get("target/doozer-tests/"));
+        Files.createDirectories(Paths.get(RESULTS_DIR));
 
         driver = new ChromeDriver();
         setupWindow(driver);
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
 
         ctx = new Context();
+
+        String testResultsDir = RESULTS_DIR
+                + testFile.substring(testFile.lastIndexOf("/"), testFile.lastIndexOf(".doozer"))
+                + "/";
+        Files.createDirectories(Paths.get(testResultsDir));
+        ctx.setResultsDir(testResultsDir);
+
         Parser p = new Parser(ctx, testFile, driver);
         actions = p.parse();
     }
@@ -117,7 +126,7 @@ public abstract class DoozerTest {
 
     public void saveDom(String name) {
         String[] s = name.split("/");
-        Path path = Paths.get("target/doozer-tests/" + s[s.length-1] + "-DOM.html");
+        Path path = Paths.get(ctx.getResultsDir() + s[s.length-1] + "-DOM.html");
         byte[] domDump = driver.getPageSource().getBytes();
     
         try {
