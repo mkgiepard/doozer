@@ -5,7 +5,8 @@ import java.time.Duration;
 
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -34,6 +35,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 @TestInstance(Lifecycle.PER_CLASS)
+// @Execution(ExecutionMode.CONCURRENT)
 public abstract class DoozerTest {
     protected static final Logger logger = LogManager.getLogger();
 

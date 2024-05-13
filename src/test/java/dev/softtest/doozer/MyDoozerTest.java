@@ -17,9 +17,9 @@ public class MyDoozerTest extends DoozerTest {
     String testFolder = System.getProperty("test.folder");
     return Stream.of(
         Arguments.of(testFolder + "firstTest.doozer"),
-        // Arguments.of(testFolder + "secondTest.doozer"),
-        // Arguments.of(testFolder + "googleTest.doozer"),
-        // Arguments.of(testFolder + "commentTest.doozer"),
+        Arguments.of(testFolder + "secondTest.doozer"),
+        Arguments.of(testFolder + "googleTest.doozer"),
+        Arguments.of(testFolder + "commentTest.doozer"),
         Arguments.of(testFolder + "softtestTest.doozer"));
 
   }
