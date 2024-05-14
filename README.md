@@ -4,19 +4,32 @@ Dead simple UI testing framework.
 
 ## Syntax
 
-`<action>[?] "<selector>" "<options>"`
+Positional parameters:
+```
+<action>[?]
+<action>[?] "<selector>"
+<action>[?] "<selector>" "<options>"
+```
+
+
+Named parameters:
+
+```
+<action>[?]
+<action>[?] selector:"<selector>"
+<action>[?] args:"<options>"
+<action>[?] selector:"<selector>" args:"<options>"
+```
 
 Examples:
 
 ```
 click "By.cssSelector('button')"
-
-type "By.name('title')" "doozer"
 click "By.cssSelector('button')" "button=2,offsetX=10,offsetY=10"
 
-click? "By.cssSelector('button')"
-
-takeScreenshot "" "{name=mainPage,timeout=2}"
+click selector:"By.cssSelector('button')"
+click selector:"By.cssSelector('button')" args:"button=2,offsetX=10,offsetY=10"
+click selector:"Sl({button 'Accept *'})"
 ```
 
 `?` - optional parameter indicating the execution should proceed despite action failure
