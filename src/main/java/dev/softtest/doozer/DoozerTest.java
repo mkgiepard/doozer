@@ -6,8 +6,6 @@ import java.time.Duration;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.junit.jupiter.api.parallel.Execution;
-import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -71,24 +69,7 @@ public abstract class DoozerTest {
         Files.createDirectories(Paths.get(testResultsDir));
         ctx.setResultsDir(testResultsDir);
 
-        // Logger per Test -- START
-        final LoggerContext logCtx = (LoggerContext) LogManager.getContext(false);
-        final Configuration config = logCtx.getConfiguration();     
-        
-        @SuppressWarnings("rawtypes")
-        final Layout layout =  config.getRootLogger().getAppenders().get("logFile").getLayout();
-
-        @SuppressWarnings("unchecked")
-        Appender perTestFileAppender = FileAppender.newBuilder()
-            .setName(testResultsDir)
-            .withFileName(testResultsDir + "doozer.log")
-            .setLayout(layout)
-            .withAdvertise(false)
-            .withAppend(false)
-            .build();
-            perTestFileAppender.start();
-        config.getRootLogger().addAppender(perTestFileAppender, Level.INFO, null);
-        // Logger per Test -- STOP  
+        addTestLogAppender(testResultsDir);
     }
 
     public void setupWindow(WebDriver driver) {
@@ -97,25 +78,20 @@ public abstract class DoozerTest {
 
     @AfterEach
     public void cleanUp(TestInfo tInfo) {
-        contextMap.get(tInfo.getDisplayName()).getWebDriver().quit();
-        
-        // Logger per Test -- START
-        final LoggerContext logCtx = (LoggerContext) LogManager.getContext(false);
-        final Configuration config = logCtx.getConfiguration();     
-        config.getRootLogger().removeAppender(contextMap.get(tInfo.getDisplayName()).getResultsDir());
-        // Logger per Test -- STOP
+        Context ctx = contextMap.get(tInfo.getDisplayName());
+        ctx.getWebDriver().quit();
+        removeTestLogAppender(ctx.getResultsDir());
     }
 
     @AfterAll
-    public void tearDown(TestInfo tInfo) {
-        
-    }
+    public void tearDown(TestInfo tInfo) {}
 
     @ParameterizedTest
     @MethodSource("provideDoozerTestFiles")
     public void runner(String testFile, TestInfo tInfo) throws Exception {
         
         setup(tInfo.getDisplayName(), testFile);
+        Context ctx = contextMap.get(tInfo.getDisplayName());
         
         logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         logger.info("========================== START =========================");
@@ -123,20 +99,20 @@ public abstract class DoozerTest {
         
         long startTime = System.nanoTime();
 
-        Parser p = new Parser(contextMap.get(tInfo.getDisplayName()), testFile, contextMap.get(tInfo.getDisplayName()).getWebDriver());
-        contextMap.get(tInfo.getDisplayName()).setActions(p.parse());
+        Parser p = new Parser(ctx, testFile, ctx.getWebDriver());
+        ctx.setActions(p.parse());
 
-        for (DoozerAction action : contextMap.get(tInfo.getDisplayName()).getActions()) {
+        for (DoozerAction action : ctx.getActions()) {
             try {
                 logger.info("execute: " + action.getOriginalAction());
-                waitForPageLoaded(contextMap.get(tInfo.getDisplayName()).getWebDriver());
+                waitForPageLoaded(ctx.getWebDriver());
                 action.resolveVariables();
                 action.execute();
             } catch (Exception e) {
                 if (!action.isOptional()) {
                     logger.error("EXECUTION FAILED IN ACTION: " + action.getOriginalAction() + " >>> Root cause: " + e.getMessage());
                     e.printStackTrace();
-                    saveDom(contextMap.get(tInfo.getDisplayName()), testFile);
+                    saveDom(ctx, testFile);
                     fail("EXECUTION FAILED IN ACTION: " + action.getOriginalAction() + " >>> Root cause: " + e.getMessage());
                     throw e;
                 }
@@ -172,4 +148,30 @@ public abstract class DoozerTest {
     }
 
     public abstract Stream<Arguments> provideDoozerTestFiles();
+
+    private void addTestLogAppender(String testResultsDir) {
+        final LoggerContext logCtx = (LoggerContext) LogManager.getContext(false);
+        final Configuration config = logCtx.getConfiguration();     
+        
+        @SuppressWarnings("rawtypes")
+        final Layout layout =  config.getRootLogger().getAppenders().get("logFile").getLayout();
+
+        @SuppressWarnings("unchecked")
+        Appender perTestFileAppender = FileAppender.newBuilder()
+            .setName(testResultsDir)
+            .withFileName(testResultsDir + "doozer.log")
+            .setLayout(layout)
+            .withAdvertise(false)
+            .withAppend(false)
+            .build();
+            perTestFileAppender.start();
+        config.getRootLogger().addAppender(perTestFileAppender, Level.INFO, null);
+    }
+
+    private void removeTestLogAppender(String testResultsDir) {
+        final LoggerContext logCtx = (LoggerContext) LogManager.getContext(false);
+        final Configuration config = logCtx.getConfiguration();     
+        config.getRootLogger().removeAppender(testResultsDir);
+    }
+
 }
