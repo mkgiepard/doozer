@@ -48,11 +48,18 @@ public class Parser {
                     continue;
                 }
                 DoozerAction action = parseAction(lineCounter, line);
-                logger.info("parse: " + Integer.toString(lineCounter) + ": " + action.getActionName());
-                actions.add(action);
+                String logMsg = "parse ..." + filePath.substring(filePath.lastIndexOf("/")) + " > "
+                    + Integer.toString(lineCounter) + ": " + action.getActionName();
+                logger.info(logMsg);
+                if (action.getActionName().equals("import")) {
+                    Parser p = new Parser(ctx, action.getOption("default"), driver);
+                    actions.addAll(p.parse());
+                } else {
+                    actions.add(action);
+                }
             }
         } catch (Exception e) {
-            System.err.format("Exception: %s%n", e);
+            e.printStackTrace();
             logger.error("Exception: " + e);
             throw e;
         }
