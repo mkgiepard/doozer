@@ -97,7 +97,6 @@ public abstract class DoozerTest {
 
     @AfterEach
     public void cleanUp(TestInfo tInfo) {
-        // actions.clear();
         contextMap.get(tInfo.getDisplayName()).getWebDriver().quit();
         
         // Logger per Test -- START
@@ -109,7 +108,7 @@ public abstract class DoozerTest {
 
     @AfterAll
     public void tearDown(TestInfo tInfo) {
-        //contextMap.get(tInfo.getDisplayName()).getWebDriver().quit();
+        
     }
 
     @ParameterizedTest
@@ -117,7 +116,7 @@ public abstract class DoozerTest {
     public void runner(String testFile, TestInfo tInfo) throws Exception {
         
         setup(tInfo.getDisplayName(), testFile);
-
+        
         logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         logger.info("========================== START =========================");
         logger.info("Test: " + testFile);
