@@ -7,6 +7,7 @@ import com.google.common.io.Files;
 
 import dev.softtest.doozer.Context;
 import dev.softtest.doozer.DoozerAction;
+import dev.softtest.doozer.ImageDiff;
 
 public class TakeScreenshot extends DoozerAction {
 
@@ -22,5 +23,11 @@ public class TakeScreenshot extends DoozerAction {
             fileName = getOptions().getOrDefault("fileName", "screenshot");
         }
         Files.write(screenshot, new File(getContext().getResultsDir() + fileName + ".png"));
+
+        String goldensPath = "src/test/java/dev/softtest/doozer/scripts"
+                + getContext().getResultsDir().substring("target/doozer-tests/".length()) + "goldens/";
+        ImageDiff differ = new ImageDiff(goldensPath + fileName + ".png",
+                getContext().getResultsDir() + fileName + ".png");
+        differ.compare();
     }
 }

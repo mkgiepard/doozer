@@ -87,11 +87,11 @@ public abstract class DoozerTest {
         return driver;
     }
 
-    private void setupWindow(WebDriver driver) {
+    protected void setupWindow(WebDriver driver) {
         driver.manage().window().setSize(new Dimension(1280, 700));
     }
 
-    private void setupTimeouts(WebDriver driver) {
+    protected void setupTimeouts(WebDriver driver) {
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
     }
 
