@@ -1,6 +1,9 @@
 package dev.softtest.doozer;
 
 import java.util.stream.*;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.Duration;
 
 import org.junit.jupiter.api.TestInfo;
@@ -8,15 +11,13 @@ import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.Dimension;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.support.ui.Wait;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 import java.util.Map;
@@ -31,54 +32,23 @@ import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.appender.FileAppender;
 import org.apache.logging.log4j.core.config.Configuration;
 
-import java.nio.file.Paths;
-
-import static org.junit.jupiter.api.Assertions.fail;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
 @TestInstance(Lifecycle.PER_CLASS)
 // @Execution(ExecutionMode.CONCURRENT)
 public abstract class DoozerTest {
     protected static final Logger logger = LogManager.getLogger();
 
-    public Map<String, Context> contextMap = new HashMap<>();
+    public Map<String, TestCase> testCaseRegistry = new HashMap<>();
     private final String RESULTS_DIR = "target/doozer-tests/";
 
-    // @BeforeAll
-    // hint: https://code-case.hashnode.dev/how-to-pass-parameterized-test-parameters-to-beforeeachaftereach-method-in-junit5
-    // hint: https://stackoverflow.com/questions/62036724/how-to-parameterize-beforeeach-in-junit-5
-    public void setup(String tInfoName, String testFile) throws Exception {
-        Files.createDirectories(Paths.get(RESULTS_DIR));
-        
-        Context ctx = new Context();
-
-        WebDriver driver = new ChromeDriver();
-        setupWindow(driver);
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
-
-        ctx.setWebDriver(driver);
-        contextMap.put(tInfoName, ctx);
-
-
-        String testResultsDir = RESULTS_DIR
-                + testFile.substring(testFile.lastIndexOf("/"), testFile.lastIndexOf(".doozer"))
-                + "/";
-        Files.createDirectories(Paths.get(testResultsDir));
-        ctx.setResultsDir(testResultsDir);
-
-        addTestLogAppender(testResultsDir);
-    }
-
-    public void setupWindow(WebDriver driver) {
-        driver.manage().window().setSize(new Dimension(1280, 700));
+    @BeforeEach
+    public void setup(TestInfo tInfo) throws IOException {
+        createResultsDirectories(tInfo.getDisplayName());
+        addTestLogAppender(getResultsDirectory(tInfo.getDisplayName()));
     }
 
     @AfterEach
-    public void cleanUp(TestInfo tInfo) {
-        Context ctx = contextMap.get(tInfo.getDisplayName());
+    public void cleanup(TestInfo tInfo) {
+        Context ctx = testCaseRegistry.get(tInfo.getDisplayName()).getContext();
         ctx.getWebDriver().quit();
         removeTestLogAppender(ctx.getResultsDir());
     }
@@ -89,65 +59,56 @@ public abstract class DoozerTest {
     @ParameterizedTest
     @MethodSource("provideDoozerTestFiles")
     public void runner(String testFile, TestInfo tInfo) throws Exception {
-        
-        setup(tInfo.getDisplayName(), testFile);
-        Context ctx = contextMap.get(tInfo.getDisplayName());
+        TestCase tc = new TestCase(testFile);
+        tc.getContext().setWebDriver(initWebDriver());
+        tc.getContext().setResultsDir(getResultsDirectory(tInfo.getDisplayName()));
+        testCaseRegistry.put(tInfo.getDisplayName(), tc);
         
         logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         logger.info("========================== START =========================");
         logger.info("Test: " + testFile);
         
         long startTime = System.nanoTime();
-
-        Parser p = new Parser(ctx, testFile, ctx.getWebDriver());
-        ctx.setActions(p.parse());
-
-        for (DoozerAction action : ctx.getActions()) {
-            try {
-                logger.info("execute: " + action.getOriginalAction());
-                waitForPageLoaded(ctx.getWebDriver());
-                action.resolveVariables();
-                action.execute();
-            } catch (Exception e) {
-                if (!action.isOptional()) {
-                    logger.error("EXECUTION FAILED IN ACTION: " + action.getOriginalAction() + " >>> Root cause: " + e.getMessage());
-                    e.printStackTrace();
-                    saveDom(ctx, testFile);
-                    fail("EXECUTION FAILED IN ACTION: " + action.getOriginalAction() + " >>> Root cause: " + e.getMessage());
-                    throw e;
-                }
-                else {
-                    logger.warn("EXECUTION FAILED but ignoring the failure as the action is optional.");
-                }
-            }
-        }
+        tc.readTestScript();
+        tc.run();
+        long duration = System.nanoTime() - startTime;
 
         logger.info("========================== STOP =========================");
-        long duration = System.nanoTime() - startTime;
         logger.info("Execution time: " + TimeUnit.NANOSECONDS.toMillis(duration) + "[ms]");
         logger.info("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
     }
 
-    public void waitForPageLoaded(WebDriver driver) {
-        Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(2));
-        wait.until(
-                d -> ((JavascriptExecutor) d).executeScript("return document.readyState")
-                        .equals("complete"));
-    }
-
-    public void saveDom(Context ctx, String name) {
-        String[] s = name.split("/");
-        Path path = Paths.get(ctx.getResultsDir() + s[s.length-1] + "-DOM.html");
-        byte[] domDump = ctx.getWebDriver().getPageSource().getBytes();
-    
-        try {
-            Files.write(path, domDump);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     public abstract Stream<Arguments> provideDoozerTestFiles();
+
+    private WebDriver initWebDriver() {
+        WebDriver driver = new ChromeDriver();
+        setupWindow(driver);
+        setupTimeouts(driver);
+        return driver;
+    }
+
+    private void setupWindow(WebDriver driver) {
+        driver.manage().window().setSize(new Dimension(1280, 700));
+    }
+
+    private void setupTimeouts(WebDriver driver) {
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
+    }
+
+    private void createResultsDirectories(String displayedName) throws IOException {
+        //Files.createDirectories(Paths.get(RESULTS_DIR));
+
+        String testCaseResultsDir = getResultsDirectory(displayedName);
+        Files.createDirectories(Paths.get(testCaseResultsDir));
+    }
+
+    private String getResultsDirectory(String displayedName) {
+        return RESULTS_DIR
+            + displayedName.substring(
+                displayedName.lastIndexOf("/"),
+                displayedName.lastIndexOf(".doozer"))
+            + "/";
+    }
 
     private void addTestLogAppender(String testResultsDir) {
         final LoggerContext logCtx = (LoggerContext) LogManager.getContext(false);

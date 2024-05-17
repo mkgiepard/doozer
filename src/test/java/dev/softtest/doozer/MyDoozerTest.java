@@ -16,10 +16,10 @@ public class MyDoozerTest extends DoozerTest {
   public Stream<Arguments> provideDoozerTestFiles() {
     String testFolder = System.getProperty("test.folder");
     return Stream.of(
-        // Arguments.of(testFolder + "firstTest/firstTest.doozer"),
-        // Arguments.of(testFolder + "secondTest/secondTest.doozer"),
-        // Arguments.of(testFolder + "googleTest/googleTest.doozer"),
-        // Arguments.of(testFolder + "commentTest/commentTest.doozer"),
+        Arguments.of(testFolder + "firstTest/firstTest.doozer"),
+        Arguments.of(testFolder + "secondTest/secondTest.doozer"),
+        Arguments.of(testFolder + "googleTest/googleTest.doozer"),
+        Arguments.of(testFolder + "commentTest/commentTest.doozer"),
         Arguments.of(testFolder + "importTest/importTest.doozer"),
         Arguments.of(testFolder + "softtestTest/softtestTest.doozer"));
 
