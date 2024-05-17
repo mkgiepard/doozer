@@ -18,19 +18,24 @@ import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class TestCase {
+
+
     protected static final Logger logger = LogManager.getLogger();
 
     private Context ctx;
     private List<DoozerAction> actions;
     private String testScriptPath;
     private String testCaseName;
-    // private TestResult result;
+    private TestResult result;
+    private TestStatus status;
     // private Log log;
 
     public TestCase(String testScriptPath) {
         this.testScriptPath = testScriptPath;
         ctx = new Context();
         actions = new ArrayList<DoozerAction>();
+        result = TestResult.UNKNOWN;
+        status = TestStatus.NEW;
     }
 
     public Context getContext() {
@@ -57,6 +62,7 @@ public class TestCase {
     }
 
     public void run() throws Exception {
+        status = TestStatus.RUNNING;
         for (DoozerAction action : getActions()) {
             try {
                 logger.info("execute: " + action.getOriginalAction());
@@ -69,6 +75,8 @@ public class TestCase {
                     e.printStackTrace();
                     saveDom(ctx, testScriptPath);
                     fail("EXECUTION FAILED IN ACTION: " + action.getOriginalAction() + " >>> Root cause: " + e.getMessage());
+                    result = TestResult.FAIL;
+                    status = TestStatus.DONE;
                     throw e;
                 }
                 else {
@@ -76,6 +84,8 @@ public class TestCase {
                 }
             }
         }
+        result = TestResult.PASS;
+        status = TestStatus.DONE;
     }
 
     private void setActions(List<DoozerAction> actions) {
