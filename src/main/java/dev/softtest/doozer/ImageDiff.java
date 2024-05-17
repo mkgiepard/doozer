@@ -5,7 +5,12 @@ import java.io.IOException;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 public class ImageDiff {
+    protected static final Logger logger = LogManager.getLogger();
+    
     private static final double DEFAULT_THRESHOLD = 0.01;
     private final String goldenImgPath;
     private final String resultImgPath;
@@ -45,8 +50,10 @@ public class ImageDiff {
 
             diffImg = new BufferedImage(goldenWidth, goldenHeight, goldenImg.getType());
 
-            if ((goldenWidth != resultWidth) || (goldenHeight != resultHeight))
-                System.out.println("Error: Images dimensions mismatch");
+            if ((goldenWidth != resultWidth) || (goldenHeight != resultHeight)) {
+                logger.error("Image comparison failed, images dimensions mismatch!");
+                throw new Exception("Image comparison failed, images dimensions mismatch!");
+            }
             else {
                 for (int y = 0; y < goldenHeight; y++) {
                     for (int x = 0; x < goldenWidth; x++) {
@@ -67,11 +74,13 @@ public class ImageDiff {
                 double totalPixels = goldenWidth * goldenHeight;
                 diffRatio = (diffPixel / totalPixels) * 100;
 
-                System.out.println("Difference diffPixel --> " + diffPixel);
-                System.out.println("Difference diffRatio --> " + diffRatio + "%");
+                logger.info("Number of different pixels: " + diffPixel);
+                logger.info("Percent of different pixels: " + diffRatio 
+                    + "% with acceptable difference threshold set to: " + threshold + "%");
 
                 if (diffRatio > 0 && diffRatio > threshold) {
                     generateDiffImg(diffImg);
+                    logger.error("Image comparison failed!");
                     throw new Exception("Image comparison failed!");
                 }
 

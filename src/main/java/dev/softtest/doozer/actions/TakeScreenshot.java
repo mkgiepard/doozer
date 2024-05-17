@@ -20,7 +20,7 @@ public class TakeScreenshot extends DoozerAction {
         byte[] screenshot = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.BYTES);
         String fileName = getOptions().get("default");
         if (fileName == null) {
-            fileName = getOptions().getOrDefault("fileName", "screenshot");
+            fileName = getOptions().getOrDefault("fileName", "screenshot-" + getLineNumber());
         }
         Files.write(screenshot, new File(getContext().getResultsDir() + fileName + ".png"));
 
