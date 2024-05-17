@@ -15,19 +15,19 @@ click selector:"Sl({button 'Accept *'})"
 type selector:"By.cssSelector('textarea')" args:"doozer"
 click selector:"SL({button 'Google Search'})"
 
-takeScreenshot args:"search-doozer"
+takeScreenshot? args:"search-doozer"
 
 sendKeys args:"doozer"
-takeScreenshot args:"doozer"
+takeScreenshot? args:"doozer"
 navigateBack
-takeScreenshot args:"fileName=back-withOption"
+takeScreenshot? args:"fileName=back-withOption"
 
 navigateForward
-takeScreenshot
+takeScreenshot?
 
 click? selector:"By.id('someid')"
 refresh
-takeScreenshot args:"refresh"
+takeScreenshot? args:"refresh"
 
 assertCurrentUrl? args:"https://www.google.com/"
 
