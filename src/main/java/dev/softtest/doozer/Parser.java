@@ -40,11 +40,11 @@ public class Parser {
             while ((line = reader.readLine()) != null) {
                 lineCounter++;
                 if (line.length() == 0) {
-                    logger.info("parse: " + Integer.toString(lineCounter) + ": EMPTY LINE");
+                    logger.info("parse ..." + filePath.substring(filePath.lastIndexOf("/")) + " > " + Integer.toString(lineCounter) + ": EMPTY LINE");
                     continue;
                 }
                 if (line.trim().startsWith("//")) {
-                    logger.info("parse: " + Integer.toString(lineCounter) + ": COMMENT");
+                    logger.info("parse ..." + filePath.substring(filePath.lastIndexOf("/")) + " > " + Integer.toString(lineCounter) + ": COMMENT");
                     continue;
                 }
                 DoozerAction action = parseAction(lineCounter, line);
