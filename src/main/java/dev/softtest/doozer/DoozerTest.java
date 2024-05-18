@@ -3,6 +3,7 @@ package dev.softtest.doozer;
 import java.util.stream.*;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
 
@@ -54,7 +55,9 @@ public abstract class DoozerTest {
     }
 
     @AfterAll
-    public void tearDown(TestInfo tInfo) {}
+    public void tearDown(TestInfo tInfo) {
+        generateReport();
+    }
 
     @ParameterizedTest
     @MethodSource("provideDoozerTestFiles")
@@ -133,6 +136,23 @@ public abstract class DoozerTest {
         final LoggerContext logCtx = (LoggerContext) LogManager.getContext(false);
         final Configuration config = logCtx.getConfiguration();     
         config.getRootLogger().removeAppender(testResultsDir);
+    }
+
+    private void generateReport() {
+        Path path = Paths.get(RESULTS_DIR + "doozer-report.html");
+
+        String result = "";
+        for (String tc : testCaseRegistry.keySet()) {
+            result += "" + testCaseRegistry.get(tc).getTestScriptPath() 
+                + ": " + testCaseRegistry.get(tc).getTestResult() 
+                + "\t" + testCaseRegistry.get(tc).getTestStatus() + "\n";
+        }
+    
+        try {
+            Files.write(path, result.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }

@@ -56,6 +56,14 @@ public class TestCase {
         return actions;
     }
 
+    public TestResult getTestResult() {
+        return result;
+    }
+
+    public TestStatus getTestStatus() {
+        return status;
+    }
+
     public void readTestScript() throws Exception {
         Parser p = new Parser(ctx, testScriptPath, getContext().getWebDriver());
         setActions(p.parse());
