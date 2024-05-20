@@ -7,6 +7,13 @@
 body {
     font-family: Helvetica, sans-serif;
     font-size: small;
+    margin: 0;
+    --card-color: lightgray;
+}
+.header {
+    background-color: lightskyblue;
+    padding: 6px;
+    margin-bottom: 12px;
 }
 .container-main {
     display: grid;
@@ -19,11 +26,12 @@ body {
     row-gap: 12px;
     width: 100%;
     border-top: 1px dashed lightgray;
+    padding-top: 12px;
 }
 .container-testcase-header {
     display: grid;
     grid-template-columns: 15fr 1fr 1fr 1fr;
-    height: 32px;
+    height: 24px;
 }
 .container-testcase-images {
     display: grid;
@@ -36,41 +44,61 @@ body {
 .testcase-data {
     margin-top: 6px;
 }
+.card {
+    border: 1px solid var(--card-color);
+    border-radius: 8px;
+    padding: 12px;
+}
 img {
     width: 95%;
     height: 85%;
     object-fit: contain;
-    border: 1px 1px dotted lightgray;
-    box-shadow: 2px 2px 2px lightgray;
+    border: 1px solid lightgray;
+    box-shadow: 4px 4px 4px lightgray;
 }
 .pass {
     color: green;
+    --card-color: green;
 }
 .fail {
     color: red;
+    --card-color: red;
+}
+.center {
+    justify-self: center;
 }
 </style>
 
 <body>
-    <h1>Doozer Test Report</h1>
+    <div class=header>
+        <h1>Doozer Test Report</h1>
+    </div>
     <div class="container-main">
         <div class="container-testcase">
             <div class="container-testcase-header">
+                <div>Test Case</div>
+                <div class="center">STATUS</div>
+                <div class="center">RESULT</div>
+                <div class="center">ACTION</div>
+            </div>
+        </div>
+        <div class="container-testcase">
+            <div class="container-testcase-header">
                 <div>java/dev/softtest/doozer/scripts/googleTest/googleTest.doozer</div>
-                <div>DONE</div>
-                <div class="pass">PASS</div>
-                <div>APPROVE</div>
+                <div class="center">DONE</div>
+                <div class="center pass">PASS</div>
+                <div class="center"><button>APPROVE</button></div>
             </div>
             <div class="container-testcase-images">
-                <div>
+                <div class="card">
                     <div class="testcase-image"><img src="../../test/java/dev/softtest/doozer/scripts/googleTest/goldens/doozer.png"></div>
                     <div class="testcase-data">test/java/dev/softtest/doozer/scripts/googleTest/goldens/doozer.png</div>
                 </div>
-                <div>
+                <div class="card">
                     <div class="testcase-image"><img src="../../../target/doozer-tests/googleTest/doozer.DIFF.png"></div>
                     <div class="testcase-data"># of different pixels: 1234<br>% of different pixels: 0.012%<br>threshold: 0.01%</div>
                 </div>
-                <div>
+                <div class="card fail">
                     <div class="testcase-image"><img src="../../../target/doozer-tests/googleTest/doozer.png"></div>
                     <div class="testcase-data">target/doozer-tests/googleTest/doozer.png</div>
                 </div>
@@ -79,20 +107,20 @@ img {
         <div class="container-testcase">
             <div class="container-testcase-header">
                 <div>java/dev/softtest/doozer/scripts/softtestTest/softtestTest.doozer</div>
-                    <div>DONE</div>
-                    <div class="pass">PASS</div>
-                    <div>APPROVE</div>
+                    <div class="center">DONE</div>
+                    <div class="center pass">PASS</div>
+                    <div class="center"><button disabled>APPROVE</button></div>
                 </div>
             <div class="container-testcase-images">
-                <div>
+                <div class="card">
                     <div class="testcase-image"><img src="../../test/java/dev/softtest/doozer/scripts/softtestTest/goldens/softtest.dev.png"></div>
                     <div class="testcase-data">test/java/dev/softtest/doozer/scripts/softtestTest/goldens/softtest.dev.png</div>
                 </div>
-                <div>
+                <div class="card">
                     <div class="testcase-image"></div>
                     <div class="testcase-data"># of different pixels: 0<br>% of different pixels: 0%<br>threshold: 0.01%</div>
                 </div>
-                <div>
+                <div class="card pass">
                     <div class="testcase-image"><img src="../../../target/doozer-tests/softtestTest/softtest.dev.png"></div>
                     <div class="testcase-data">target/doozer-tests/softtestTest/softtest.dev.png</div>
                 </div>
@@ -101,22 +129,22 @@ img {
         <div class="container-testcase">
             <div class="container-testcase-header">
                 <div>java/dev/softtest/doozer/scripts/softtestTest/softtestTest.doozer</div>
-                    <div>DONE</div>
-                    <div class="fail">FAIL</div>
-                    <div>APPROVE</div>
+                    <div class="center">DONE</div>
+                    <div class="center fail">FAIL</div>
+                    <div class="center"><button>APPROVE</button></div>
                 </div>
             <div class="container-testcase-images">
-                <div>
+                <div class="card">
                     <div class="testcase-image"><img src="../../test/java/dev/softtest/doozer/scripts/softtestTest/goldens/selftest.dev.png"></div>
                     <div class="testcase-data">path: test/java/dev/softtest/doozer/scripts/softtestTest/goldens/selftest.dev.png</div>
                 </div>
-            <div>
-                <div class="testcase-image"><img src="../../../target/doozer-tests/softtestTest/selftest.dev.DIFF.png"></div>
-                <div class="testcase-data"># of different pixels: 1234<br>% of different pixels: 0.012%<br>threshold: 0.01%</div>
-            </div>
-                <div>
-                <div class="testcase-image"><img src="../../../target/doozer-tests/softtestTest/selftest.dev.png"></div>
-                <div class="testcase-data">path: target/doozer-tests/softtestTest/selftest.dev.png</div>
+                <div class="card">
+                    <div class="testcase-image"><img src="../../../target/doozer-tests/softtestTest/selftest.dev.DIFF.png"></div>
+                    <div class="testcase-data"># of different pixels: 1234<br>% of different pixels: 0.012%<br>threshold: 0.01%</div>
+                </div>
+                <div class="card fail">
+                    <div class="testcase-image"><img src="../../../target/doozer-tests/softtestTest/selftest.dev.png"></div>
+                    <div class="testcase-data">path: target/doozer-tests/softtestTest/selftest.dev.png</div>
             </div>
             </div>
         </div>
