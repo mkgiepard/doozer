@@ -141,15 +141,11 @@ public abstract class DoozerTest {
     private void generateReport() {
         Path path = Paths.get(RESULTS_DIR + "doozer-report.html");
 
-        String result = "";
-        for (String tc : testCaseRegistry.keySet()) {
-            result += "" + testCaseRegistry.get(tc).getTestScriptPath() 
-                + ": " + testCaseRegistry.get(tc).getTestResult() 
-                + "\t" + testCaseRegistry.get(tc).getTestStatus() + "\n";
-        }
+        TestReport tr = new TestReport();
+        String htmlReport = tr.generateReport();
     
         try {
-            Files.write(path, result.getBytes());
+            Files.write(path, htmlReport.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
         }
