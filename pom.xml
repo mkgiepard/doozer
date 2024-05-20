@@ -52,7 +52,12 @@
       <groupId>com.google.semanticlocators</groupId>
       <artifactId>semantic-locators</artifactId>
       <version>2.1.0</version>
-  </dependency>
+    </dependency>
+    <dependency>
+      <groupId>com.j2html</groupId>
+      <artifactId>j2html</artifactId>
+      <version>1.6.0</version>
+    </dependency>
   </dependencies>
 
   <build>

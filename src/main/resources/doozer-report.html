@@ -1,0 +1,124 @@
+<!-- exemplary Doozer Test Report page - desired outcome from TestReport.render() -->
+<head>
+    <title>Doozer Test Report</title>
+</head>
+
+<style>
+body {
+    font-family: Helvetica, sans-serif;
+    font-size: small;
+}
+.container-main {
+    display: grid;
+    row-gap: 24px;
+    margin: auto;
+    width:95%;
+}
+.container-testcase {
+    display: grid;
+    row-gap: 12px;
+    width: 100%;
+    border-top: 1px dashed lightgray;
+}
+.container-testcase-header {
+    display: grid;
+    grid-template-columns: 15fr 1fr 1fr 1fr;
+    height: 32px;
+}
+.container-testcase-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 12px;
+}
+.testcase-image {
+    text-align: center;
+}
+.testcase-data {
+    margin-top: 6px;
+}
+img {
+    width: 95%;
+    height: 85%;
+    object-fit: contain;
+    border: 1px 1px dotted lightgray;
+    box-shadow: 2px 2px 2px lightgray;
+}
+.pass {
+    color: green;
+}
+.fail {
+    color: red;
+}
+</style>
+
+<body>
+    <h1>Doozer Test Report</h1>
+    <div class="container-main">
+        <div class="container-testcase">
+            <div class="container-testcase-header">
+                <div>java/dev/softtest/doozer/scripts/googleTest/googleTest.doozer</div>
+                <div>DONE</div>
+                <div class="pass">PASS</div>
+                <div>APPROVE</div>
+            </div>
+            <div class="container-testcase-images">
+                <div>
+                    <div class="testcase-image"><img src="../../test/java/dev/softtest/doozer/scripts/googleTest/goldens/doozer.png"></div>
+                    <div class="testcase-data">test/java/dev/softtest/doozer/scripts/googleTest/goldens/doozer.png</div>
+                </div>
+                <div>
+                    <div class="testcase-image"><img src="../../../target/doozer-tests/googleTest/doozer.DIFF.png"></div>
+                    <div class="testcase-data"># of different pixels: 1234<br>% of different pixels: 0.012%<br>threshold: 0.01%</div>
+                </div>
+                <div>
+                    <div class="testcase-image"><img src="../../../target/doozer-tests/googleTest/doozer.png"></div>
+                    <div class="testcase-data">target/doozer-tests/googleTest/doozer.png</div>
+                </div>
+            </div>
+        </div>
+        <div class="container-testcase">
+            <div class="container-testcase-header">
+                <div>java/dev/softtest/doozer/scripts/softtestTest/softtestTest.doozer</div>
+                    <div>DONE</div>
+                    <div class="pass">PASS</div>
+                    <div>APPROVE</div>
+                </div>
+            <div class="container-testcase-images">
+                <div>
+                    <div class="testcase-image"><img src="../../test/java/dev/softtest/doozer/scripts/softtestTest/goldens/softtest.dev.png"></div>
+                    <div class="testcase-data">test/java/dev/softtest/doozer/scripts/softtestTest/goldens/softtest.dev.png</div>
+                </div>
+                <div>
+                    <div class="testcase-image"></div>
+                    <div class="testcase-data"># of different pixels: 0<br>% of different pixels: 0%<br>threshold: 0.01%</div>
+                </div>
+                <div>
+                    <div class="testcase-image"><img src="../../../target/doozer-tests/softtestTest/softtest.dev.png"></div>
+                    <div class="testcase-data">target/doozer-tests/softtestTest/softtest.dev.png</div>
+                </div>
+            </div>
+        </div>
+        <div class="container-testcase">
+            <div class="container-testcase-header">
+                <div>java/dev/softtest/doozer/scripts/softtestTest/softtestTest.doozer</div>
+                    <div>DONE</div>
+                    <div class="fail">FAIL</div>
+                    <div>APPROVE</div>
+                </div>
+            <div class="container-testcase-images">
+                <div>
+                    <div class="testcase-image"><img src="../../test/java/dev/softtest/doozer/scripts/softtestTest/goldens/selftest.dev.png"></div>
+                    <div class="testcase-data">path: test/java/dev/softtest/doozer/scripts/softtestTest/goldens/selftest.dev.png</div>
+                </div>
+            <div>
+                <div class="testcase-image"><img src="../../../target/doozer-tests/softtestTest/selftest.dev.DIFF.png"></div>
+                <div class="testcase-data"># of different pixels: 1234<br>% of different pixels: 0.012%<br>threshold: 0.01%</div>
+            </div>
+                <div>
+                <div class="testcase-image"><img src="../../../target/doozer-tests/softtestTest/selftest.dev.png"></div>
+                <div class="testcase-data">path: target/doozer-tests/softtestTest/selftest.dev.png</div>
+            </div>
+            </div>
+        </div>
+    </div>
+</body>
