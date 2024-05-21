@@ -7,8 +7,12 @@
 body {
     font-family: Helvetica, sans-serif;
     font-size: small;
+    font-weight: 300;
     margin: 0;
     --card-color: lightgray;
+}
+button {
+    font-size: x-small;
 }
 .header {
     background-color: lightskyblue;
@@ -17,7 +21,7 @@ body {
 }
 .container-main {
     display: grid;
-    row-gap: 24px;
+    row-gap: 2px;
     margin: auto;
     width:95%;
 }
@@ -25,13 +29,18 @@ body {
     display: grid;
     row-gap: 12px;
     width: 100%;
-    border-top: 1px dashed lightgray;
-    padding-top: 12px;
+    border: 1px dashed lightgrey;
+    padding: 6px 12px;
 }
 .container-testcase-header {
     display: grid;
     grid-template-columns: 15fr 1fr 1fr 1fr;
-    height: 24px;
+    height: 19px;
+    line-height: 19px;
+}
+.container-testcase:hover {
+    background-color: #f8f8f8;
+    cursor: pointer;
 }
 .container-testcase-images {
     display: grid;
@@ -66,6 +75,9 @@ img {
 }
 .center {
     justify-self: center;
+}
+.hidden {
+    display: none;
 }
 </style>
 
@@ -111,7 +123,7 @@ img {
                     <div class="center pass">PASS</div>
                     <div class="center"><button disabled>APPROVE</button></div>
                 </div>
-            <div class="container-testcase-images">
+            <div class="container-testcase-images hidden">
                 <div class="card">
                     <div class="testcase-image"><img src="../../test/java/dev/softtest/doozer/scripts/softtestTest/goldens/softtest.dev.png"></div>
                     <div class="testcase-data">test/java/dev/softtest/doozer/scripts/softtestTest/goldens/softtest.dev.png</div>
@@ -133,7 +145,7 @@ img {
                     <div class="center fail">FAIL</div>
                     <div class="center"><button>APPROVE</button></div>
                 </div>
-            <div class="container-testcase-images">
+            <div class="container-testcase-images hidden">
                 <div class="card">
                     <div class="testcase-image"><img src="../../test/java/dev/softtest/doozer/scripts/softtestTest/goldens/selftest.dev.png"></div>
                     <div class="testcase-data">path: test/java/dev/softtest/doozer/scripts/softtestTest/goldens/selftest.dev.png</div>
@@ -145,8 +157,44 @@ img {
                 <div class="card fail">
                     <div class="testcase-image"><img src="../../../target/doozer-tests/softtestTest/selftest.dev.png"></div>
                     <div class="testcase-data">path: target/doozer-tests/softtestTest/selftest.dev.png</div>
+                </div>
             </div>
-            </div>
+        </div>
+        <div class="container-testcase">
+            <div class="container-testcase-header">
+                <div>java/dev/softtest/doozer/scripts/softtestTest/softtestTest.doozer</div>
+                    <div class="center">DONE</div>
+                    <div class="center fail">FAIL</div>
+                    <div class="center disabled"><button>APPROVE</button></div>
+                </div>
+            <div class="container-testcase-images hidden"></div>
+        </div>
+        <div class="container-testcase">
+            <div class="container-testcase-header">
+                <div>java/dev/softtest/doozer/scripts/softtestTest/softtestTest.doozer</div>
+                    <div class="center">DONE</div>
+                    <div class="center fail">FAIL</div>
+                    <div class="center disabled"><button>APPROVE</button></div>
+                </div>
+            <div class="container-testcase-images hidden"></div>
+        </div>
+        <div class="container-testcase">
+            <div class="container-testcase-header">
+                <div>java/dev/softtest/doozer/scripts/softtestTest/softtestTest.doozer</div>
+                    <div class="center">DONE</div>
+                    <div class="center fail">FAIL</div>
+                    <div class="center disabled"><button>APPROVE</button></div>
+                </div>
+            <div class="container-testcase-images hidden"></div>
+        </div>
+        <div class="container-testcase">
+            <div class="container-testcase-header">
+                <div>java/dev/softtest/doozer/scripts/softtestTest/softtestTest.doozer</div>
+                    <div class="center">DONE</div>
+                    <div class="center fail">FAIL</div>
+                    <div class="center disabled"><button>APPROVE</button></div>
+                </div>
+            <div class="container-testcase-images hidden"></div>
         </div>
     </div>
 </body>
