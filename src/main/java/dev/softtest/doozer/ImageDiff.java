@@ -78,8 +78,8 @@ public class ImageDiff {
                 logger.info("Percent of different pixels: " + diffRatio 
                     + "% with acceptable difference threshold set to: " + threshold + "%");
 
+                generateDiffImg(diffImg);
                 if (diffRatio > 0 && diffRatio > threshold) {
-                    generateDiffImg(diffImg);
                     logger.error("Image comparison failed!");
                     throw new Exception("Image comparison failed!");
                 }
