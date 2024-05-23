@@ -35,7 +35,6 @@ button {
 .container-testcase-header {
     display: grid;
     grid-template-columns: 15fr 1fr 1fr 1fr;
-    height: 19px;
     line-height: 19px;
 }
 .container-testcase:hover {
@@ -52,6 +51,9 @@ button {
 }
 .testcase-data {
     margin-top: 6px;
+}
+.step-name {
+    padding-left: 24px;
 }
 .card {
     border: 1px solid var(--card-color);
@@ -189,12 +191,28 @@ img {
         </div>
         <div class="container-testcase">
             <div class="container-testcase-header">
-                <div>java/dev/softtest/doozer/scripts/softtestTest/softtestTest.doozer</div>
-                    <div class="center">DONE</div>
-                    <div class="center fail">FAIL</div>
-                    <div class="center disabled"><button>APPROVE</button></div>
+                <div>
+                    <div class="testcase-name">java/dev/softtest/doozer/scripts/verifyUserCanCreateEventWithVideoCallAttached/verifyUserCanCreateEventWithVideoCallAttached.doozer</div>
+                    <div class="step-name">12: takeScreenshot args:"selftest.dev"</div>
                 </div>
-            <div class="container-testcase-images hidden"></div>
+                <div class="center">DONE</div>
+                <div class="center fail">FAIL</div>
+                <div class="center disabled"><button>APPROVE</button></div>
+            </div>
+            <div class="container-testcase-images">
+                <div class="card">
+                    <div class="testcase-image"><img src="../../test/java/dev/softtest/doozer/scripts/softtestTest/goldens/selftest.dev.png"></div>
+                    <div class="testcase-data">path: test/java/dev/softtest/doozer/scripts/softtestTest/goldens/selftest.dev.png</div>
+                </div>
+                <div class="card">
+                    <div class="testcase-image"><img src="../../../target/doozer-tests/softtestTest/selftest.dev.DIFF.png"></div>
+                    <div class="testcase-data"># of different pixels: 1234<br>% of different pixels: 0.012%<br>threshold: 0.01%</div>
+                </div>
+                <div class="card fail">
+                    <div class="testcase-image"><img src="../../../target/doozer-tests/softtestTest/selftest.dev.png"></div>
+                    <div class="testcase-data">path: target/doozer-tests/softtestTest/selftest.dev.png</div>
+                </div>
+            </div>
         </div>
     </div>
 </body>
