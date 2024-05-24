@@ -15,13 +15,14 @@ button {
     font-size: x-small;
 }
 .header {
-    background-color: lightskyblue;
+    background-color: #4285F4;
+    color: white;
     padding: 6px;
     margin-bottom: 12px;
 }
 .container-main {
     display: grid;
-    row-gap: 2px;
+    row-gap: 1px;
     margin: auto;
     width:95%;
 }
@@ -29,8 +30,8 @@ button {
     display: grid;
     row-gap: 12px;
     width: 100%;
-    border: 1px dashed lightgrey;
-    padding: 6px 12px;
+    border-bottom: 1px solid lightgrey;
+    padding: 3px 12px;
 }
 .container-testcase-header {
     display: grid;
@@ -40,6 +41,7 @@ button {
 .container-testcase:hover {
     background-color: #f8f8f8;
     cursor: pointer;
+    z-index: 99;
 }
 .container-testcase-images {
     display: grid;
@@ -58,12 +60,13 @@ button {
 .card {
     border: 1px solid var(--card-color);
     border-radius: 8px;
-    padding: 12px;
+    padding: 6px;
+    text-align: center;
+    background-color: white;
 }
 img {
     width: 95%;
-    height: 85%;
-    object-fit: contain;
+    height: auto;
     border: 1px solid lightgray;
     box-shadow: 4px 4px 4px lightgray;
 }
@@ -81,6 +84,18 @@ img {
 .hidden {
     display: none;
 }
+.title {
+    font-weight: 900;
+}
+.testcase-data {
+    display: grid;
+    grid-template-columns: 100px auto;
+    justify-items: left;
+    margin-bottom: 6px;
+}
+.label {
+    padding-left: 12px;
+}
 </style>
 
 <body>
@@ -89,7 +104,7 @@ img {
     </div>
     <div class="container-main">
         <div class="container-testcase">
-            <div class="container-testcase-header">
+            <div class="container-testcase-header title">
                 <div>Test Case</div>
                 <div class="center">STATUS</div>
                 <div class="center">RESULT</div>
@@ -97,35 +112,57 @@ img {
             </div>
         </div>
         <div class="container-testcase">
-            <div class="container-testcase-header">
-                <div>java/dev/softtest/doozer/scripts/googleTest/googleTest.doozer</div>
+            <div class="container-testcase-header" onclick="toggleDisplay('id110')">
+                <div>
+                    <div class="testcase-name">java/dev/softtest/doozer/scripts/verifyUserCanCreateEventWithVideoCallAttached/verifyUserCanCreateEventWithVideoCallAttached.doozer</div>
+                    <div class="step-name">12: takeScreenshot args:"selftest.dev"</div>
+                </div>
                 <div class="center">DONE</div>
                 <div class="center pass">PASS</div>
                 <div class="center"><button>APPROVE</button></div>
             </div>
-            <div class="container-testcase-images">
+            <div id="id110" class="container-testcase-images">
                 <div class="card">
                     <div class="testcase-image"><img src="../../test/java/dev/softtest/doozer/scripts/googleTest/goldens/doozer.png"></div>
-                    <div class="testcase-data">test/java/dev/softtest/doozer/scripts/googleTest/goldens/doozer.png</div>
+                    <div class="testcase-data-container">
+                        <div class="testcase-data">
+                            <div class="label">golden:</div>
+                            <div class="data">test/java/dev/softtest/doozer/scripts/softtestTest/goldens/selftest.dev.png</div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card">
                     <div class="testcase-image"><img src="../../../target/doozer-tests/googleTest/doozer.DIFF.png"></div>
-                    <div class="testcase-data"># of different pixels: 1234<br>% of different pixels: 0.012%<br>threshold: 0.01%</div>
+                    <div class="testcase-data">
+                        <div class="label"># of pixels:</div>
+                        <div class="data">1234</div>
+                    </div>
+                    <div class="testcase-data">
+                        <div class="label">% of pixels:</div>
+                        <div class="data">0.012%</div>
+                    </div>
+                    <div class="testcase-data">
+                        <div class="label">threshold:</div>
+                        <div class="data">0.01%</div>
+                    </div>
                 </div>
                 <div class="card fail">
                     <div class="testcase-image"><img src="../../../target/doozer-tests/googleTest/doozer.png"></div>
-                    <div class="testcase-data">target/doozer-tests/googleTest/doozer.png</div>
+                    <div class="testcase-data">
+                        <div class="label">result:</div>
+                        <div class="data">target/doozer-tests/softtestTest/selftest.dev.png</div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="container-testcase">
-            <div class="container-testcase-header">
+            <div class="container-testcase-header" onclick="toggleDisplay('id111')">
                 <div>java/dev/softtest/doozer/scripts/softtestTest/softtestTest.doozer</div>
                     <div class="center">DONE</div>
                     <div class="center pass">PASS</div>
                     <div class="center"><button disabled>APPROVE</button></div>
                 </div>
-            <div class="container-testcase-images hidden">
+            <div id="id111" class="container-testcase-images hidden">
                 <div class="card">
                     <div class="testcase-image"><img src="../../test/java/dev/softtest/doozer/scripts/softtestTest/goldens/softtest.dev.png"></div>
                     <div class="testcase-data">test/java/dev/softtest/doozer/scripts/softtestTest/goldens/softtest.dev.png</div>
@@ -141,13 +178,13 @@ img {
             </div>
         </div>
         <div class="container-testcase">
-            <div class="container-testcase-header">
+            <div class="container-testcase-header" onclick="toggleDisplay('id112')">
                 <div>java/dev/softtest/doozer/scripts/softtestTest/softtestTest.doozer</div>
                     <div class="center">DONE</div>
                     <div class="center fail">FAIL</div>
                     <div class="center"><button>APPROVE</button></div>
                 </div>
-            <div class="container-testcase-images hidden">
+            <div id="id112" class="container-testcase-images hidden">
                 <div class="card">
                     <div class="testcase-image"><img src="../../test/java/dev/softtest/doozer/scripts/softtestTest/goldens/selftest.dev.png"></div>
                     <div class="testcase-data">path: test/java/dev/softtest/doozer/scripts/softtestTest/goldens/selftest.dev.png</div>
@@ -163,34 +200,34 @@ img {
             </div>
         </div>
         <div class="container-testcase">
-            <div class="container-testcase-header">
+            <div class="container-testcase-header" onclick="toggleDisplay('id113')">
                 <div>java/dev/softtest/doozer/scripts/softtestTest/softtestTest.doozer</div>
                     <div class="center">DONE</div>
                     <div class="center fail">FAIL</div>
                     <div class="center disabled"><button>APPROVE</button></div>
                 </div>
-            <div class="container-testcase-images hidden"></div>
+            <div id="id113" class="container-testcase-images hidden"></div>
         </div>
         <div class="container-testcase">
-            <div class="container-testcase-header">
+            <div class="container-testcase-header" onclick="toggleDisplay('id114')">
                 <div>java/dev/softtest/doozer/scripts/softtestTest/softtestTest.doozer</div>
                     <div class="center">DONE</div>
                     <div class="center fail">FAIL</div>
                     <div class="center disabled"><button>APPROVE</button></div>
                 </div>
-            <div class="container-testcase-images hidden"></div>
+            <div id="id114" class="container-testcase-images hidden"></div>
         </div>
         <div class="container-testcase">
-            <div class="container-testcase-header">
+            <div class="container-testcase-header" onclick="toggleDisplay('id115')">
                 <div>java/dev/softtest/doozer/scripts/softtestTest/softtestTest.doozer</div>
                     <div class="center">DONE</div>
                     <div class="center fail">FAIL</div>
                     <div class="center disabled"><button>APPROVE</button></div>
                 </div>
-            <div class="container-testcase-images hidden"></div>
+            <div id="id115" class="container-testcase-images hidden"></div>
         </div>
         <div class="container-testcase">
-            <div class="container-testcase-header">
+            <div class="container-testcase-header" onclick="toggleDisplay('id123')">
                 <div>
                     <div class="testcase-name">java/dev/softtest/doozer/scripts/verifyUserCanCreateEventWithVideoCallAttached/verifyUserCanCreateEventWithVideoCallAttached.doozer</div>
                     <div class="step-name">12: takeScreenshot args:"selftest.dev"</div>
@@ -199,20 +236,47 @@ img {
                 <div class="center fail">FAIL</div>
                 <div class="center disabled"><button>APPROVE</button></div>
             </div>
-            <div class="container-testcase-images">
+            <div id="id123" class="container-testcase-images">
                 <div class="card">
                     <div class="testcase-image"><img src="../../test/java/dev/softtest/doozer/scripts/softtestTest/goldens/selftest.dev.png"></div>
-                    <div class="testcase-data">path: test/java/dev/softtest/doozer/scripts/softtestTest/goldens/selftest.dev.png</div>
+                    <div class="testcase-data">
+                        <div class="label">golden:</div>
+                        <div class="data">test/java/dev/softtest/doozer/scripts/softtestTest/goldens/selftest.dev.png</div>
+                    </div>
                 </div>
                 <div class="card">
                     <div class="testcase-image"><img src="../../../target/doozer-tests/softtestTest/selftest.dev.DIFF.png"></div>
-                    <div class="testcase-data"># of different pixels: 1234<br>% of different pixels: 0.012%<br>threshold: 0.01%</div>
+                    <div class="testcase-data">
+                        <div class="label"># of pixels:</div>
+                        <div class="data">1234</div>
+                    </div>
+                    <div class="testcase-data">
+                        <div class="label">% of pixels:</div>
+                        <div class="data">0.012%</div>
+                    </div>
+                    <div class="testcase-data">
+                        <div class="label">threshold:</div>
+                        <div class="data">0.01%</div>
+                    </div>
                 </div>
                 <div class="card fail">
                     <div class="testcase-image"><img src="../../../target/doozer-tests/softtestTest/selftest.dev.png"></div>
-                    <div class="testcase-data">path: target/doozer-tests/softtestTest/selftest.dev.png</div>
+                    <div class="testcase-data">
+                        <div class="label">result:</div>
+                        <div class="data">target/doozer-tests/softtestTest/selftest.dev.png</div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </body>
+<script>
+function toggleDisplay(id) {
+  var x = document.getElementById(id);
+  if (x.style.display === "none") {
+    x.style.display = "grid";
+  } else {
+    x.style.display = "none";
+  }
+} 
+</script>
