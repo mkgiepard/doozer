@@ -52,6 +52,7 @@ public class ImageDiff {
 
             if ((goldenWidth != resultWidth) || (goldenHeight != resultHeight)) {
                 logger.error("Image comparison failed, images dimensions mismatch!");
+                logger.info(goldenWidth + "x" + goldenHeight + " -- " + resultWidth + "x" + resultHeight);
                 throw new Exception("Image comparison failed, images dimensions mismatch!");
             }
             else {
