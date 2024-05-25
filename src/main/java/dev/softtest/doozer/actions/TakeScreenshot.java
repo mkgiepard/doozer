@@ -28,6 +28,14 @@ public class TakeScreenshot extends DoozerAction {
                 + getContext().getResultsDir().substring("target/doozer-tests/".length()) + "goldens/";
         ImageDiff differ = new ImageDiff(goldensPath + fileName + ".png",
                 getContext().getResultsDir() + fileName + ".png");
-        differ.compare();
+        
+        try {
+            differ.compare();
+        } catch (Exception e) {
+            Boolean failOnPixelDiff = System.getProperty("failOnPixelDiff") == null ? true
+                    : Boolean.getBoolean(System.getProperty("failOnPixelDiff"));
+            if (failOnPixelDiff)
+                throw e;
+        }
     }
 }
