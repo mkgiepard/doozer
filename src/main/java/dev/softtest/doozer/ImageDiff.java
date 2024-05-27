@@ -97,4 +97,16 @@ public class ImageDiff {
             System.out.println(e);
         }
     }
+
+    public double getDiffRatio() {
+        return diffRatio;
+    }
+
+    public long getDiffPixel() {
+        return diffPixel;
+    }
+
+    public double getThreshold() {
+        return threshold;
+    }
 }

@@ -17,9 +17,9 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import dev.softtest.doozer.actions.TakeScreenshot;
+
 public class TestCase {
-
-
     protected static final Logger logger = LogManager.getLogger();
 
     private Context ctx;
@@ -28,6 +28,7 @@ public class TestCase {
     private String testCaseName;
     private TestResult result;
     private TestStatus status;
+    private List<TestStep> steps;
     // private Log log;
 
     public TestCase(String testScriptPath) {
@@ -36,6 +37,7 @@ public class TestCase {
         actions = new ArrayList<DoozerAction>();
         result = TestResult.UNKNOWN;
         status = TestStatus.NEW;
+        steps = new ArrayList<TestStep>();
     }
 
     public Context getContext() {
@@ -56,6 +58,10 @@ public class TestCase {
         return actions;
     }
 
+    public List<TestStep> getTestSteps() {
+        return steps;
+    }
+
     public TestResult getTestResult() {
         return result;
     }
@@ -72,11 +78,15 @@ public class TestCase {
     public void run() throws Exception {
         status = TestStatus.RUNNING;
         for (DoozerAction action : getActions()) {
+            TestStep step = new TestStep(action);
             try {
                 logger.info("execute: " + action.getOriginalAction());
                 waitForPageLoaded(ctx.getWebDriver());
                 action.resolveVariables();
                 action.execute();
+                if (action.getActionName().equalsIgnoreCase("takeScreenshot")) {
+                    step.setArtifact(((TakeScreenshot) action).getTestArtifact());
+                }
             } catch (Exception e) {
                 if (!action.isOptional()) {
                     logger.error("EXECUTION FAILED IN ACTION: " + action.getOriginalAction() + " >>> Root cause: " + e.getMessage());
@@ -85,12 +95,27 @@ public class TestCase {
                     fail("EXECUTION FAILED IN ACTION: " + action.getOriginalAction() + " >>> Root cause: " + e.getMessage());
                     result = TestResult.FAIL;
                     status = TestStatus.DONE;
+                    step.setResult(TestResult.FAIL);
+                    step.setStatus(TestStatus.DONE);
+                    step.setError(e.getMessage());
+                    if (action.getActionName().equalsIgnoreCase("takeScreenshot")) {
+                        step.setArtifact(((TakeScreenshot) action).getTestArtifact());
+                    }
                     throw e;
                 }
                 else {
+                    if (action.getActionName().equalsIgnoreCase("takeScreenshot")) {
+                        step.setArtifact(((TakeScreenshot) action).getTestArtifact());
+                    }
+                    step.setResult(TestResult.PASS);
+                    step.setStatus(TestStatus.DONE);
+                    step.setError("EXECUTION FAILED but ignoring the failure as the action is optional.");
                     logger.warn("EXECUTION FAILED but ignoring the failure as the action is optional.");
                 }
             }
+            step.setResult(TestResult.PASS);
+            step.setStatus(TestStatus.DONE);
+            steps.add(step);
         }
         result = TestResult.PASS;
         status = TestStatus.DONE;

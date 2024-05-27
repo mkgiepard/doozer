@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.time.Duration;
 
 import org.junit.jupiter.api.TestInfo;
@@ -140,9 +141,14 @@ public abstract class DoozerTest {
 
     private void generateReport() {
         Path path = Paths.get(RESULTS_DIR + "doozer-report.html");
+        String htmlReport = "<body>";
 
-        TestReport tr = new TestReport();
-        String htmlReport = tr.generateReport();
+        for (TestCase tc : testCaseRegistry.values()) {
+            TestReport tr = new TestReport();
+            htmlReport += tr.generateHtmlReport(tc.getTestSteps());
+        };
+        htmlReport += "</body>";
+        
     
         try {
             Files.write(path, htmlReport.getBytes());
