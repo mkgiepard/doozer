@@ -2,7 +2,7 @@
 
 // this is too
 
-set name:"google.url" value:"https://www.google.com"
+set name:"google.url" value:"https://www.google.com?hl\=en"
 navigateTo args:"${google.url}"
 
 // url args:"https://www.google.com"
