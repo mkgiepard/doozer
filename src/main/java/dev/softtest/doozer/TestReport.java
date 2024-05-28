@@ -22,7 +22,7 @@ public class TestReport {
     public String generateHtmlReport(List<TestStep> steps) {
         return ul(steps
                 .stream()
-                .map(step -> li(step.getAction().getActionName()))
+                .map(step -> li(step.getAction().getLineNumber() + ": " + step.getAction().getOriginalAction()))
                 .toArray(ContainerTag[]::new))
                 .render();
     }

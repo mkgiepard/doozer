@@ -144,6 +144,7 @@ public abstract class DoozerTest {
         String htmlReport = "<body>";
 
         for (TestCase tc : testCaseRegistry.values()) {
+            htmlReport += "<p>" + tc.getTestScriptPath() + "</p>";
             TestReport tr = new TestReport();
             htmlReport += tr.generateHtmlReport(tc.getTestSteps());
         };
