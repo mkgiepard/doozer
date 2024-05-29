@@ -3,6 +3,7 @@ package dev.softtest.doozer;
 import java.util.*;
 
 import j2html.tags.ContainerTag;
+import j2html.tags.specialized.LiTag;
 
 import static j2html.TagCreator.*;
 
@@ -22,7 +23,7 @@ public class TestReport {
     public String generateHtmlReport(List<TestStep> steps) {
         return ul(steps
                 .stream()
-                .map(step -> li(step.getAction().getLineNumber() + ": " + step.getAction().getOriginalAction()))
+                .map(step -> getAction(step))
                 .toArray(ContainerTag[]::new))
                 .render();
     }
@@ -31,7 +32,23 @@ public class TestReport {
         return body(
             h1("Hello, World!"),
             img().withSrc("/img/hello.png")
-        ).render();
+        ).render(); 
+    }
+
+    private LiTag getAction(TestStep step) {
+        String actionText = step.getAction().getLineNumber()
+        + ": "
+        + step.getAction().getOriginalAction();
+
+        if (step.getArtifact() != null) {
+            return li(join(actionText, ul(
+                    li(step.getArtifact().getGoldenPath()),
+                    li(Long.toString(step.getArtifact().getDiff())),
+                    li(step.getArtifact().getResultPath()))
+                )
+            );
+        }
+        return li(actionText);
     }
 
 }

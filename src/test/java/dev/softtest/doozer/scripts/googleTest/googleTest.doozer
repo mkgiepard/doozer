@@ -15,7 +15,7 @@ click selector:"Sl({button 'Accept *'})"
 type selector:"By.cssSelector('textarea')" args:"doozer"
 click selector:"SL({button 'Google Search'})"
 
-takeScreenshot? args:"search-doozer"
+takeScreenshot args:"search-doozer"
 
 sendKeys args:"doozer"
 takeScreenshot? args:"doozer"
@@ -30,4 +30,3 @@ refresh
 takeScreenshot? args:"refresh"
 
 assertCurrentUrl? args:"https://www.google.com/"
-
