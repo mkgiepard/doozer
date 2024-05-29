@@ -33,15 +33,12 @@ public class ImageDiff {
     }
 
     public void compare() throws Exception {
-        try {
-            File fileA = new File(goldenImgPath);
-            File fileB = new File(resultImgPath);
+        File fileA = new File(goldenImgPath);
+        File fileB = new File(resultImgPath);
 
-            goldenImg = ImageIO.read(fileA);
-            resultImg = ImageIO.read(fileB);
-        } catch (IOException e) {
-            System.out.println(e);
-        }
+        goldenImg = ImageIO.read(fileA);
+        resultImg = ImageIO.read(fileB);
+
         if (goldenImg != null && resultImg != null) {
             int goldenWidth = goldenImg.getWidth();
             int resultWidth = resultImg.getWidth();

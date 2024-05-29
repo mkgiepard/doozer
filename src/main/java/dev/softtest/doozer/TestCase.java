@@ -92,7 +92,6 @@ public class TestCase {
                     logger.error("EXECUTION FAILED IN ACTION: " + action.getOriginalAction() + " >>> Root cause: " + e.getMessage());
                     e.printStackTrace();
                     saveDom(ctx, testScriptPath);
-                    fail("EXECUTION FAILED IN ACTION: " + action.getOriginalAction() + " >>> Root cause: " + e.getMessage());
                     result = TestResult.FAIL;
                     status = TestStatus.DONE;
                     step.setResult(TestResult.FAIL);
@@ -101,14 +100,13 @@ public class TestCase {
                     if (action.getActionName().equalsIgnoreCase("takeScreenshot")) {
                         step.setArtifact(((TakeScreenshot) action).getTestArtifact());
                     }
-                    throw e;
+                    steps.add(step);
+                    fail("EXECUTION FAILED IN ACTION: " + action.getOriginalAction() + " >>> Root cause: " + e.getMessage());
                 }
                 else {
                     if (action.getActionName().equalsIgnoreCase("takeScreenshot")) {
                         step.setArtifact(((TakeScreenshot) action).getTestArtifact());
                     }
-                    step.setResult(TestResult.PASS);
-                    step.setStatus(TestStatus.DONE);
                     step.setError("EXECUTION FAILED but ignoring the failure as the action is optional.");
                     logger.warn("EXECUTION FAILED but ignoring the failure as the action is optional.");
                 }

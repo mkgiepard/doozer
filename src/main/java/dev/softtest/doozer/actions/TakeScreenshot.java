@@ -32,7 +32,7 @@ public class TakeScreenshot extends DoozerAction {
         Files.write(screenshot, new File(getContext().getResultsDir() + fileName));
 
         goldenPath = "src/test/java/dev/softtest/doozer/scripts"
-                + getContext().getResultsDir().substring("target/doozer-tests/".length()) + "golden/";
+                + getContext().getResultsDir().substring("target/doozer-tests/".length()) + "goldens/";
         resultPath = getContext().getResultsDir();
         differ = new ImageDiff(goldenPath + fileName, resultPath + fileName);
         
