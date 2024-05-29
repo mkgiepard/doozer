@@ -37,23 +37,24 @@ public class TestReport {
 
     private LiTag getAction(TestStep step) {
         String actionText = step.getAction().getLineNumber()
-        + ": "
-        + step.getAction().getOriginalAction();
+                + ": "
+                + step.getAction().getOriginalAction();
 
         if (step.getArtifact() != null) {
             String screenshotName = step.getAction().getOptions().get("default");
             if (screenshotName == null) {
-                screenshotName = step.getAction().getOptions().getOrDefault("fileName", "screenshot-" + step.getAction().getLineNumber());
+                screenshotName = step.getAction().getOptions().getOrDefault("fileName",
+                        "screenshot-" + step.getAction().getLineNumber());
             }
 
             return li(join(actionText, ul(
-                    li(img().withSrc("../../" 
-                        + step.getArtifact().getGoldenPath() 
-                        + screenshotName + ".png")),
-                    li(Long.toString(step.getArtifact().getDiff())),
+                    li(img().withSrc("../../"
+                            + step.getArtifact().getGoldenPath()
+                            + screenshotName + ".png").withStyle("max-width: 30%")),
                     li(img().withSrc("." + step.getArtifact().getResultPath().substring("target/doozer-tests/".length())
-                        + screenshotName + ".png"))
-                        )));
+                            + screenshotName + ".DIFF.png").withStyle("max-width: 30%")),
+                    li(img().withSrc("." + step.getArtifact().getResultPath().substring("target/doozer-tests/".length())
+                            + screenshotName + ".png").withStyle("max-width: 30%")))));
         }
         return li(actionText);
     }
