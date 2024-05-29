@@ -25,7 +25,7 @@ public class TestReport {
                 .stream()
                 .map(step -> getAction(step))
                 .toArray(ContainerTag[]::new))
-                .render();
+                .renderFormatted();
     }
 
     public String generateReport() {
@@ -41,12 +41,19 @@ public class TestReport {
         + step.getAction().getOriginalAction();
 
         if (step.getArtifact() != null) {
+            String screenshotName = step.getAction().getOptions().get("default");
+            if (screenshotName == null) {
+                screenshotName = step.getAction().getOptions().getOrDefault("fileName", "screenshot-" + step.getAction().getLineNumber());
+            }
+
             return li(join(actionText, ul(
-                    li(step.getArtifact().getGoldenPath()),
+                    li(img().withSrc("../../" 
+                        + step.getArtifact().getGoldenPath() 
+                        + screenshotName + ".png")),
                     li(Long.toString(step.getArtifact().getDiff())),
-                    li(step.getArtifact().getResultPath()))
-                )
-            );
+                    li(img().withSrc("." + step.getArtifact().getResultPath().substring("target/doozer-tests/".length())
+                        + screenshotName + ".png"))
+                        )));
         }
         return li(actionText);
     }
