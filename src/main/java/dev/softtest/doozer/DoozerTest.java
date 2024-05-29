@@ -144,6 +144,7 @@ public abstract class DoozerTest {
         Path path = Paths.get(RESULTS_DIR + "doozer-report.html");
         String htmlReport = "<html>";
         htmlReport += tr.includeCSS();
+        htmlReport += tr.includeHeader();
         
         
         htmlReport += "<body>";

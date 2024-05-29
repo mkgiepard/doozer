@@ -41,6 +41,10 @@ public class TestReport {
         return style(css).renderFormatted();
     }
 
+    public String includeHeader() {
+        return div(h1("Doozer Test Report")).withClass("header").renderFormatted();
+    }
+
     private LiTag getAction(TestStep step) {
         String actionText = step.getAction().getLineNumber()
                 + ": "
