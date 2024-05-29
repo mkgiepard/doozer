@@ -1,0 +1,95 @@
+body {
+    font-family: Helvetica, sans-serif;
+    font-size: small;
+    font-weight: 300;
+    margin: 0;
+    --card-color: lightgray;
+}
+button {
+    font-size: x-small;
+}
+.header {
+    background-color: #4285F4;
+    color: white;
+    padding: 6px;
+    margin-bottom: 12px;
+}
+.container-main {
+    display: grid;
+    row-gap: 1px;
+    margin: auto;
+    width:95%;
+}
+.container-testcase {
+    display: grid;
+    row-gap: 12px;
+    width: 100%;
+    border-bottom: 1px solid lightgrey;
+    padding: 3px 12px;
+}
+.container-testcase-header {
+    display: grid;
+    grid-template-columns: 15fr 1fr 1fr 1fr 1fr;
+    line-height: 19px;
+}
+.container-testcase:hover {
+    background-color: #f8f8f8;
+    cursor: pointer;
+    z-index: 99;
+}
+.container-testcase-images {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 12px;
+}
+.testcase-image {
+    text-align: center;
+}
+.testcase-data {
+    margin-top: 6px;
+}
+.step-name {
+    padding-left: 24px;
+}
+.card {
+    border: 1px solid var(--card-color);
+    border-radius: 8px;
+    padding: 6px;
+    text-align: center;
+    background-color: white;
+}
+img {
+    width: 95%;
+    height: auto;
+    border: 1px solid lightgray;
+    box-shadow: 4px 4px 4px lightgray;
+}
+.pass {
+    color: green;
+    --card-color: green;
+}
+.fail {
+    color: red;
+    --card-color: red;
+}
+.center {
+    justify-self: center;
+}
+.hidden {
+    display: none;
+}
+.title {
+    font-weight: 900;
+}
+.testcase-data {
+    display: grid;
+    grid-template-columns: 100px auto;
+    justify-items: left;
+    margin-bottom: 6px;
+}
+.label {
+    padding-left: 12px;
+}
+.material-symbols-outlined {
+    font-size: 16px;
+}
