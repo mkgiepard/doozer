@@ -1,6 +1,7 @@
 package dev.softtest.doozer;
 
 import java.util.*;
+import java.nio.file.*;
 
 import j2html.tags.ContainerTag;
 import j2html.tags.specialized.LiTag;
@@ -35,6 +36,11 @@ public class TestReport {
         ).render(); 
     }
 
+    public String includeCSS() {
+        String css = readCssFromFile("src/main/resources/styles.css");
+        return style(css).renderFormatted();
+    }
+
     private LiTag getAction(TestStep step) {
         String actionText = step.getAction().getLineNumber()
                 + ": "
@@ -59,4 +65,14 @@ public class TestReport {
         return li(actionText);
     }
 
+    private String readCssFromFile(String cssFilePath) {
+        String styles = "";
+        try {
+            styles = new String(
+                    Files.readAllBytes(Paths.get(cssFilePath)));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return styles;
+    }
 }

@@ -140,16 +140,20 @@ public abstract class DoozerTest {
     }
 
     private void generateReport() {
+        TestReport tr = new TestReport();
         Path path = Paths.get(RESULTS_DIR + "doozer-report.html");
-        String htmlReport = "<body>";
+        String htmlReport = "<html>";
+        htmlReport += tr.includeCSS();
+        
+        
+        htmlReport += "<body>";
 
         for (TestCase tc : testCaseRegistry.values()) {
             htmlReport += "<p>" + tc.getTestScriptPath() + "</p>";
-            TestReport tr = new TestReport();
+
             htmlReport += tr.generateHtmlReport(tc.getTestSteps());
         };
-        htmlReport += "</body>";
-        
+        htmlReport += "</body></html>";
     
         try {
             Files.write(path, htmlReport.getBytes());
