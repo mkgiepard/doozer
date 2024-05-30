@@ -5,6 +5,7 @@ import java.nio.file.*;
 
 import j2html.tags.ContainerTag;
 import j2html.tags.specialized.LiTag;
+import j2html.tags.specialized.LinkTag;
 
 import static j2html.TagCreator.*;
 
@@ -37,12 +38,40 @@ public class TestReport {
     }
 
     public String includeCSS() {
-        String css = readCssFromFile("src/main/resources/styles.css");
-        return style(css).renderFormatted();
+        String materialFontLink = link()
+            .withRel("stylesheet")
+            .withHref("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0")
+            .render();
+        String css = style(readCssFromFile("src/main/resources/styles.css")).render();
+        return materialFontLink + css;
     }
 
     public String includeHeader() {
         return div(h1("Doozer Test Report")).withClass("header").renderFormatted();
+    }
+
+    public String getTestCaseHeader(TestCase tc) {
+        String script = tc.getTestScriptPath();
+        String result = tc.getTestResult().toString();
+        String diff = "0";
+        for (TestStep step : tc.getTestSteps()) {
+            if (step.getResult().equals(TestResult.FAIL)
+                && step.getArtifact() != null
+                && step.getArtifact().getDiff() != 0 ) {
+                diff = Long.toString(step.getArtifact().getDiff());
+            }
+        }
+        return div(join(
+            div(join(
+                div(script).withClass("testcase-name"),
+                div().withClasses("step-name", "hidden")
+            )),
+            div(result).withClass("center"),
+            div(span("cancel").withClass("material-symbols-outlined")).withClasses("center", "fail"),
+            div(diff).withClass("center"),
+            div(button("APPROVE")).withClass("center")
+        )).withClass("container-testcase-header").renderFormatted();
+
     }
 
     private LiTag getAction(TestStep step) {

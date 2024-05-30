@@ -152,7 +152,7 @@ public abstract class DoozerTest {
 
         for (TestCase tc : testCaseRegistry.values()) {
             htmlReport += "<div class=\"container-testcase\">";
-            htmlReport += "<p>" + tc.getTestScriptPath() + "</p>";
+            htmlReport += tr.getTestCaseHeader(tc);
 
             htmlReport += tr.generateHtmlReport(tc.getTestSteps());
             htmlReport += "</div>";
