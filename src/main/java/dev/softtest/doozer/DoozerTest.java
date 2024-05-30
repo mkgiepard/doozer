@@ -148,13 +148,16 @@ public abstract class DoozerTest {
         
         
         htmlReport += "<body>";
+        htmlReport += "<div class=\"container-main\">";
 
         for (TestCase tc : testCaseRegistry.values()) {
+            htmlReport += "<div class=\"container-testcase\">";
             htmlReport += "<p>" + tc.getTestScriptPath() + "</p>";
 
             htmlReport += tr.generateHtmlReport(tc.getTestSteps());
+            htmlReport += "</div>";
         };
-        htmlReport += "</body></html>";
+        htmlReport += "</div></body></html>";
     
         try {
             Files.write(path, htmlReport.getBytes());
