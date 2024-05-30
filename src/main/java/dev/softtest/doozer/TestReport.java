@@ -4,6 +4,7 @@ import java.util.*;
 import java.nio.file.*;
 
 import j2html.tags.ContainerTag;
+import j2html.tags.specialized.DivTag;
 import j2html.tags.specialized.LiTag;
 import j2html.tags.specialized.LinkTag;
 
@@ -86,16 +87,26 @@ public class TestReport {
                         "screenshot-" + step.getAction().getLineNumber());
             }
 
-            return li(join(actionText, ul(
-                    li(img().withSrc("../../"
-                            + step.getArtifact().getGoldenPath()
-                            + screenshotName + ".png").withStyle("max-width: 30%")),
-                    li(img().withSrc("." + step.getArtifact().getResultPath().substring("target/doozer-tests/".length())
-                            + screenshotName + ".DIFF.png").withStyle("max-width: 30%")),
-                    li(img().withSrc("." + step.getArtifact().getResultPath().substring("target/doozer-tests/".length())
-                            + screenshotName + ".png").withStyle("max-width: 30%")))));
+            return li(join(actionText, getContainerTestCaseImages(step.getArtifact(), screenshotName)));
+            // return li(join(actionText, ul(
+            //         li(img().withSrc("../../"
+            //                 + step.getArtifact().getGoldenPath()
+            //                 + screenshotName + ".png").withStyle("max-width: 30%")),
+            //         li(img().withSrc("." + step.getArtifact().getResultPath().substring("target/doozer-tests/".length())
+            //                 + screenshotName + ".DIFF.png").withStyle("max-width: 30%")),
+            //         li(img().withSrc("." + step.getArtifact().getResultPath().substring("target/doozer-tests/".length())
+            //                 + screenshotName + ".png").withStyle("max-width: 30%")))));
         }
         return li(actionText);
+    }
+
+    private DivTag getContainerTestCaseImages(TestArtifact ta, String screenshotName) {
+        return div(join(
+            div(img().withSrc("../../" + ta.getGoldenPath()+screenshotName+".png")).withClass("card"),
+            div(img().withSrc("." + ta.getResultPath().substring("target/doozer-tests/".length())+screenshotName + ".DIFF.png")).withClass("card"),
+            div(img().withSrc("." + ta.getResultPath().substring("target/doozer-tests/".length())+screenshotName + ".png")).withClass("card")
+        )).withClass("container-testcase-images");
+
     }
 
     private String readCssFromFile(String cssFilePath) {
