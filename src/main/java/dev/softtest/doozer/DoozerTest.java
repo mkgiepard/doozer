@@ -149,6 +149,7 @@ public abstract class DoozerTest {
         
         htmlReport += "<body>";
         htmlReport += "<div class=\"container-main\">";
+        htmlReport += tr.getHeader();
 
         for (TestCase tc : testCaseRegistry.values()) {
             htmlReport += "<div class=\"container-testcase\">";

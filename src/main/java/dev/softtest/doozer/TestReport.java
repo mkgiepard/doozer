@@ -55,6 +55,16 @@ public class TestReport {
         return div(h1("Doozer Test Report")).withClass("header").renderFormatted();
     }
 
+    public String getHeader() {
+        return div(div(join(
+            div("Test Case"),
+            div("STATUS").withClass("center"),
+            div("RESULT").withClass("center"),
+            div("PIXEL DIFF").withClass("center"),
+            div("ACTION").withClass("center")
+        )).withClasses("container-testcase-header", "title")).withClass("container-testcase").render();
+    }
+
     public String getTestCaseHeader(TestCase tc) {
         String script = tc.getTestScriptPath();
         String result = tc.getTestResult().toString();
