@@ -8,6 +8,9 @@ body {
 button {
     font-size: x-small;
 }
+ul {
+    list-style: none;
+}
 .header {
     background-color: #4285F4;
     color: white;
