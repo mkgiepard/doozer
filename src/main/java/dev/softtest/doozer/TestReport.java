@@ -88,14 +88,6 @@ public class TestReport {
             }
 
             return li(join(actionText, getContainerTestCaseImages(step.getArtifact(), screenshotName)));
-            // return li(join(actionText, ul(
-            //         li(img().withSrc("../../"
-            //                 + step.getArtifact().getGoldenPath()
-            //                 + screenshotName + ".png").withStyle("max-width: 30%")),
-            //         li(img().withSrc("." + step.getArtifact().getResultPath().substring("target/doozer-tests/".length())
-            //                 + screenshotName + ".DIFF.png").withStyle("max-width: 30%")),
-            //         li(img().withSrc("." + step.getArtifact().getResultPath().substring("target/doozer-tests/".length())
-            //                 + screenshotName + ".png").withStyle("max-width: 30%")))));
         }
         return li(actionText);
     }
