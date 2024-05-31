@@ -50,7 +50,7 @@ public class TestCase {
 
     public String getTestCaseName() {
         return testScriptPath.substring(
-            testScriptPath.lastIndexOf("/"),
+            testScriptPath.lastIndexOf("/") + 1,
             testScriptPath.lastIndexOf(".doozer"));
     }
 
@@ -101,7 +101,7 @@ public class TestCase {
                         step.setArtifact(((TakeScreenshot) action).getTestArtifact());
                     }
                     steps.add(step);
-                    fail("EXECUTION FAILED IN ACTION: " + action.getOriginalAction() + " >>> Root cause: " + e.getMessage());
+                    fail("TEST CASE '"+ getTestCaseName() + "' EXECUTION FAILED IN ACTION: " + action.getOriginalAction() + " >>> Root cause: " + e.getMessage());
                 }
                 else {
                     if (action.getActionName().equalsIgnoreCase("takeScreenshot")) {
