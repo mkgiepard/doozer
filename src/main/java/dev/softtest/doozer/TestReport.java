@@ -63,20 +63,20 @@ public class TestReport {
         TestStep failing = null;
         String actionText = "";
         for (TestStep step : tc.getTestSteps()) {
-            if (step.getResult().equals(TestResult.FAIL)
-                && step.getArtifact() != null
-                && step.getArtifact().getDiff() != 0 ) {
-                diff = Long.toString(step.getArtifact().getDiff());
-                id += step.getAction().getLineNumber();
-                failing = step;
+            if (step.getResult().equals(TestResult.FAIL)) {
                 actionText = step.getAction().getLineNumber()
-                + ": "
-                + step.getAction().getOriginalAction();
+                    + ": "
+                    + step.getAction().getOriginalAction();
+                failing = step;
+                if (step.getArtifact() != null && step.getArtifact().getDiff() != 0 ) {
+                    diff = Long.toString(step.getArtifact().getDiff());
+                    id += step.getAction().getLineNumber();
+                }
             }
         }
         String resultIcon = tc.getTestResult() == TestResult.PASS ? "check" : "cancel";
         String resultStyle = tc.getTestResult() == TestResult.PASS ? "pass" : "fail";
-        String buttonHidden = tc.getTestResult() == TestResult.PASS ? "hidden" : "";
+        String buttonHidden = tc.getTestResult() == TestResult.PASS || diff == "0" ? "hidden" : "";
         
         return div(join(
             div(join(
@@ -94,7 +94,7 @@ public class TestReport {
     public String getTestCaseImages(TestCase tc) {
         TestStep lastStep = tc.getTestSteps().get(tc.getTestSteps().size() - 1);
 
-        if (lastStep.getResult() == TestResult.FAIL) {
+        if (lastStep.getResult() == TestResult.FAIL && lastStep.getArtifact() != null) {
             String id = tc.getTestCaseName() + lastStep.getAction().getLineNumber();
             String screenshotName = lastStep.getAction().getOptions().get("default");
             if (screenshotName == null) {

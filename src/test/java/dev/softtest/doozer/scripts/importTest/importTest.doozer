@@ -1,4 +1,4 @@
 import args:"src/test/java/dev/softtest/doozer/scripts/importTest/test.doozer"
 url args:"https://www.softtest.dev"
-assertPageTitle args:"softtest.dev"
+assertPageTitle args:"softtest.de"
 takeScreenshot args:"softtest.dev"
