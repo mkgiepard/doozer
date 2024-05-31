@@ -23,10 +23,10 @@ public class TestReport {
     // -- % of pixel diff
     // -- pixel diff threshold
 
-    public String generateHtmlReport(List<TestStep> steps) {
-        return ul(steps
+    public String generateHtmlReport(TestCase tc) {
+        return ul(tc.getTestSteps()
                 .stream()
-                .map(step -> getAction(step))
+                .map(step -> getAction(step, tc.getTestCaseName()))
                 .toArray(ContainerTag[]::new))
                 .renderFormatted();
     }
@@ -47,6 +47,10 @@ public class TestReport {
         return materialFontLink + css;
     }
 
+    public String includeJS() {
+        return script(readScriptFromFile("src/main/resources/script.js")).render();
+    }
+
     public String includeHeader() {
         return div(h1("Doozer Test Report")).withClass("header").renderFormatted();
     }
@@ -55,27 +59,56 @@ public class TestReport {
         String script = tc.getTestScriptPath();
         String result = tc.getTestResult().toString();
         String diff = "0";
+        String id = tc.getTestCaseName();
+        TestStep failing = null;
+        String actionText = "";
         for (TestStep step : tc.getTestSteps()) {
             if (step.getResult().equals(TestResult.FAIL)
                 && step.getArtifact() != null
                 && step.getArtifact().getDiff() != 0 ) {
                 diff = Long.toString(step.getArtifact().getDiff());
+                id += step.getAction().getLineNumber();
+                failing = step;
+                actionText = step.getAction().getLineNumber()
+                + ": "
+                + step.getAction().getOriginalAction();
             }
         }
+        String resultIcon = tc.getTestResult() == TestResult.PASS ? "check" : "cancel";
+        String resultStyle = tc.getTestResult() == TestResult.PASS ? "pass" : "fail";
+        String buttonHidden = tc.getTestResult() == TestResult.PASS ? "hidden" : "";
+        
         return div(join(
             div(join(
                 div(script).withClass("testcase-name"),
-                div().withClasses("step-name", "hidden")
+                div(actionText).withClasses("step-name", "hidden").withId(id+"step")
             )),
             div(result).withClass("center"),
-            div(span("cancel").withClass("material-symbols-outlined")).withClasses("center", "fail"),
+            div(span(resultIcon).withClass("material-symbols-outlined")).withClasses("center", resultStyle),
             div(diff).withClass("center"),
-            div(button("APPROVE")).withClass("center")
-        )).withClass("container-testcase-header").renderFormatted();
+            div(button("APPROVE")).withClasses("center", buttonHidden)
+        )).withClass("container-testcase-header").attr("onclick", "toggleDisplay('" + id + "')").renderFormatted();
 
     }
 
-    private LiTag getAction(TestStep step) {
+    public String getTestCaseImages(TestCase tc) {
+        TestStep lastStep = tc.getTestSteps().get(tc.getTestSteps().size() - 1);
+
+        if (lastStep.getResult() == TestResult.FAIL) {
+            String id = tc.getTestCaseName() + lastStep.getAction().getLineNumber();
+            String screenshotName = lastStep.getAction().getOptions().get("default");
+            if (screenshotName == null) {
+                screenshotName = lastStep.getAction().getOptions().getOrDefault("fileName",
+                        "screenshot-" + lastStep.getAction().getLineNumber());
+            }
+            return getContainerTestCaseImages(lastStep.getArtifact(), screenshotName, id).render();
+        }
+        return "";
+    }
+
+    private LiTag getAction(TestStep step, String tcName) {
+        String id = tcName + step.getAction().getLineNumber();
+
         String actionText = step.getAction().getLineNumber()
                 + ": "
                 + step.getAction().getOriginalAction();
@@ -87,17 +120,17 @@ public class TestReport {
                         "screenshot-" + step.getAction().getLineNumber());
             }
 
-            return li(join(actionText, getContainerTestCaseImages(step.getArtifact(), screenshotName)));
+            return li(join(actionText, getContainerTestCaseImages(step.getArtifact(), screenshotName, id)));
         }
         return li(actionText);
     }
 
-    private DivTag getContainerTestCaseImages(TestArtifact ta, String screenshotName) {
+    private DivTag getContainerTestCaseImages(TestArtifact ta, String screenshotName, String id) {
         return div(join(
             div(img().withSrc("../../" + ta.getGoldenPath()+screenshotName+".png")).withClass("card"),
             div(img().withSrc("." + ta.getResultPath().substring("target/doozer-tests/".length())+screenshotName + ".DIFF.png")).withClass("card"),
             div(img().withSrc("." + ta.getResultPath().substring("target/doozer-tests/".length())+screenshotName + ".png")).withClass("card")
-        )).withClass("container-testcase-images");
+        )).withClasses("container-testcase-images", "hidden").withId(id);
 
     }
 
@@ -110,5 +143,15 @@ public class TestReport {
             System.out.println(e);
         }
         return styles;
+    }
+
+    private String readScriptFromFile(String jsFilePath) {
+        String script = "";
+        try {
+            script = new String(Files.readAllBytes(Paths.get(jsFilePath)));
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return script;
     }
 }
