@@ -67,7 +67,7 @@ public class TestReport {
 
     public String getTestCaseHeader(TestCase tc) {
         String script = tc.getTestScriptPath();
-        String result = tc.getTestResult().toString();
+        String status = tc.getTestStatus().toString();
         String diff = "0";
         String id = tc.getTestCaseName();
         TestStep failing = null;
@@ -93,7 +93,7 @@ public class TestReport {
                 div(script).withClass("testcase-name"),
                 div(actionText).withClasses("step-name", "hidden").withId(id+"step")
             )),
-            div(result).withClass("center"),
+            div(status).withClass("center"),
             div(span(resultIcon).withClass("material-symbols-outlined")).withClasses("center", resultStyle),
             div(diff).withClass("center"),
             div(button("APPROVE")).withClasses("center", buttonHidden)
