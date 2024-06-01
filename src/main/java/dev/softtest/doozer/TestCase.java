@@ -13,6 +13,8 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -92,6 +94,7 @@ public class TestCase {
                     logger.error("EXECUTION FAILED IN ACTION: " + action.getOriginalAction() + " >>> Root cause: " + e.getMessage());
                     e.printStackTrace();
                     saveDom(ctx, testScriptPath);
+                    takeScreenshotOnFailure();
                     result = TestResult.FAIL;
                     status = TestStatus.DONE;
                     step.setResult(TestResult.FAIL);
@@ -137,6 +140,17 @@ public class TestCase {
     
         try {
             Files.write(path, domDump);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void takeScreenshotOnFailure() {
+        byte[] screenshot = ((TakesScreenshot) getContext().getWebDriver()).getScreenshotAs(OutputType.BYTES);
+        String[] s = getTestScriptPath().split("/");
+        Path path = Paths.get(ctx.getResultsDir() + s[s.length-1] + "-onFAILURE.png");
+        try {
+            Files.write(path, screenshot);
         } catch (IOException e) {
             e.printStackTrace();
         }
