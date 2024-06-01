@@ -155,8 +155,6 @@ public abstract class DoozerTest {
             htmlReport += "<div class=\"container-testcase\">";
             htmlReport += tr.getTestCaseHeader(tc);
             htmlReport += tr.getTestCaseImages(tc);
-
-            //htmlReport += tr.generateHtmlReport(tc);
             htmlReport += "</div>";
         };
         htmlReport += "</div></body>";

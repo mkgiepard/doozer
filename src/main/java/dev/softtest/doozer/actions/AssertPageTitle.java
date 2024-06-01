@@ -13,7 +13,7 @@ public class AssertPageTitle extends DoozerAction {
     public void execute() throws Exception {
         String pageTitle = getDriver().getTitle();
         if (!pageTitle.equals(getOptions().get("default")))
-            throw new Exception("The pageTitle content is different!\nExpected: " + getOptions() + "\nIs: " + pageTitle);
+            throw new Exception("The pageTitle content is different!\nExpected: " + getOptions().get("default") + "\nIs: " + pageTitle);
     }
 
 }
