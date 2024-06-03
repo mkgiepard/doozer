@@ -3,7 +3,6 @@ package dev.softtest.doozer;
 import java.util.stream.*;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
 
@@ -34,9 +33,9 @@ import org.apache.logging.log4j.ThreadContext;
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.CONCURRENT)
 public abstract class DoozerTest {
-    protected static final Logger logger = LogManager.getLogger();
-
-    public Map<String, TestCase> testCaseRegistry = new HashMap<>();
+    private final Logger logger = LogManager.getLogger();
+    private final String LOGGING_KEY = "ROUTINGKEY";
+    private Map<String, TestCase> testCaseRegistry = new HashMap<>();
     private final String RESULTS_DIR = "target/doozer-tests/";
 
     @BeforeEach
@@ -60,7 +59,7 @@ public abstract class DoozerTest {
     @MethodSource("provideDoozerTestFiles")
     public void runner(String testFile, TestInfo tInfo) throws Exception {
         TestCase tc = new TestCase(testFile);
-        ThreadContext.put("ROUTINGKEY", tc.getTestCaseName());
+        ThreadContext.put(LOGGING_KEY, tc.getTestCaseName());
         tc.getContext().setWebDriver(initWebDriver());
         tc.getContext().setResultsDir(getResultsDirectory(tInfo.getDisplayName()));
         testCaseRegistry.put(tInfo.getDisplayName(), tc);
