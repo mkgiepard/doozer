@@ -20,6 +20,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.Dimension;
 
 import java.util.concurrent.TimeUnit;
@@ -85,7 +86,12 @@ public abstract class DoozerTest {
     public abstract Stream<Arguments> provideDoozerTestFiles();
 
     private WebDriver initWebDriver() {
-        WebDriver driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        String browser = System.getProperty("browser", "chrome-headless");
+        if (browser.equals("chrome-headless")) {
+            options.addArguments("--headless=new");
+        }
+        WebDriver driver = new ChromeDriver(options);
         setupWindow(driver);
         setupTimeouts(driver);
         return driver;
