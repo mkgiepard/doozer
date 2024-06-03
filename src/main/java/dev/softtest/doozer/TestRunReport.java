@@ -153,9 +153,9 @@ public class TestRunReport {
 
     private DivTag getContainerTestCaseImages(TestArtifact ta, String screenshotName, String id) {
         return div(join(
-            div(img().withSrc("../../" + ta.getGoldenPath()+screenshotName+".png")).withClass("card"),
-            div(img().withSrc("." + ta.getResultPath().substring("target/doozer-tests/".length())+screenshotName + ".DIFF.png")).withClass("card"),
-            div(img().withSrc("." + ta.getResultPath().substring("target/doozer-tests/".length())+screenshotName + ".png")).withClass("card")
+            div(img().withSrc("../../" + ta.getGoldensPath()+screenshotName+".png")).withClass("card"),
+            div(img().withSrc("." + ta.getResultsPath().substring("target/doozer-tests/".length())+screenshotName + ".DIFF.png")).withClass("card"),
+            div(img().withSrc("." + ta.getResultsPath().substring("target/doozer-tests/".length())+screenshotName + ".png")).withClass("card")
         )).withClasses("container-testcase-images", "hidden").withId(id);
 
     }

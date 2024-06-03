@@ -2,8 +2,8 @@ package dev.softtest.doozer;
 
 public class TestArtifact {
     private final TestArtifactType type;
-    private final String goldenPath;
-    private final String resultPath;
+    private final String goldensPath;
+    private final String resultsPath;
     private final long diff;
     private final double percentDiff;
     private final long diffThreshold;
@@ -11,8 +11,8 @@ public class TestArtifact {
 
     private TestArtifact(Builder builder) {
         this.type = builder.type;
-        this.goldenPath = builder.goldenPath;
-        this.resultPath = builder.resultPath;
+        this.goldensPath = builder.goldenPath;
+        this.resultsPath = builder.resultPath;
         this.diff = builder.diff;
         this.percentDiff = builder.percentDiff;
         this.diffThreshold = builder.diffThreshold;
@@ -21,11 +21,11 @@ public class TestArtifact {
     public TestArtifactType getType() {
         return type;
     }
-    public String getGoldenPath() {
-        return goldenPath;
+    public String getGoldensPath() {
+        return goldensPath;
     }
-    public String getResultPath() {
-        return resultPath;
+    public String getResultsPath() {
+        return resultsPath;
     }
     public long getDiff() {
         return diff;
