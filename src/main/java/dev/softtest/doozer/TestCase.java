@@ -23,15 +23,13 @@ import dev.softtest.doozer.actions.TakeScreenshot;
 
 public class TestCase {
     protected static final Logger logger = LogManager.getLogger();
-
+    private final Duration WAIT_DOCUMENT_READY = Duration.ofSeconds(10);
     private Context ctx;
     private List<DoozerAction> actions;
     private String testScriptPath;
-    private String testCaseName;
     private TestResult result;
     private TestStatus status;
     private List<TestStep> steps;
-    // private Log log;
 
     public TestCase(String testScriptPath) {
         this.testScriptPath = testScriptPath;
@@ -127,7 +125,7 @@ public class TestCase {
     }
 
     private void waitForPageLoaded(WebDriver driver) {
-        Wait<WebDriver> wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+        Wait<WebDriver> wait = new WebDriverWait(driver, WAIT_DOCUMENT_READY);
         wait.until(
                 d -> ((JavascriptExecutor) d).executeScript("return document.readyState")
                         .equals("complete"));
