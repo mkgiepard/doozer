@@ -52,7 +52,8 @@ public abstract class DoozerTest {
 
     @AfterAll
     public void tearDown(TestInfo tInfo) {
-        generateReport();
+        TestRunReport tr = new TestRunReport(RESULTS_DIR, testCaseRegistry.values());
+        tr.generate();
     }
 
     @ParameterizedTest
@@ -106,8 +107,6 @@ public abstract class DoozerTest {
     }
 
     private void createResultsDirectories(String displayedName) throws IOException {
-        //Files.createDirectories(Paths.get(RESULTS_DIR));
-
         String testCaseResultsDir = getResultsDirectory(displayedName);
         Files.createDirectories(Paths.get(testCaseResultsDir));
     }
@@ -118,35 +117,6 @@ public abstract class DoozerTest {
                 displayedName.lastIndexOf("/"),
                 displayedName.lastIndexOf(".doozer"))
             + "/";
-    }
-
-    private void generateReport() {
-        TestReport tr = new TestReport();
-        Path path = Paths.get(RESULTS_DIR + "doozer-report.html");
-        String htmlReport = "<html>";
-        htmlReport += tr.includeCSS();
-        htmlReport += tr.includeHeader();
-        
-        
-        htmlReport += "<body>";
-        htmlReport += "<div class=\"container-main\">";
-        htmlReport += tr.getHeader();
-
-        for (TestCase tc : testCaseRegistry.values()) {
-            htmlReport += "<div class=\"container-testcase\">";
-            htmlReport += tr.getTestCaseHeader(tc);
-            htmlReport += tr.getTestCaseImages(tc);
-            htmlReport += "</div>";
-        };
-        htmlReport += "</div></body>";
-        htmlReport += tr.includeJS();
-        htmlReport += "</html>";
-    
-        try {
-            Files.write(path, htmlReport.getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
 }

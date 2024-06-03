@@ -1,44 +1,60 @@
 package dev.softtest.doozer;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.io.IOException;
 import java.nio.file.*;
 
-import j2html.tags.ContainerTag;
 import j2html.tags.specialized.DivTag;
 import j2html.tags.specialized.LiTag;
-import j2html.tags.specialized.LinkTag;
 
 import static j2html.TagCreator.*;
 
-public class TestReport {
-    Map<DoozerAction, Map<String, String>> data = new HashMap<>();
+public class TestRunReport {
+    private final String REPORT_FILENAME = "doozer-report.html";
+    private final String RESULTS_DIR;
+    private final Collection<TestCase> TEST_CASES;
 
-    // action - result - artifacts
-
-    // artefacts:
-    // -- type: screenshot
-    // -- path to golden img
-    // -- path to result img
-    // -- # of pixel diff
-    // -- % of pixel diff
-    // -- pixel diff threshold
-
-    public String generateHtmlReport(TestCase tc) {
-        return ul(tc.getTestSteps()
-                .stream()
-                .map(step -> getAction(step, tc.getTestCaseName()))
-                .toArray(ContainerTag[]::new))
-                .renderFormatted();
+    public TestRunReport(String resultsDir, Collection<TestCase> testCases) {
+        this.RESULTS_DIR = resultsDir;
+        this.TEST_CASES = testCases;
     }
 
-    public String generateReport() {
-        return body(
-            h1("Hello, World!"),
-            img().withSrc("/img/hello.png")
-        ).render(); 
+    public void generate() {
+        Path path = Paths.get(RESULTS_DIR + REPORT_FILENAME);
+        String htmlReport = generateTestReport();    
+        try {
+            Files.write(path, htmlReport.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public String includeCSS() {
+    private String generateTestReport() {
+        String htmlReport = "<html>";
+        htmlReport += includeCSS();
+        htmlReport += includeHeader();
+        
+        htmlReport += "<body>";
+        htmlReport += "<div class=\"container-main\">";
+        htmlReport += getHeader();
+
+        for (TestCase tc : TEST_CASES.stream()
+                .sorted((tc1, tc2) -> tc1.getTestCaseName().compareTo(tc2.getTestCaseName()))
+                .collect(Collectors.toList())) {
+            htmlReport += "<div class=\"container-testcase\">";
+            htmlReport += getTestCaseHeader(tc);
+            htmlReport += getTestCaseImages(tc);
+            htmlReport += "</div>";
+        }
+        ;
+        htmlReport += "</div></body>";
+        htmlReport += includeJS();
+        htmlReport += "</html>";
+        return htmlReport;
+    }
+
+    private String includeCSS() {
         String materialFontLink = link()
             .withRel("stylesheet")
             .withHref("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0")
@@ -47,15 +63,15 @@ public class TestReport {
         return materialFontLink + css;
     }
 
-    public String includeJS() {
+    private String includeJS() {
         return script(readScriptFromFile("src/main/resources/script.js")).render();
     }
 
-    public String includeHeader() {
+    private String includeHeader() {
         return div(h1("Doozer Test Report")).withClass("header").renderFormatted();
     }
 
-    public String getHeader() {
+    private String getHeader() {
         return div(div(join(
             div("Test Case"),
             div("STATUS").withClass("center"),
@@ -65,7 +81,7 @@ public class TestReport {
         )).withClasses("container-testcase-header", "title")).withClass("container-testcase").render();
     }
 
-    public String getTestCaseHeader(TestCase tc) {
+    private String getTestCaseHeader(TestCase tc) {
         String script = tc.getTestScriptPath();
         String status = tc.getTestStatus().toString();
         String diff = "0";
@@ -101,7 +117,7 @@ public class TestReport {
 
     }
 
-    public String getTestCaseImages(TestCase tc) {
+    private String getTestCaseImages(TestCase tc) {
         TestStep lastStep = tc.getTestSteps().get(tc.getTestSteps().size() - 1);
 
         if (lastStep.getResult() == TestResult.FAIL && lastStep.getArtifact() != null) {
