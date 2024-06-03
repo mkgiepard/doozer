@@ -42,7 +42,17 @@ click selector:"Sl({button 'Accept *'})"
   - `assertPageTitle`
 
 - Interactions
+  - `alert`
+  - `clear`
   - `click`
+  - `contextClick`
+  - `doubleClick`
+  - `hover`
+  - `hoverByOffset`
+  - `keyDown`
+  - `keyUp`
+  - `select`
+  - `sendKeys`
   - `type`
 
 - Navigation
@@ -53,7 +63,11 @@ click selector:"Sl({button 'Accept *'})"
   - `url`
 
 - Generics
+  - `import`
+  - `set`
   - `takeScreenshot`
+  - `wait`
+  - `waitForElement`
 
 ### Selectors
 
@@ -65,6 +79,13 @@ click selector:"Sl({button 'Accept *'})"
 ### Options
 
 One of:
+
 - single parameter
 - a list of `key=value` pairs separated with `,`.
 
+## Launch parameters
+
+- `test.folder` - defines the directory with doozer scripts
+- `browser` - defines a browser to use during test, default: `chrome-headless`
+- `failOnPixelDiff` - when set to `false` all the `takeScreenshot` actions are treated as optional,
+default: `true`
