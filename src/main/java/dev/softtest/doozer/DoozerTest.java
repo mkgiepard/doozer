@@ -91,6 +91,8 @@ public abstract class DoozerTest {
         if (browser.equals("chrome-headless")) {
             options.addArguments("--headless=new");
         }
+        // Keeps the screenshot size in sync with the window size on devices with Retina screens.
+        options.addArguments("--force-device-scale-factor=1");
         WebDriver driver = new ChromeDriver(options);
         setupWindow(driver);
         setupTimeouts(driver);
