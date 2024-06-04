@@ -1,6 +1,7 @@
 package dev.softtest.doozer;
 
 import java.util.stream.*;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -24,6 +25,7 @@ import org.openqa.selenium.Dimension;
 
 import java.util.concurrent.TimeUnit;
 import java.util.Map;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import org.apache.logging.log4j.LogManager;
@@ -83,7 +85,20 @@ public abstract class DoozerTest {
         }
     }
 
-    public abstract Stream<Arguments> provideDoozerTestFiles();
+    public Stream<Arguments> provideDoozerTestFiles() {
+        String test = System.getProperty("doozer.test");
+        if (test != null) {
+            return Stream.of(Arguments.of(test));
+        }
+
+        String directory = System.getProperty("doozer.directory");
+        if (directory == null)
+            throw new RuntimeException("'doozer.test' or 'doozer.directory' must be defined to proceed.");
+
+        File[] directories = new File(directory).listFiles(File::isDirectory);
+        return Arrays.stream(directories)
+                .map(d -> Arguments.of(directory + d.getName() + "/" + d.getName() + ".doozer"));
+    }
 
     private WebDriver initWebDriver() {
         ChromeOptions options = new ChromeOptions();
