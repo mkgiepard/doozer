@@ -1,7 +1,5 @@
 package dev.softtest.doozer.actions;
 
-import org.openqa.selenium.WebElement;
-
 import dev.softtest.doozer.Context;
 import dev.softtest.doozer.DoozerAction;
 
@@ -13,8 +11,16 @@ public class Iframe extends DoozerAction {
 
     @Override
     public void execute() throws Exception {
-        WebElement iframe = getDriver().findElement(getBySelector(getSelector()));
-        getDriver().switchTo().frame(iframe);
+        if (getSelector() != null && getSelector() != "") {
+            getDriver().switchTo().frame(getDriver().findElement(getBySelector(getSelector())));
+        }
+        if (getOption("name") != "") {
+            getDriver().switchTo().frame(getOption("name"));
+        }
+        if (getOption("id") != "") {
+            getDriver().switchTo().frame(Integer.parseInt(getOption("id")));
+        }
+        getDriver().switchTo().defaultContent();
     }
     
 }
