@@ -39,9 +39,7 @@ public class TakeScreenshot extends DoozerAction {
         try {
             differ.compare();
         } catch (Exception e) {
-            Boolean failOnPixelDiff = System.getProperty("failOnPixelDiff") == null ? true
-                    : Boolean.getBoolean(System.getProperty("failOnPixelDiff"));
-            if (failOnPixelDiff)
+            if (Boolean.parseBoolean(System.getProperty("doozer.failOnPixelDiff", "true")))
                 throw e;
         }
     }

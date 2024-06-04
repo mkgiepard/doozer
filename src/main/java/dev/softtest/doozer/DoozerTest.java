@@ -87,7 +87,7 @@ public abstract class DoozerTest {
 
     private WebDriver initWebDriver() {
         ChromeOptions options = new ChromeOptions();
-        String browser = System.getProperty("browser", "chrome-headless");
+        String browser = System.getProperty("doozer.browser", "chrome-headless");
         if (browser.equals("chrome-headless")) {
             options.addArguments("--headless=new");
         }

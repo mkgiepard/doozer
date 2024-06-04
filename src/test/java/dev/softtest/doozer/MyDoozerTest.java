@@ -14,14 +14,18 @@ public class MyDoozerTest extends DoozerTest {
 
   @Override
   public Stream<Arguments> provideDoozerTestFiles() {
-    String testFolder = System.getProperty("test.folder");
+    String directory = System.getProperty("doozer.directory");
+    String test = System.getProperty("doozer.test");
+    if (test != null) {
+      return Stream.of(Arguments.of(test));
+    }
     return Stream.of(
-        Arguments.of(testFolder + "firstTest/firstTest.doozer"),
-        Arguments.of(testFolder + "secondTest/secondTest.doozer"),
-        Arguments.of(testFolder + "googleTest/googleTest.doozer"),
-        Arguments.of(testFolder + "commentTest/commentTest.doozer"),
-        Arguments.of(testFolder + "importTest/importTest.doozer"),
-        Arguments.of(testFolder + "softtestTest/softtestTest.doozer"));
+        Arguments.of(directory + "firstTest/firstTest.doozer"),
+        Arguments.of(directory + "secondTest/secondTest.doozer"),
+        Arguments.of(directory + "googleTest/googleTest.doozer"),
+        Arguments.of(directory + "commentTest/commentTest.doozer"),
+        Arguments.of(directory + "importTest/importTest.doozer"),
+        Arguments.of(directory + "softtestTest/softtestTest.doozer"));
 
   }
 }

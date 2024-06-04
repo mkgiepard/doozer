@@ -85,7 +85,8 @@ One of:
 
 ## Launch parameters
 
-- `test.folder` - defines the directory with doozer scripts
-- `browser` - defines a browser to use during test, default: `chrome-headless`
-- `failOnPixelDiff` - when set to `false` all the `takeScreenshot` actions are treated as optional,
+- `doozer.directory` - defines a directory with doozer scripts
+- `doozer.test` - defines a doozer script to run
+- `doozer.browser` - defines a browser to use during test, default: `chrome-headless`
+- `doozer.failOnPixelDiff` - when set to `false` all the `takeScreenshot` actions are treated as optional,
 default: `true`
