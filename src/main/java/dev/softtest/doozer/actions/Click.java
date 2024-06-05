@@ -5,6 +5,7 @@ import org.openqa.selenium.ElementClickInterceptedException;
 
 import dev.softtest.doozer.Context;
 import dev.softtest.doozer.DoozerAction;
+import dev.softtest.doozer.ElementFinder;
 
 public class Click extends DoozerAction {
 
@@ -14,13 +15,13 @@ public class Click extends DoozerAction {
 
     @Override
     public void execute() throws Exception {
-        WebElement submitButton = getDriver().findElement(getBySelector(getSelector()));
+        WebElement submitButton = ElementFinder.findElement(getContext(), getBySelector(getSelector()));
         try {
             submitButton.click();
         } catch (ElementClickInterceptedException e) {
             logger.warn("click() failed due to: " + e.getMessage() + ". Retrying.");
             submitButton = getDriver().findElement(getBySelector(getSelector()));
             submitButton.click();
-        }
+        }        
     }
 }
