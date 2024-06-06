@@ -18,7 +18,7 @@ public class ElementFinder {
     public static final Duration DEFAULT_WAIT_TIMEOUT = Duration.ofSeconds(10);
     private static final Logger logger = LogManager.getLogger();
 
-    public static WebElement findElement(Context ctx, By selector) throws Exception {
+    public static WebElement findElement(Context ctx, DoozerSelector selector) throws Exception {
         List<WebElement> list = new ArrayList<>();
 
         org.openqa.selenium.support.ui.Wait<WebDriver> wait =
@@ -29,7 +29,7 @@ public class ElementFinder {
         try {
             wait.until((d) -> {
                 logger.info("looking for element: '" + selector + "'");
-                WebElement element = ctx.getWebDriver().findElement(selector);
+                WebElement element = ctx.getWebDriver().findElement(selector.getBySelector());
                 if (element != null && element.isDisplayed()) {
                     list.add(0, element);
                     return true;

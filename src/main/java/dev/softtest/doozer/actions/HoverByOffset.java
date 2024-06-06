@@ -7,6 +7,7 @@ import com.google.common.base.Strings;
 
 import dev.softtest.doozer.Context;
 import dev.softtest.doozer.DoozerAction;
+import dev.softtest.doozer.ElementFinder;
 
 public class HoverByOffset extends DoozerAction {
 
@@ -19,7 +20,7 @@ public class HoverByOffset extends DoozerAction {
         if (Strings.isNullOrEmpty(getOption("x")) || Strings.isNullOrEmpty(getOption("y"))) {
             throw new Exception("Missing x, y parameters");
         }
-        WebElement element = getDriver().findElement(getBySelector());
+        WebElement element = ElementFinder.findElement(getContext(), getDoozerSelector());
         new Actions(getDriver()).moveToElement(
                 element,
                 Integer.parseInt(getOption("x")),

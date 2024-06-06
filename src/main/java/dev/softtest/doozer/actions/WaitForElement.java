@@ -8,6 +8,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import dev.softtest.doozer.Context;
 import dev.softtest.doozer.DoozerAction;
+import dev.softtest.doozer.ElementFinder;
 
 public class WaitForElement extends DoozerAction {
 
@@ -17,7 +18,7 @@ public class WaitForElement extends DoozerAction {
 
     @Override
     public void execute() throws Exception {
-        WebElement element = getDriver().findElement(getBySelector());
+        WebElement element = ElementFinder.findElement(getContext(), getDoozerSelector());
         org.openqa.selenium.support.ui.Wait<WebDriver> wait = new WebDriverWait(getDriver(),
                 Duration.ofSeconds(Integer.getInteger(getOption("seconds"))));
         wait.until(d -> element.isDisplayed());

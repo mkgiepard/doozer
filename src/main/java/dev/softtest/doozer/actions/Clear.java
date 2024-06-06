@@ -4,6 +4,7 @@ import org.openqa.selenium.WebElement;
 
 import dev.softtest.doozer.Context;
 import dev.softtest.doozer.DoozerAction;
+import dev.softtest.doozer.ElementFinder;
 
 public class Clear extends DoozerAction {
 
@@ -13,7 +14,7 @@ public class Clear extends DoozerAction {
     
     @Override
     public void execute() throws Exception {
-        WebElement textBox = getDriver().findElement(getBySelector());
+        WebElement textBox = ElementFinder.findElement(getContext(), getDoozerSelector());
         textBox.clear();
     }
 

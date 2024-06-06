@@ -5,6 +5,7 @@ import org.openqa.selenium.interactions.Actions;
 
 import dev.softtest.doozer.Context;
 import dev.softtest.doozer.DoozerAction;
+import dev.softtest.doozer.ElementFinder;
 
 public class ContextClick extends DoozerAction {
 
@@ -14,7 +15,7 @@ public class ContextClick extends DoozerAction {
 
     @Override
     public void execute() throws Exception {
-        WebElement element = getDriver().findElement(getBySelector());
+        WebElement element = ElementFinder.findElement(getContext(), getDoozerSelector());
         new Actions(getDriver()).contextClick(element); 
     }
 }

@@ -2,6 +2,7 @@ package dev.softtest.doozer.actions;
 
 import dev.softtest.doozer.Context;
 import dev.softtest.doozer.DoozerAction;
+import dev.softtest.doozer.ElementFinder;
 
 public class Iframe extends DoozerAction {
 
@@ -12,7 +13,7 @@ public class Iframe extends DoozerAction {
     @Override
     public void execute() throws Exception {
         if (getSelector() != null && getSelector() != "") {
-            getDriver().switchTo().frame(getDriver().findElement(getBySelector()));
+            getDriver().switchTo().frame(ElementFinder.findElement(getContext(), getDoozerSelector()));
         }
         if (getOption("name") != "") {
             getDriver().switchTo().frame(getOption("name"));
