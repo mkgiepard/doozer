@@ -115,27 +115,7 @@ public class DoozerAction implements Action {
     }
 
     public By getBySelector(String s) throws Exception {
-        // Selector format examples:
-        // - By.cssSelector('button')
-        // - By.name('my-text')
-        if (Strings.isNullOrEmpty(s))
-            throw new Exception("Action requires 'By' selector or SemanticLocator (Sl) while got none.");
-
-        if (!(s.startsWith("By.") || s.startsWith("Sl(") || s.startsWith("SL(")))
-            throw new Exception("Action requires 'By' selector or SemanticLocator (Sl) while got: '" + s + "'");
-
-        By result = null;
-        if (s.startsWith("By.")) {
-            String methodName = s.substring(s.indexOf(".") + 1, s.indexOf("("));
-            String methodParam = s.substring(s.indexOf("'") + 1, s.length() - 2);
-
-            Method bySelectorMethod = By.class.getDeclaredMethod(methodName, String.class);
-            result = (By) bySelectorMethod.invoke(null, methodParam);
-        }
-        if (s.startsWith("Sl(") || s.startsWith("SL(")) {
-            String methodParam = s.substring(s.indexOf("(") + 1, s.length() - 1);
-            result = new BySemanticLocator(methodParam);
-        }
-        return result;
+        Selector selector = new Selector(s);
+        return selector.getBySelector();
     }
 }
