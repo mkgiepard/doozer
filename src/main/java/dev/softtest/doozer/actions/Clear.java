@@ -13,7 +13,7 @@ public class Clear extends DoozerAction {
     
     @Override
     public void execute() throws Exception {
-        WebElement textBox = getDriver().findElement(getBySelector(getSelector()));
+        WebElement textBox = getDriver().findElement(getBySelector());
         textBox.clear();
     }
 

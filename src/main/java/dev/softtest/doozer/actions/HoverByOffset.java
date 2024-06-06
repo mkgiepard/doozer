@@ -19,7 +19,7 @@ public class HoverByOffset extends DoozerAction {
         if (Strings.isNullOrEmpty(getOption("x")) || Strings.isNullOrEmpty(getOption("y"))) {
             throw new Exception("Missing x, y parameters");
         }
-        WebElement element = getDriver().findElement(getBySelector(getSelector()));
+        WebElement element = getDriver().findElement(getBySelector());
         new Actions(getDriver()).moveToElement(
                 element,
                 Integer.parseInt(getOption("x")),

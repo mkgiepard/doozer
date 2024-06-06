@@ -13,7 +13,7 @@ public class Type extends DoozerAction {
 
     @Override
     public void execute() throws Exception {
-        WebElement textBox = getDriver().findElement(getBySelector(getSelector()));
+        WebElement textBox = getDriver().findElement(getBySelector());
         textBox.sendKeys(getOptions().getOrDefault("default", ""));
     }
 

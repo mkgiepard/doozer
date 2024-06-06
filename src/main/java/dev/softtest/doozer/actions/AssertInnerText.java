@@ -13,7 +13,7 @@ public class AssertInnerText extends DoozerAction {
 
     @Override
     public void execute() throws Exception {
-        WebElement message = getDriver().findElement(getBySelector(getSelector()));
+        WebElement message = getDriver().findElement(getBySelector());
         String value = message.getText();
         if (!value.equals(getOptions().get("default")))
             throw new Exception("The innerText content is different!\nExpected: " + getOptions() + "\nIs: " + value);

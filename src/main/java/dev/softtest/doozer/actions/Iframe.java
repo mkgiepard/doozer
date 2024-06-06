@@ -12,7 +12,7 @@ public class Iframe extends DoozerAction {
     @Override
     public void execute() throws Exception {
         if (getSelector() != null && getSelector() != "") {
-            getDriver().switchTo().frame(getDriver().findElement(getBySelector(getSelector())));
+            getDriver().switchTo().frame(getDriver().findElement(getBySelector()));
         }
         if (getOption("name") != "") {
             getDriver().switchTo().frame(getOption("name"));

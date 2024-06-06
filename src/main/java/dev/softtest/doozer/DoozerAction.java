@@ -114,8 +114,8 @@ public class DoozerAction implements Action {
                 + "isOptional: " + isOptional + "\n";
     }
 
-    public By getBySelector(String s) throws Exception {
-        Selector selector = new Selector(s);
+    public By getBySelector() throws Exception {
+        Selector selector = new Selector(this.selector);
         return selector.getBySelector();
     }
 }

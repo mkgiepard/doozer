@@ -13,7 +13,7 @@ public class Select extends DoozerAction {
 
     @Override
     public void execute() throws Exception {
-        WebElement element = getDriver().findElement(getBySelector(getSelector()));
+        WebElement element = getDriver().findElement(getBySelector());
         org.openqa.selenium.support.ui.Select select = new org.openqa.selenium.support.ui.Select(element);
         select.selectByVisibleText(getOption("default"));
     }

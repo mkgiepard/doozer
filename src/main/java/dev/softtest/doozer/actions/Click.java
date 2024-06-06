@@ -15,12 +15,12 @@ public class Click extends DoozerAction {
 
     @Override
     public void execute() throws Exception {
-        WebElement submitButton = ElementFinder.findElement(getContext(), getBySelector(getSelector()));
+        WebElement submitButton = ElementFinder.findElement(getContext(), getBySelector());
         try {
             submitButton.click();
         } catch (ElementClickInterceptedException e) {
             logger.warn("click() failed due to: " + e.getMessage() + ". Retrying.");
-            submitButton = getDriver().findElement(getBySelector(getSelector()));
+            submitButton = getDriver().findElement(getBySelector());
             submitButton.click();
         }        
     }

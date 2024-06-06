@@ -14,7 +14,7 @@ public class DoubleClick extends DoozerAction {
 
     @Override
     public void execute() throws Exception {
-        WebElement element = getDriver().findElement(getBySelector(getSelector()));
+        WebElement element = getDriver().findElement(getBySelector());
         new Actions(getDriver()).doubleClick(element);      
     }
 }
