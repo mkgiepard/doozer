@@ -1,6 +1,5 @@
 package dev.softtest.doozer;
 
-import java.lang.reflect.Method;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -9,7 +8,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 import com.google.common.base.Strings;
-import com.google.semanticlocators.BySemanticLocator;
 
 import dev.softtest.doozer.actions.Action;
 
@@ -25,6 +23,7 @@ public class DoozerAction implements Action {
     private String selector;
     private Map<String, String> options;
     private boolean isOptional = false;
+    private DoozerSelector doozerSelector;
     
     public DoozerAction(Context ctx, Integer lineNumber, String actionName, String originalAction) {
         this.ctx = ctx;
@@ -69,11 +68,15 @@ public class DoozerAction implements Action {
         return lineNumber;
     }
 
+    public DoozerSelector getDoozerSelector() {
+        return doozerSelector;
+    }
+
     public void setDriver(WebDriver driver) {
         this.driver = driver;
     }
 
-    public void setSelector(String selector) {
+    public void setSelector(String selector) throws Exception {
         this.selector = selector;
     }
 
@@ -85,8 +88,12 @@ public class DoozerAction implements Action {
         this.isOptional = isOptional;
     }
 
+    public void setDoozerSelector() throws Exception {
+        doozerSelector = new DoozerSelector(selector);
+    }
 
-    public void resolveVariables() {
+
+    public void resolveVariables() throws Exception {
         if (this.selector != null && this.selector.contains("${")) {
             String varName = this.selector.substring(this.selector.indexOf("${")+2, this.selector.indexOf("}"));
             setSelector(getContext().getVariable(varName));
@@ -102,6 +109,11 @@ public class DoozerAction implements Action {
         }
     }
 
+    public void resolveDoozerSelector() throws Exception {
+        if (!Strings.isNullOrEmpty(selector))
+            doozerSelector = new DoozerSelector(selector);
+    }
+
     public void execute() throws Exception {
         throw new Exception("!!! Should never be called !!!");
     }
@@ -115,7 +127,7 @@ public class DoozerAction implements Action {
     }
 
     public By getBySelector() throws Exception {
-        Selector selector = new Selector(this.selector);
+        DoozerSelector selector = new DoozerSelector(this.selector);
         return selector.getBySelector();
     }
 }

@@ -83,6 +83,7 @@ public class TestCase {
                 logger.info("execute: " + action.getOriginalAction());
                 waitForPageLoaded(ctx.getWebDriver());
                 action.resolveVariables();
+                if (action.getActionName() != "set") action.resolveDoozerSelector();
                 action.execute();
                 if (action.getActionName().equalsIgnoreCase("takeScreenshot")) {
                     step.setArtifact(((TakeScreenshot) action).getTestArtifact());

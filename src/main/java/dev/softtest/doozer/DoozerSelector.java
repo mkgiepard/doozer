@@ -9,14 +9,14 @@ import org.openqa.selenium.By;
 import com.google.common.base.Strings;
 import com.google.semanticlocators.BySemanticLocator;
 
-public class Selector {
+public class DoozerSelector {
     protected static final Logger logger = LogManager.getLogger();
 
     private String selector;
     private By bySelector;
     private int index;
 
-    public Selector(String selector) throws Exception {
+    public DoozerSelector(String selector) throws Exception {
         this.selector = selector;
         parse();
     }
