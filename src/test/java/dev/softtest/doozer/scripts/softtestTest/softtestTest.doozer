@@ -2,5 +2,5 @@ url args:"https://www.selftest.dev"
 assertPageTitle? args:"softtest.dev"
 takeScreenshot args:"selftest.dev"
 
-url args:"https://www.softtest.pl"
+url args:"https://www.softtest.dev"
 takeScreenshot args:"softtest.dev"
