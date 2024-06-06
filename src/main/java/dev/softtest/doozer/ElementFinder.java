@@ -29,10 +29,13 @@ public class ElementFinder {
         try {
             wait.until((d) -> {
                 logger.info("looking for element: '" + selector + "'");
-                WebElement element = ctx.getWebDriver().findElement(selector.getBySelector());
-                if (element != null && element.isDisplayed()) {
-                    list.add(0, element);
-                    return true;
+                List<WebElement> elements = ctx.getWebDriver().findElements(selector.getBySelector());
+                if (selector.getIndex() >= 0 && selector.getIndex() < elements.size()) {
+                    WebElement element = elements.get(selector.getIndex());
+                    if (element != null && element.isDisplayed()) {
+                        list.add(0, element);
+                        return true;
+                    }
                 }
                 return false;
             });
