@@ -46,7 +46,7 @@ public abstract class DoozerTest {
     @AfterEach
     public void cleanup(TestInfo tInfo) {
         Context ctx = testCaseRegistry.get(tInfo.getDisplayName()).getContext();
-        ctx.getDoozerDriver().getDriver().quit();
+        ctx.getWebDriver().quit();
     }
 
     @AfterAll

@@ -21,14 +21,14 @@ public class ElementFinder {
         List<WebElement> list = new ArrayList<>();
 
         org.openqa.selenium.support.ui.Wait<WebDriver> wait =
-            new FluentWait<>(ctx.getDoozerDriver().getDriver())
+            new FluentWait<>(ctx.getWebDriver())
                 .withTimeout(DEFAULT_WAIT_TIMEOUT)
                 .pollingEvery(Duration.ofMillis(500))
                 .ignoring(ElementNotInteractableException.class, NoSuchElementException.class);
         try {
             wait.until((d) -> {
                 logger.info("looking for element: '" + selector.getSelectorDesc() + "'");
-                List<WebElement> elements = ctx.getDoozerDriver().getDriver().findElements(selector.getBySelector());
+                List<WebElement> elements = ctx.getWebDriver().findElements(selector.getBySelector());
                 if (selector.getIndex() >= 0 && selector.getIndex() < elements.size()) {
                     WebElement element = elements.get(selector.getIndex());
                     if (element != null && element.isDisplayed()) {
