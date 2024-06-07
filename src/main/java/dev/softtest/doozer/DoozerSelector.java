@@ -12,12 +12,12 @@ import com.google.semanticlocators.BySemanticLocator;
 public class DoozerSelector {
     protected static final Logger logger = LogManager.getLogger();
 
-    private String selector;
+    private String selectorDesc;
     private By bySelector;
     private int index;
 
     public DoozerSelector(String selector) throws Exception {
-        this.selector = selector;
+        this.selectorDesc = selector;
         parse();
     }
 
@@ -29,6 +29,10 @@ public class DoozerSelector {
         return index;
     }
 
+    public String getSelectorDesc() {
+        return selectorDesc;
+    }
+
     private void parse() throws Exception {
         // Selector format examples:
         // - By.cssSelector('button')
@@ -36,21 +40,21 @@ public class DoozerSelector {
         // - By.name('my-text')[2]
         // - SL({button 'Next'})
         // - SL({button 'Next'})[2]
-        if (Strings.isNullOrEmpty(selector))
+        if (Strings.isNullOrEmpty(selectorDesc))
             throw new SelectorParseException("Action requires 'By' selector or SemanticLocator (Sl) while got none.");
 
-        if (!(selector.startsWith("By.") || selector.startsWith("Sl(") || selector.startsWith("SL(")))
-            throw new SelectorParseException("Action requires 'By' selector or SemanticLocator (Sl) while got: '" + selector + "'.");
+        if (!(selectorDesc.startsWith("By.") || selectorDesc.startsWith("Sl(") || selectorDesc.startsWith("SL(")))
+            throw new SelectorParseException("Action requires 'By' selector or SemanticLocator (Sl) while got: '" + selectorDesc + "'.");
 
-        String s =  selector;
-        if (selector.endsWith("]")) {
-            String indexSubString = selector.substring(selector.lastIndexOf("[") + 1, selector.length() - 1);
+        String s =  selectorDesc;
+        if (selectorDesc.endsWith("]")) {
+            String indexSubString = selectorDesc.substring(selectorDesc.lastIndexOf("[") + 1, selectorDesc.length() - 1);
             try {
                 index = Integer.parseInt(indexSubString);
             } catch (NumberFormatException e) {
                 throw new SelectorParseException("Index part of the selector is malformed, expected '[%d]', got: '" + indexSubString + "'.");
             }
-            s =  selector.substring(0, selector.lastIndexOf("["));
+            s =  selectorDesc.substring(0, selectorDesc.lastIndexOf("["));
         }
         
         By result = null;

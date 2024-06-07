@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotInteractableException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
@@ -28,7 +27,7 @@ public class ElementFinder {
                 .ignoring(ElementNotInteractableException.class, NoSuchElementException.class);
         try {
             wait.until((d) -> {
-                logger.info("looking for element: '" + selector + "'");
+                logger.info("looking for element: '" + selector.getSelectorDesc() + "'");
                 List<WebElement> elements = ctx.getDoozerDriver().getDriver().findElements(selector.getBySelector());
                 if (selector.getIndex() >= 0 && selector.getIndex() < elements.size()) {
                     WebElement element = elements.get(selector.getIndex());
