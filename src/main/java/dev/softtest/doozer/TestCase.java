@@ -90,7 +90,7 @@ public class TestCase {
                 }
             } catch (Exception e) {
                 if (!action.isOptional()) {
-                    logger.error("EXECUTION FAILED IN ACTION: " + action.getOriginalAction() + " >>> Root cause: " + e.getMessage());
+                    logger.error("EXECUTION FAILED IN ACTION: " + action.getOriginalAction() + " >>> Root cause:");
                     e.printStackTrace();
                     saveDom(ctx, testScriptPath);
                     takeScreenshotOnFailure();
