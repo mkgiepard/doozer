@@ -101,17 +101,11 @@ public abstract class DoozerTest {
     }
 
     private WebDriver initWebDriver() {
-        ChromeOptions options = new ChromeOptions();
-        String browser = System.getProperty("doozer.browser", "chrome-headless");
-        if (browser.equals("chrome-headless")) {
-            options.addArguments("--headless=new");
-        }
-        // Keeps the screenshot size in sync with the window size on devices with Retina screens.
-        options.addArguments("--force-device-scale-factor=1");
-        WebDriver driver = new ChromeDriver(options);
-        setupWindow(driver);
-        setupTimeouts(driver);
-        return driver;
+        DoozerDriver doozerDriver = new DoozerDriver(System.getProperty("doozer.browser"));
+        doozerDriver.init();
+        setupWindow(doozerDriver.getDriver());
+        setupTimeouts(doozerDriver.getDriver());
+        return doozerDriver.getDriver();
     }
 
     protected void setupWindow(WebDriver driver) {
