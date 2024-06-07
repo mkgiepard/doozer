@@ -19,8 +19,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.Dimension;
 
 import java.util.concurrent.TimeUnit;
@@ -48,7 +46,7 @@ public abstract class DoozerTest {
     @AfterEach
     public void cleanup(TestInfo tInfo) {
         Context ctx = testCaseRegistry.get(tInfo.getDisplayName()).getContext();
-        ctx.getWebDriver().quit();
+        ctx.getDoozerDriver().getDriver().quit();
     }
 
     @AfterAll
@@ -62,7 +60,7 @@ public abstract class DoozerTest {
     public void runner(String testFile, TestInfo tInfo) throws Exception {
         TestCase tc = new TestCase(testFile);
         ThreadContext.put(LOGGING_KEY, tc.getTestCaseName());
-        tc.getContext().setWebDriver(initWebDriver());
+        tc.getContext().setDoozerDriver(initDriver());
         tc.getContext().setResultsDir(getResultsDirectory(tInfo.getDisplayName()));
         testCaseRegistry.put(tInfo.getDisplayName(), tc);
         
@@ -100,12 +98,12 @@ public abstract class DoozerTest {
                 .map(d -> Arguments.of(directory + d.getName() + "/" + d.getName() + ".doozer"));
     }
 
-    private WebDriver initWebDriver() {
+    private DoozerDriver initDriver() {
         DoozerDriver doozerDriver = new DoozerDriver(System.getProperty("doozer.browser"));
         doozerDriver.init();
         setupWindow(doozerDriver.getDriver());
         setupTimeouts(doozerDriver.getDriver());
-        return doozerDriver.getDriver();
+        return doozerDriver;
     }
 
     protected void setupWindow(WebDriver driver) {

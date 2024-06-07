@@ -14,19 +14,23 @@ import org.openqa.selenium.WebDriver;
 
 public class DoozerDriver {
     private static final String DEFAULT_BROWSER = "chrome-headless";
-    private final String browserParam;
+    private final String browserDesc;
     private WebDriver driver;
 
     public DoozerDriver(String browserParam) {
-        this.browserParam = Strings.isNullOrEmpty(browserParam) ? DEFAULT_BROWSER : browserParam;
+        this.browserDesc = Strings.isNullOrEmpty(browserParam) ? DEFAULT_BROWSER : browserParam;
     }
 
     public WebDriver getDriver() {
         return driver;
     }
 
+    public String getBrowserDesc() {
+        return browserDesc;
+    }
+
     public void init() {
-        String[] driverData = browserParam.split("-");
+        String[] driverData = browserDesc.split("-");
         switch(driverData[0].toLowerCase()) {
             case "chrome":
                 ChromeOptions chromeOptions = new ChromeOptions();

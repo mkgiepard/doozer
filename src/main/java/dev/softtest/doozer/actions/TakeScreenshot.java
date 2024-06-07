@@ -28,7 +28,7 @@ public class TakeScreenshot extends DoozerAction {
         if (fileName == null) {
             fileName = getOptions().getOrDefault("fileName", "screenshot-" + getLineNumber());
         }
-        fileName += ".png";
+        fileName += "-" + getContext().getDoozerDriver().getBrowserDesc() + ".png";
         Files.write(screenshot, new File(getContext().getResultsDir() + fileName));
 
         goldensPath = "src/test/java/dev/softtest/doozer/scripts"

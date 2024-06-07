@@ -71,7 +71,7 @@ public class TestCase {
     }
 
     public void readTestScript() throws Exception {
-        Parser p = new Parser(ctx, testScriptPath, getContext().getWebDriver());
+        Parser p = new Parser(ctx, testScriptPath, getContext().getDoozerDriver().getDriver());
         setActions(p.parse());
     }
 
@@ -81,7 +81,7 @@ public class TestCase {
             TestStep step = new TestStep(action);
             try {
                 logger.info("execute: " + action.getOriginalAction());
-                waitForPageLoaded(ctx.getWebDriver());
+                waitForPageLoaded(ctx.getDoozerDriver().getDriver());
                 action.resolveVariables();
                 if (action.getActionName() != "set") action.resolveDoozerSelector();
                 action.execute();
@@ -135,7 +135,7 @@ public class TestCase {
     private void saveDom(Context ctx, String name) {
         String[] s = name.split("/");
         Path path = Paths.get(ctx.getResultsDir() + s[s.length-1] + "-DOM.html");
-        byte[] domDump = ctx.getWebDriver().getPageSource().getBytes();
+        byte[] domDump = ctx.getDoozerDriver().getDriver().getPageSource().getBytes();
     
         try {
             Files.write(path, domDump);
@@ -145,7 +145,7 @@ public class TestCase {
     }
 
     private void takeScreenshotOnFailure() {
-        byte[] screenshot = ((TakesScreenshot) getContext().getWebDriver()).getScreenshotAs(OutputType.BYTES);
+        byte[] screenshot = ((TakesScreenshot) getContext().getDoozerDriver().getDriver()).getScreenshotAs(OutputType.BYTES);
         String[] s = getTestScriptPath().split("/");
         Path path = Paths.get(ctx.getResultsDir() + s[s.length-1] + "-onFAILURE.png");
         try {

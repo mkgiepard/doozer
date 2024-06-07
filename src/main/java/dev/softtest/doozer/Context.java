@@ -1,7 +1,5 @@
 package dev.softtest.doozer;
 
-import org.openqa.selenium.WebDriver;
-
 import java.util.Map;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,7 +8,7 @@ import java.util.List;
 public class Context {
     private Map<String, String> variables;
     private String resultsDir;
-    private WebDriver driver;
+    private DoozerDriver driver;
     private List<DoozerAction> actions = new ArrayList<DoozerAction>();
 
     public Context() {
@@ -33,11 +31,11 @@ public class Context {
         return resultsDir;
     }
 
-    public void setWebDriver(WebDriver driver) {
+    public void setDoozerDriver(DoozerDriver driver) {
         this.driver = driver;
     }
 
-    public WebDriver getWebDriver() {
+    public DoozerDriver getDoozerDriver() {
         return driver;
     }
 
