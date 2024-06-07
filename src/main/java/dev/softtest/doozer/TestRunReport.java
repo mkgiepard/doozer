@@ -127,6 +127,8 @@ public class TestRunReport {
                 screenshotName = lastStep.getAction().getOptions().getOrDefault("fileName",
                         "screenshot-" + lastStep.getAction().getLineNumber());
             }
+            String browserDesc = lastStep.getAction().getContext().getDoozerDriver().getBrowserDesc();
+            screenshotName += "-" + browserDesc;
             return getContainerTestCaseImages(lastStep.getArtifact(), screenshotName, id).render();
         }
         return "";
@@ -140,11 +142,13 @@ public class TestRunReport {
                 + step.getAction().getOriginalAction();
 
         if (step.getArtifact() != null) {
+            String browserDesc = step.getAction().getContext().getDoozerDriver().getBrowserDesc();
             String screenshotName = step.getAction().getOptions().get("default");
             if (screenshotName == null) {
                 screenshotName = step.getAction().getOptions().getOrDefault("fileName",
                         "screenshot-" + step.getAction().getLineNumber());
             }
+            screenshotName += "-" + browserDesc;
 
             return li(join(actionText, getContainerTestCaseImages(step.getArtifact(), screenshotName, id)));
         }
