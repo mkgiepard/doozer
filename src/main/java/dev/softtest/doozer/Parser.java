@@ -84,7 +84,7 @@ public class Parser {
         String secondParam = "args";
 
         actionName = tokens.get("action");
-        if (actionName == "set") {
+        if (actionName.equals("set")) {
             firstParam = "name";
             secondParam = "value";
         }
