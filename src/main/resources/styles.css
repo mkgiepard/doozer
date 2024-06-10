@@ -35,7 +35,7 @@ ul {
     grid-template-columns: 15fr 1fr 1fr 1fr 1fr;
     line-height: 19px;
 }
-.container-testcase:hover {
+.container-testcase-header:hover {
     background-color: #f8f8f8;
     cursor: pointer;
     z-index: 99;
@@ -44,6 +44,21 @@ ul {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     column-gap: 12px;
+    margin-top: 8px;
+    margin-bottom: 12px;
+}
+.container-teststeps {
+    display: grid;
+}
+.container-teststep {
+    display: grid;
+    grid-template-columns: 15fr 1fr 1fr 1fr 1fr;
+    line-height: 19px;
+}
+.container-teststep:hover {
+    background-color: #f8f8f8;
+    cursor: pointer;
+    z-index: 99;
 }
 .testcase-image {
     text-align: center;

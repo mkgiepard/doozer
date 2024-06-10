@@ -47,6 +47,9 @@ public abstract class DoozerTest {
     public void cleanup(TestInfo tInfo) {
         Context ctx = testCaseRegistry.get(tInfo.getDisplayName()).getContext();
         ctx.getWebDriver().quit();
+
+        TestCaseReport tcr = new TestCaseReport(RESULTS_DIR, testCaseRegistry.get(tInfo.getDisplayName()));
+        tcr.generate();
     }
 
     @AfterAll

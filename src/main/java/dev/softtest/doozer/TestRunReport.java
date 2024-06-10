@@ -6,22 +6,21 @@ import java.io.IOException;
 import java.nio.file.*;
 
 import j2html.tags.specialized.DivTag;
-import j2html.tags.specialized.LiTag;
 
 import static j2html.TagCreator.*;
 
 public class TestRunReport {
     private final String REPORT_FILENAME = "doozer-report.html";
-    private final String RESULTS_DIR;
-    private final Collection<TestCase> TEST_CASES;
+    private final String resultsDir;
+    private final Collection<TestCase> testCases;
 
     public TestRunReport(String resultsDir, Collection<TestCase> testCases) {
-        this.RESULTS_DIR = resultsDir;
-        this.TEST_CASES = testCases;
+        this.resultsDir = resultsDir;
+        this.testCases = testCases;
     }
 
     public void generate() {
-        Path path = Paths.get(RESULTS_DIR + REPORT_FILENAME);
+        Path path = Paths.get(resultsDir + REPORT_FILENAME);
         String htmlReport = generateTestReport();    
         try {
             Files.write(path, htmlReport.getBytes());
@@ -39,7 +38,7 @@ public class TestRunReport {
         htmlReport += "<div class=\"container-main\">";
         htmlReport += getHeader();
 
-        for (TestCase tc : TEST_CASES.stream()
+        for (TestCase tc : testCases.stream()
                 .sorted((tc1, tc2) -> tc1.getTestCaseName().compareTo(tc2.getTestCaseName()))
                 .sorted((tc1, tc2) -> tc2.getTestResult().compareTo(tc1.getTestResult()))
                 .collect(Collectors.toList())) {
@@ -87,14 +86,12 @@ public class TestRunReport {
         String status = tc.getTestStatus().toString();
         String diff = "0";
         String id = tc.getTestCaseName();
-        TestStep failing = null;
         String actionText = "";
         for (TestStep step : tc.getTestSteps()) {
             if (step.getResult().equals(TestResult.FAIL)) {
                 actionText = step.getAction().getLineNumber()
                     + ": "
                     + step.getAction().getOriginalAction();
-                failing = step;
                 if (step.getArtifact() != null && step.getArtifact().getDiff() != 0 ) {
                     diff = Long.toString(step.getArtifact().getDiff());
                     id += step.getAction().getLineNumber();
@@ -113,8 +110,11 @@ public class TestRunReport {
             div(status).withClass("center"),
             div(span(resultIcon).withClass("material-symbols-outlined")).withClasses("center", resultStyle),
             div(diff).withClass("center"),
-            div(button("APPROVE")).withClasses("center", buttonHidden)
-        )).withClass("container-testcase-header").attr("onclick", "toggleDisplay('" + id + "')").renderFormatted();
+            div(join(
+                button("APPROVE").withClass(buttonHidden),
+                a(span("open_in_new").withClass("material-symbols-outlined")).withHref("./" + tc.getTestCaseName() + "/doozer-report.html"))
+            ).withClasses("center")))
+        .withClass("container-testcase-header").attr("onclick", "toggleDisplay('" + id + "')").renderFormatted();
 
     }
 
@@ -133,27 +133,6 @@ public class TestRunReport {
             return getContainerTestCaseImages(lastStep.getArtifact(), screenshotName, id).render();
         }
         return "";
-    }
-
-    private LiTag getAction(TestStep step, String tcName) {
-        String id = tcName + step.getAction().getLineNumber();
-
-        String actionText = step.getAction().getLineNumber()
-                + ": "
-                + step.getAction().getOriginalAction();
-
-        if (step.getArtifact() != null) {
-            String browserDesc = step.getAction().getContext().getDoozerDriver().getBrowserDesc();
-            String screenshotName = step.getAction().getOptions().get("default");
-            if (screenshotName == null) {
-                screenshotName = step.getAction().getOptions().getOrDefault("fileName",
-                        "screenshot-" + step.getAction().getLineNumber());
-            }
-            screenshotName += "-" + browserDesc;
-
-            return li(join(actionText, getContainerTestCaseImages(step.getArtifact(), screenshotName, id)));
-        }
-        return li(actionText);
     }
 
     private DivTag getContainerTestCaseImages(TestArtifact ta, String screenshotName, String id) {
