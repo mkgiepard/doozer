@@ -9,13 +9,11 @@ import j2html.tags.specialized.DivTag;
 
 import static j2html.TagCreator.*;
 
-public class TestRunReport {
-    private final String REPORT_FILENAME = "doozer-report.html";
-    private final String resultsDir;
+public class TestRunReport extends TestReport {
     private final Collection<TestCase> testCases;
 
     public TestRunReport(String resultsDir, Collection<TestCase> testCases) {
-        this.resultsDir = resultsDir;
+        super(resultsDir);
         this.testCases = testCases;
     }
 
@@ -54,30 +52,8 @@ public class TestRunReport {
         return htmlReport;
     }
 
-    private String includeCSS() {
-        String materialFontLink = link()
-            .withRel("stylesheet")
-            .withHref("https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0")
-            .render();
-        String css = style(readCssFromFile("src/main/resources/styles.css")).render();
-        return materialFontLink + css;
-    }
-
-    private String includeJS() {
-        return script(readScriptFromFile("src/main/resources/script.js")).render();
-    }
-
     private String includeHeader() {
         return div(h1("Doozer Test Run Report")).withClass("header").renderFormatted();
-    }
-
-    private String getHeader() {
-        return div(div(join(
-            div("Test Case"),
-            div("RESULT").withClass("center"),
-            div("PIXEL DIFF").withClass("center"),
-            div("ACTION").withClass("center")
-        )).withClasses("container-testcase-header", "title")).withClass("container-testcase").render();
     }
 
     private String getTestCaseSummaryAndStep(TestCase tc) {
@@ -99,8 +75,6 @@ public class TestRunReport {
         String resultIcon = tc.getTestResult() == TestResult.PASS ? "check" : "cancel";
         String resultStyle = tc.getTestResult() == TestResult.PASS ? "pass" : "fail";
         String buttonHidden = tc.getTestResult() == TestResult.PASS || diff == "0" ? "hidden" : "";
-        
-        
 
         return join(
             div(
@@ -140,24 +114,4 @@ public class TestRunReport {
 
     }
 
-    private String readCssFromFile(String cssFilePath) {
-        String styles = "";
-        try {
-            styles = new String(
-                    Files.readAllBytes(Paths.get(cssFilePath)));
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return styles;
-    }
-
-    private String readScriptFromFile(String jsFilePath) {
-        String script = "";
-        try {
-            script = new String(Files.readAllBytes(Paths.get(jsFilePath)));
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return script;
-    }
 }

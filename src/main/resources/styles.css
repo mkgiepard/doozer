@@ -103,3 +103,6 @@ img {
 .material-symbols-outlined {
     font-size: 16px;
 }
+.step-name {
+    font-family: 'Courier New', Courier, monospace;
+}

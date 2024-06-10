@@ -7,14 +7,12 @@ import j2html.tags.specialized.DivTag;
 
 import static j2html.TagCreator.*;
 
-public class TestCaseReport {
-    private final String REPORT_FILENAME = "doozer-report.html";
-    private final String resultsDir;
-    private final TestCase testCase;
+public class TestCaseReport extends TestReport {
     private final String testCaseDir;
+    protected final TestCase testCase;
 
     public TestCaseReport(String resultsDir, TestCase testCase) {
-        this.resultsDir = resultsDir;
+        super(resultsDir);
         this.testCase = testCase;
         this.testCaseDir = testCase.getTestCaseName();
     }
@@ -49,32 +47,8 @@ public class TestCaseReport {
         return htmlReport;
     }
 
-    private String includeCSS() {
-        String materialFontLink = link()
-                .withRel("stylesheet")
-                .withHref(
-                        "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0")
-                .render();
-        String css = style(readCssFromFile("src/main/resources/styles.css")).render();
-        return materialFontLink + css;
-    }
-
-    private String includeJS() {
-        return script(readScriptFromFile("src/main/resources/script.js")).render();
-    }
-
-    private String getHeader() {
-        return div(div(join(
-                div("Test Case"),
-                div("RESULT").withClass("center"),
-                div("PIXEL DIFF").withClass("center"),
-                div("ACTION").withClass("center"))).withClasses("container-testcase-header", "title"))
-                .withClass("container-testcase").render();
-    }
-
     private String getTestCaseSummary(TestCase tc) {
         String script = tc.getTestScriptPath();
-        String status = tc.getTestStatus().toString();
         String diff = "0";
         String id = tc.getTestCaseName();
         for (TestStep step : tc.getTestSteps()) {
@@ -156,24 +130,4 @@ public class TestCaseReport {
         return div(h1("Doozer Test Report")).withClass("header").renderFormatted();
     }
 
-    private String readCssFromFile(String cssFilePath) {
-        String styles = "";
-        try {
-            styles = new String(
-                    Files.readAllBytes(Paths.get(cssFilePath)));
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return styles;
-    }
-
-    private String readScriptFromFile(String jsFilePath) {
-        String script = "";
-        try {
-            script = new String(Files.readAllBytes(Paths.get(jsFilePath)));
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        return script;
-    }
 }
