@@ -32,7 +32,7 @@ ul {
 }
 .container-testcase-header {
     display: grid;
-    grid-template-columns: 15fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 15fr 1fr 1fr 1fr 20px;
     line-height: 19px;
 }
 .container-testcase-header:hover {
@@ -52,7 +52,7 @@ ul {
 }
 .container-teststep {
     display: grid;
-    grid-template-columns: 15fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 15fr 1fr 1fr 1fr 20px;
     line-height: 19px;
 }
 .container-teststep:hover {

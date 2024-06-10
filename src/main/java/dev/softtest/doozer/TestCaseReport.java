@@ -66,7 +66,6 @@ public class TestCaseReport {
     private String getHeader() {
         return div(div(join(
                 div("Test Case"),
-                div("STATUS").withClass("center"),
                 div("RESULT").withClass("center"),
                 div("PIXEL DIFF").withClass("center"),
                 div("ACTION").withClass("center"))).withClasses("container-testcase-header", "title"))
@@ -92,7 +91,6 @@ public class TestCaseReport {
 
         return div(join(
                 div(div(script).withClass("testcase-name")),
-                div(status).withClass("center"),
                 div(span(resultIcon).withClass("material-symbols-outlined")).withClasses("center", resultStyle),
                 div(diff).withClass("center"),
                 div(button("APPROVE")).withClasses("center", buttonHidden))).withClass("container-testcase-header")
@@ -120,7 +118,6 @@ public class TestCaseReport {
                 div(
                         join(
                                 div(actionText).withClass("step-name"),
-                                div(step.getStatus().toString()).withClass("center"),
                                 div(span(resultIcon).withClass("material-symbols-outlined")).withClasses("center",
                                         resultStyle),
                                 div(diff).withClass("center"),

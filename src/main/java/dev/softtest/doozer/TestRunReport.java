@@ -68,13 +68,12 @@ public class TestRunReport {
     }
 
     private String includeHeader() {
-        return div(h1("Doozer Test Report")).withClass("header").renderFormatted();
+        return div(h1("Doozer Test Run Report")).withClass("header").renderFormatted();
     }
 
     private String getHeader() {
         return div(div(join(
             div("Test Case"),
-            div("STATUS").withClass("center"),
             div("RESULT").withClass("center"),
             div("PIXEL DIFF").withClass("center"),
             div("ACTION").withClass("center")
@@ -83,7 +82,6 @@ public class TestRunReport {
 
     private String getTestCaseHeader(TestCase tc) {
         String script = tc.getTestScriptPath();
-        String status = tc.getTestStatus().toString();
         String diff = "0";
         String id = tc.getTestCaseName();
         String actionText = "";
@@ -107,13 +105,10 @@ public class TestRunReport {
                 div(script).withClass("testcase-name"),
                 div(actionText).withClasses("step-name", "hidden").withId(id+"step")
             )),
-            div(status).withClass("center"),
             div(span(resultIcon).withClass("material-symbols-outlined")).withClasses("center", resultStyle),
             div(diff).withClass("center"),
-            div(join(
-                button("APPROVE").withClass(buttonHidden),
-                a(span("open_in_new").withClass("material-symbols-outlined")).withHref("./" + tc.getTestCaseName() + "/doozer-report.html"))
-            ).withClasses("center")))
+            div(button("APPROVE").withClass(buttonHidden)).withClass("center"),
+            div(a(span("open_in_new").withClass("material-symbols-outlined")).withHref("./" + tc.getTestCaseName() + "/doozer-report.html")).withClass("center")))
         .withClass("container-testcase-header").attr("onclick", "toggleDisplay('" + id + "')").renderFormatted();
 
     }
