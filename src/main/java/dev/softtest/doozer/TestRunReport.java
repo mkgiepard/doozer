@@ -41,6 +41,7 @@ public class TestRunReport {
 
         for (TestCase tc : TEST_CASES.stream()
                 .sorted((tc1, tc2) -> tc1.getTestCaseName().compareTo(tc2.getTestCaseName()))
+                .sorted((tc1, tc2) -> tc2.getTestResult().compareTo(tc1.getTestResult()))
                 .collect(Collectors.toList())) {
             htmlReport += "<div class=\"container-testcase\">";
             htmlReport += getTestCaseHeader(tc);
