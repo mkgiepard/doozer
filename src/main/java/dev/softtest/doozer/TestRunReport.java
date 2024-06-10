@@ -43,7 +43,7 @@ public class TestRunReport {
                 .sorted((tc1, tc2) -> tc2.getTestResult().compareTo(tc1.getTestResult()))
                 .collect(Collectors.toList())) {
             htmlReport += "<div class=\"container-testcase\">";
-            htmlReport += getTestCaseHeader(tc);
+            htmlReport += getTestCaseSummaryAndStep(tc);
             htmlReport += getTestCaseImages(tc);
             htmlReport += "</div>";
         }
@@ -80,7 +80,7 @@ public class TestRunReport {
         )).withClasses("container-testcase-header", "title")).withClass("container-testcase").render();
     }
 
-    private String getTestCaseHeader(TestCase tc) {
+    private String getTestCaseSummaryAndStep(TestCase tc) {
         String script = tc.getTestScriptPath();
         String diff = "0";
         String id = tc.getTestCaseName();
@@ -100,17 +100,18 @@ public class TestRunReport {
         String resultStyle = tc.getTestResult() == TestResult.PASS ? "pass" : "fail";
         String buttonHidden = tc.getTestResult() == TestResult.PASS || diff == "0" ? "hidden" : "";
         
-        return div(join(
-            div(join(
-                div(script).withClass("testcase-name"),
-                div(actionText).withClasses("step-name", "hidden").withId(id+"step")
-            )),
-            div(span(resultIcon).withClass("material-symbols-outlined")).withClasses("center", resultStyle),
-            div(diff).withClass("center"),
-            div(button("APPROVE").withClass(buttonHidden)).withClass("center"),
-            div(a(span("open_in_new").withClass("material-symbols-outlined")).withHref("./" + tc.getTestCaseName() + "/doozer-report.html")).withClass("center")))
-        .withClass("container-testcase-header").attr("onclick", "toggleDisplay('" + id + "')").renderFormatted();
+        
 
+        return join(
+            div(
+                join(
+                    div(script).withClass("testcase-name"),
+                    div(span(resultIcon).withClass("material-symbols-outlined")).withClasses("center", resultStyle),
+                    div(diff).withClass("center"),
+                    div(button("APPROVE").withClass(buttonHidden)).withClass("center"),
+                    div(a(span("open_in_new").withClass("material-symbols-outlined")).withHref("./" + tc.getTestCaseName() + "/doozer-report.html")).withClass("center")))
+            .withClass("container-testcase-summary").attr("onclick", "toggleDisplay('" + id + "')"),
+            div(actionText).withClasses("step-name", "hidden").withId(id+"step")).render();
     }
 
     private String getTestCaseImages(TestCase tc) {
@@ -135,7 +136,7 @@ public class TestRunReport {
             div(img().withSrc("../../" + ta.getGoldensPath()+screenshotName+".png")).withClass("card"),
             div(img().withSrc("." + ta.getResultsPath().substring("target/doozer-tests/".length())+screenshotName + ".DIFF.png")).withClass("card"),
             div(img().withSrc("." + ta.getResultsPath().substring("target/doozer-tests/".length())+screenshotName + ".png")).withClass("card")
-        )).withClasses("container-testcase-images", "hidden").withId(id);
+        )).withClasses("container-teststep-images", "hidden").withId(id);
 
     }
 

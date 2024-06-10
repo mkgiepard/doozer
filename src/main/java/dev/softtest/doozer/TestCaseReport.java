@@ -39,7 +39,7 @@ public class TestCaseReport {
         htmlReport += getHeader();
 
         htmlReport += "<div class=\"container-testcase\">";
-        htmlReport += getTestCaseHeader(this.testCase);
+        htmlReport += getTestCaseSummary(this.testCase);
         htmlReport += getTestCaseSteps(this.testCase);
         htmlReport += "</div>";
 
@@ -72,7 +72,7 @@ public class TestCaseReport {
                 .withClass("container-testcase").render();
     }
 
-    private String getTestCaseHeader(TestCase tc) {
+    private String getTestCaseSummary(TestCase tc) {
         String script = tc.getTestScriptPath();
         String status = tc.getTestStatus().toString();
         String diff = "0";
@@ -93,7 +93,7 @@ public class TestCaseReport {
                 div(div(script).withClass("testcase-name")),
                 div(span(resultIcon).withClass("material-symbols-outlined")).withClasses("center", resultStyle),
                 div(diff).withClass("center"),
-                div(button("APPROVE")).withClasses("center", buttonHidden))).withClass("container-testcase-header")
+                div(button("APPROVE")).withClasses("center", buttonHidden))).withClass("container-testcase-summary")
                 .attr("onclick", "toggleDisplay('" + id + "')").renderFormatted();
 
     }
@@ -122,8 +122,8 @@ public class TestCaseReport {
                                         resultStyle),
                                 div(diff).withClass("center"),
                                 div()))
-                        .withClass("container-teststep"),
-                getTestStepImages(step)));
+                        .withClass("container-teststep-summary"),
+                getTestStepImages(step))).withClass("container-teststep");
     }
 
     private String getTestStepImages(TestStep step) {
@@ -148,7 +148,7 @@ public class TestCaseReport {
                 div(img().withSrc("../../../" + ta.getGoldensPath() + screenshotName + ".png")).withClass("card"),
                 div(img().withSrc("./" + screenshotName + ".DIFF.png")).withClass("card"),
                 div(img().withSrc("./" + screenshotName + ".png")).withClass("card")))
-                .withClasses("container-testcase-images").withId(id);
+                .withClasses("container-teststep-images").withId(id);
 
     }
 

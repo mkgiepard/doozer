@@ -25,40 +25,32 @@ ul {
 }
 .container-testcase {
     display: grid;
-    row-gap: 12px;
+    row-gap: 6px;
     width: 100%;
     border-bottom: 1px solid lightgrey;
     padding: 3px 12px;
 }
-.container-testcase-header {
+.container-testcase-header,
+.container-testcase-summary,
+.container-teststep-summary {
     display: grid;
     grid-template-columns: 15fr 1fr 1fr 1fr 20px;
     line-height: 19px;
 }
-.container-testcase-header:hover {
+.container-testcase-summary:hover,
+.container-teststep-summary:hover {
     background-color: #f8f8f8;
     cursor: pointer;
     z-index: 99;
 }
-.container-testcase-images {
+.container-teststep-images {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     column-gap: 12px;
-    margin-top: 8px;
     margin-bottom: 12px;
 }
 .container-teststeps {
     display: grid;
-}
-.container-teststep {
-    display: grid;
-    grid-template-columns: 15fr 1fr 1fr 1fr 20px;
-    line-height: 19px;
-}
-.container-teststep:hover {
-    background-color: #f8f8f8;
-    cursor: pointer;
-    z-index: 99;
 }
 .testcase-image {
     text-align: center;
