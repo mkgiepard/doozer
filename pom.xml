@@ -8,13 +8,36 @@
   <artifactId>doozer</artifactId>
   <version>0.0.1</version>
 
-  <name>doozer</name>
+  <name>${project.groupId}:${project.artifactId}</name>
+  <description>UI testing framework for non-coders.</description>
   <url>http://www.softtest.dev/doozer</url>
+
+  <licenses>
+    <license>
+      <name>The Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
+
+  <developers>
+    <developer>
+      <name>Mariusz Gieparda</name>
+      <email>mariusz@softtest.dev</email>
+      <organization>softtest.dev</organization>
+      <organizationUrl>http://www.softtest.dev</organizationUrl>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:git://github.com/mkgiepard/doozer.git</connection>
+    <developerConnection>scm:git:ssh://github.com:mgiepard/doozer.git</developerConnection>
+    <url>http://github.com/mkgiepard/doozer/tree/main</url>
+  </scm>  
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.11</maven.compiler.source>
-    <maven.compiler.target>1.11</maven.compiler.target>
+    <maven.compiler.source>1.21</maven.compiler.source>
+    <maven.compiler.target>1.21</maven.compiler.target>
   </properties>
 
   <dependencies>
