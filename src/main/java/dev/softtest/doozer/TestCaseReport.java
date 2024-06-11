@@ -79,7 +79,8 @@ public class TestCaseReport extends TestReport {
     }
 
     private DivTag getTestStepDiv(TestStep step) {
-        String actionText = step.getAction().getLineNumber()
+        String actionText = step.getAction().getSourceFileName() + "> "
+                + step.getAction().getLineNumber()
                 + ": "
                 + step.getAction().getOriginalAction();
         String diff = "0";
@@ -89,15 +90,17 @@ public class TestCaseReport extends TestReport {
         String resultIcon = step.getResult() == TestResult.PASS ? "check" : "cancel";
         String resultStyle = step.getResult() == TestResult.PASS ? "pass" : "fail";
         return div(join(
-                div(
+                    div(
                         join(
-                                div(actionText).withClass("step-name"),
-                                div(span(resultIcon).withClass("material-symbols-outlined")).withClasses("center",
-                                        resultStyle),
-                                div(diff).withClass("center"),
-                                div()))
-                        .withClass("container-teststep-summary"),
-                getTestStepImages(step))).withClass("container-teststep");
+                            div(actionText).withClass("step-name"),
+                            div(span(resultIcon).withClass("material-symbols-outlined")).withClasses("center",
+                                resultStyle),
+                            div(diff).withClass("center"),
+                            div()
+                        )
+                    ).withClass("container-teststep-summary"),
+                    getTestStepImages(step))
+                ).withClass("container-teststep");
     }
 
     private String getTestStepImages(TestStep step) {

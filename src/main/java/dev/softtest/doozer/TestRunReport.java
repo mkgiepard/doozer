@@ -63,7 +63,8 @@ public class TestRunReport extends TestReport {
         String actionText = "";
         for (TestStep step : tc.getTestSteps()) {
             if (step.getResult().equals(TestResult.FAIL)) {
-                actionText = step.getAction().getLineNumber()
+                actionText = step.getAction().getSourceFileName() + "> "
+                    + step.getAction().getLineNumber()
                     + ": "
                     + step.getAction().getOriginalAction();
                 if (step.getArtifact() != null && step.getArtifact().getDiff() != 0 ) {

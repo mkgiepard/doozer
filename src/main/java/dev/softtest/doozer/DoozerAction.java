@@ -18,6 +18,7 @@ public class DoozerAction implements Action {
     private final Integer lineNumber;
     private final String actionName;
     private final String originalAction;
+    private String sourceFileName;
 
     private WebDriver driver;
     private String selector;
@@ -44,6 +45,10 @@ public class DoozerAction implements Action {
         return originalAction;
     }
 
+    public String getSourceFileName() {
+        return sourceFileName;
+    }
+
     public String getSelector() {
         return selector;
     }
@@ -68,6 +73,9 @@ public class DoozerAction implements Action {
         return lineNumber;
     }
 
+    public void setSourceFileName(String sourceFileName) {
+        this.sourceFileName = sourceFileName;
+    }
     public DoozerSelector getDoozerSelector() {
         return doozerSelector;
     }
