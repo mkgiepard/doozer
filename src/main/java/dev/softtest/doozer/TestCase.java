@@ -21,6 +21,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import dev.softtest.doozer.actions.TakeScreenshot;
 
+
 public class TestCase {
     protected static final Logger LOG = LogManager.getLogger();
     private final Duration WAIT_DOCUMENT_READY = Duration.ofSeconds(10);

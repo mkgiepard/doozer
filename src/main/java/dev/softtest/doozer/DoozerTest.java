@@ -30,6 +30,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.ThreadContext;
 
+
+/**
+ * Main class of the Doozer framework, it creates a ParameterizedTest for each script identified by
+ * provideDoozerTestFiles().
+ */
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.CONCURRENT)
 public abstract class DoozerTest {

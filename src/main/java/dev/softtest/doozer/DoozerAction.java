@@ -8,6 +8,8 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.openqa.selenium.WebDriver;
 
+
+/** Base class for actions implementing User interactions. */
 public class DoozerAction implements Action {
     protected static final Logger LOG = LogManager.getLogger();
     
