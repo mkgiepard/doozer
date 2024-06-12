@@ -14,7 +14,6 @@ import java.util.HashMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.WebDriver;
 
 public class Parser {
     protected static final Logger logger = LogManager.getLogger();
@@ -23,12 +22,10 @@ public class Parser {
     private String filePath;
     private Charset charset = StandardCharsets.UTF_8;
     private List<DoozerAction> actions = new ArrayList<DoozerAction>();
-    private WebDriver driver;
 
-    public Parser(Context ctx, String filePath, WebDriver driver) {
+    public Parser(Context ctx, String filePath) {
         this.ctx = ctx;
         this.filePath = filePath;
-        this.driver = driver;
     }
 
     public List<DoozerAction> parse() throws Exception {
@@ -54,7 +51,7 @@ public class Parser {
                     + Integer.toString(lineCounter) + ": " + action.getActionName();
                 logger.info(logMsg);
                 if (action.getActionName().equals("import")) {
-                    Parser p = new Parser(ctx, action.getOption("default"), driver);
+                    Parser p = new Parser(ctx, action.getOption("default"));
                     actions.addAll(p.parse());
                 } else {
                     actions.add(action);
@@ -102,7 +99,6 @@ public class Parser {
         try {
             action = createActionInstance(ctx, lineNumber, actionName, line);
             action.setSelector(selector);
-            action.setDriver(driver);
             action.setOptions(options);
             action.setIsOptional(isOptional);
         } catch (Exception e) {

@@ -1,28 +1,24 @@
 package dev.softtest.doozer;
 
-import org.openqa.selenium.WebDriver;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+
+import java.util.List;
+import java.util.Map;
+import org.apache.logging.log4j.core.tools.picocli.CommandLine.ParameterException;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.WebDriver;
 
 import dev.softtest.doozer.Parser.ParserException;
 import dev.softtest.doozer.actions.Click;
 import dev.softtest.doozer.actions.Type;
 import dev.softtest.doozer.actions.Url;
 import dev.softtest.doozer.actions.Refresh;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-
-
-import org.apache.logging.log4j.core.tools.picocli.CommandLine.ParameterException;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Disabled;
-
-import java.util.List;
-import java.util.Map;
 
 public class ParserTest {
     public static WebDriver driver = new ChromeDriver();
@@ -33,7 +29,7 @@ public class ParserTest {
     public static void setup() {
         path = "/some/path";
 
-        parser = new Parser(new Context(), path, driver);
+        parser = new Parser(new Context(), path);
     }
 
     @Test
@@ -122,7 +118,7 @@ public class ParserTest {
     @Test
     public void parse_firstTest_file() throws Exception {
         path = "src/test/java/dev/softtest/doozer/scripts/firstTest/firstTest.doozer";
-        parser = new Parser(new Context(), path, driver);
+        parser = new Parser(new Context(), path);
 
         List<DoozerAction> actions = parser.parse();
 
@@ -152,7 +148,7 @@ public class ParserTest {
     @Test
     public void parse_comment_line() throws Exception {
         path = "src/test/java/dev/softtest/doozer/scripts/commentTest/commentTest.doozer";
-        parser = new Parser(new Context(), path, driver);
+        parser = new Parser(new Context(), path);
 
         List<DoozerAction> actions = parser.parse();
 

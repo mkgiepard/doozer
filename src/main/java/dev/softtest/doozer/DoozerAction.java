@@ -1,15 +1,12 @@
 package dev.softtest.doozer;
 
-import java.util.Map;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import dev.softtest.doozer.actions.Action;
 
 import com.google.common.base.Strings;
-
-import dev.softtest.doozer.actions.Action;
+import java.util.Map;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.openqa.selenium.WebDriver;
 
 public class DoozerAction implements Action {
     protected static final Logger logger = LogManager.getLogger();
@@ -20,7 +17,6 @@ public class DoozerAction implements Action {
     private final String originalAction;
     private String sourceFileName;
 
-    private WebDriver driver;
     private String selector;
     private Map<String, String> options;
     private boolean isOptional = false;
@@ -54,7 +50,7 @@ public class DoozerAction implements Action {
     }
 
     public WebDriver getDriver() {
-        return driver;
+        return getContext().getWebDriver();
     }
 
     public Map<String, String> getOptions() {
@@ -78,10 +74,6 @@ public class DoozerAction implements Action {
     }
     public DoozerSelector getDoozerSelector() {
         return doozerSelector;
-    }
-
-    public void setDriver(WebDriver driver) {
-        this.driver = driver;
     }
 
     public void setSelector(String selector) throws Exception {

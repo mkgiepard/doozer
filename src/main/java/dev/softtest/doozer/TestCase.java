@@ -71,7 +71,7 @@ public class TestCase {
     }
 
     public void readTestScript() throws Exception {
-        Parser p = new Parser(ctx, testScriptPath, getContext().getWebDriver());
+        Parser p = new Parser(ctx, testScriptPath);
         setActions(p.parse());
     }
 
