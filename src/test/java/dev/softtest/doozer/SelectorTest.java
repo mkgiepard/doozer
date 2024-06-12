@@ -1,16 +1,11 @@
 package dev.softtest.doozer;
 
-import org.openqa.selenium.By;
-
-import dev.softtest.doozer.Parser.ParserException;
-import dev.softtest.doozer.DoozerSelector.SelectorParseException;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
+
+import dev.softtest.doozer.DoozerSelector.SelectorParseException;
 
 public class SelectorTest {
     

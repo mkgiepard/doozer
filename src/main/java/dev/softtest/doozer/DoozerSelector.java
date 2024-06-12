@@ -10,7 +10,7 @@ import com.google.common.base.Strings;
 import com.google.semanticlocators.BySemanticLocator;
 
 public class DoozerSelector {
-    protected static final Logger logger = LogManager.getLogger();
+    protected static final Logger LOG = LogManager.getLogger();
 
     private String selectorDesc;
     private By bySelector;
@@ -75,7 +75,7 @@ public class DoozerSelector {
     public class SelectorParseException extends Exception {
         public SelectorParseException(String errorMessage) {
             super(errorMessage);
-            logger.error(errorMessage);
+            LOG.error(errorMessage);
         }
     }
 

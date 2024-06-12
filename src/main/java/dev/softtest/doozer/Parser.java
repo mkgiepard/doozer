@@ -16,7 +16,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Parser {
-    protected static final Logger logger = LogManager.getLogger();
+    protected static final Logger LOG = LogManager.getLogger();
 
     private Context ctx;
     private String filePath;
@@ -38,18 +38,18 @@ public class Parser {
             while ((line = reader.readLine()) != null) {
                 lineCounter++;
                 if (line.length() == 0) {
-                    logger.info("parse: " + sourceFileName + " > " + Integer.toString(lineCounter) + ": EMPTY LINE");
+                    LOG.info("parse: " + sourceFileName + " > " + Integer.toString(lineCounter) + ": EMPTY LINE");
                     continue;
                 }
                 if (line.trim().startsWith("//")) {
-                    logger.info("parse: " + sourceFileName + " > " + Integer.toString(lineCounter) + ": COMMENT");
+                    LOG.info("parse: " + sourceFileName + " > " + Integer.toString(lineCounter) + ": COMMENT");
                     continue;
                 }
                 DoozerAction action = parseAction(lineCounter, line);
                 action.setSourceFileName(sourceFileName);
                 String logMsg = "parse: " + sourceFileName + " > "
                     + Integer.toString(lineCounter) + ": " + action.getActionName();
-                logger.info(logMsg);
+                LOG.info(logMsg);
                 if (action.getActionName().equals("import")) {
                     Parser p = new Parser(ctx, action.getOption("default"));
                     actions.addAll(p.parse());
@@ -59,7 +59,7 @@ public class Parser {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            logger.error("Exception: " + e);
+            LOG.error("Exception: " + e);
             throw e;
         }
         return actions;
@@ -103,7 +103,7 @@ public class Parser {
             action.setIsOptional(isOptional);
         } catch (Exception e) {
             System.err.format("Exception: %s%n", e);
-            logger.error("Exception: " + e);
+            LOG.error("Exception: " + e);
             throw e;
         }
         return action;
@@ -254,7 +254,7 @@ public class Parser {
     public class ParserException extends Exception {
         public ParserException(String errorMessage) {
             super(errorMessage);
-            logger.error(errorMessage);
+            LOG.error(errorMessage);
         }
     }
 }

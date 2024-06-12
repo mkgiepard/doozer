@@ -33,10 +33,11 @@ import org.apache.logging.log4j.ThreadContext;
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.CONCURRENT)
 public abstract class DoozerTest {
-    private final Logger logger = LogManager.getLogger();
+    private static final Logger LOG = LogManager.getLogger();
     private final String LOGGING_KEY = "ROUTINGKEY";
-    private Map<String, TestCase> testCaseRegistry = new HashMap<>();
     private final String RESULTS_DIR = "target/doozer-tests/";
+
+    private Map<String, TestCase> testCaseRegistry = new HashMap<>();
 
     @BeforeEach
     public void setup(TestInfo tInfo) throws IOException {
@@ -67,9 +68,9 @@ public abstract class DoozerTest {
         tc.getContext().setResultsDir(getResultsDirectory(tInfo.getDisplayName()));
         testCaseRegistry.put(tInfo.getDisplayName(), tc);
         
-        logger.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-        logger.info("========================== START =========================");
-        logger.info("Test: " + testFile);
+        LOG.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+        LOG.info("========================== START =========================");
+        LOG.info("Test: " + testFile);
         
         long startTime = System.nanoTime();
         tc.readTestScript();
@@ -80,9 +81,9 @@ public abstract class DoozerTest {
         } finally {
             long duration = System.nanoTime() - startTime;
 
-            logger.info("========================== STOP =========================");
-            logger.info("Execution time: " + TimeUnit.NANOSECONDS.toMillis(duration) + "[ms]");
-            logger.info("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+            LOG.info("========================== STOP =========================");
+            LOG.info("Execution time: " + TimeUnit.NANOSECONDS.toMillis(duration) + "[ms]");
+            LOG.info("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
         }
     }
 

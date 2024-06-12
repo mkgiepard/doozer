@@ -22,7 +22,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import dev.softtest.doozer.actions.TakeScreenshot;
 
 public class TestCase {
-    protected static final Logger logger = LogManager.getLogger();
+    protected static final Logger LOG = LogManager.getLogger();
     private final Duration WAIT_DOCUMENT_READY = Duration.ofSeconds(10);
     private Context ctx;
     private List<DoozerAction> actions;
@@ -80,7 +80,7 @@ public class TestCase {
         for (DoozerAction action : getActions()) {
             TestStep step = new TestStep(action);
             try {
-                logger.info("execute: " + action.getOriginalAction());
+                LOG.info("execute: " + action.getOriginalAction());
                 waitForPageLoaded(ctx.getWebDriver());
                 action.resolveVariables();
                 if (action.getActionName() != "set") action.resolveDoozerSelector();
@@ -90,7 +90,7 @@ public class TestCase {
                 }
             } catch (Exception e) {
                 if (!action.isOptional()) {
-                    logger.error("EXECUTION FAILED IN ACTION: " + action.getOriginalAction() + " >>> Root cause:");
+                    LOG.error("EXECUTION FAILED IN ACTION: " + action.getOriginalAction() + " >>> Root cause:");
                     e.printStackTrace();
                     saveDom(ctx, testScriptPath);
                     takeScreenshotOnFailure();
@@ -110,7 +110,7 @@ public class TestCase {
                         step.setArtifact(((TakeScreenshot) action).getTestArtifact());
                     }
                     step.setError("EXECUTION FAILED but ignoring the failure as the action is optional.");
-                    logger.warn("EXECUTION FAILED but ignoring the failure as the action is optional.");
+                    LOG.warn("EXECUTION FAILED but ignoring the failure as the action is optional.");
                 }
             }
             step.setResult(TestResult.PASS);

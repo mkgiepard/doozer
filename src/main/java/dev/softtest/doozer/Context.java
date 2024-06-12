@@ -1,7 +1,6 @@
 package dev.softtest.doozer;
 
 import org.openqa.selenium.WebDriver;
-
 import java.util.Map;
 import java.util.HashMap;
 

@@ -15,7 +15,7 @@ import org.openqa.selenium.support.ui.FluentWait;
 
 public class ElementFinder {
     public static final Duration DEFAULT_WAIT_TIMEOUT = Duration.ofSeconds(10);
-    private static final Logger logger = LogManager.getLogger();
+    private static final Logger LOG = LogManager.getLogger();
 
     public static WebElement findElement(Context ctx, DoozerSelector selector) throws Exception {
         List<WebElement> list = new ArrayList<>();
@@ -27,7 +27,7 @@ public class ElementFinder {
                 .ignoring(ElementNotInteractableException.class, NoSuchElementException.class);
         try {
             wait.until((d) -> {
-                logger.info("looking for element: '" + selector.getSelectorDesc() + "'");
+                LOG.info("looking for element: '" + selector.getSelectorDesc() + "'");
                 List<WebElement> elements = ctx.getWebDriver().findElements(selector.getBySelector());
                 if (selector.getIndex() >= 0 && selector.getIndex() < elements.size()) {
                     WebElement element = elements.get(selector.getIndex());

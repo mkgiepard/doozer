@@ -9,7 +9,7 @@ import org.apache.logging.log4j.LogManager;
 import org.openqa.selenium.WebDriver;
 
 public class DoozerAction implements Action {
-    protected static final Logger logger = LogManager.getLogger();
+    protected static final Logger LOG = LogManager.getLogger();
     
     private final Context ctx;
     private final Integer lineNumber;
@@ -97,14 +97,14 @@ public class DoozerAction implements Action {
         if (this.selector != null && this.selector.contains("${")) {
             String varName = this.selector.substring(this.selector.indexOf("${")+2, this.selector.indexOf("}"));
             setSelector(getContext().getVariable(varName));
-            logger.info("resolveVariable: '${" + varName + "}' ==> '" + getContext().getVariable(varName) + "'"); 
+            LOG.info("resolveVariable: '${" + varName + "}' ==> '" + getContext().getVariable(varName) + "'"); 
         }
         for (String key : getOptions().keySet()) {
             if (this.options.get(key).contains("${")) {
                 String value = this.options.get(key);
                 String varName = value.substring(value.indexOf("${")+2, value.indexOf("}"));
                 this.options.put(key, getContext().getVariable(varName));
-                logger.info("resolveVariable: '${" + varName + "}' ==> '" + getContext().getVariable(varName) + "'");
+                LOG.info("resolveVariable: '${" + varName + "}' ==> '" + getContext().getVariable(varName) + "'");
             }
         }
     }

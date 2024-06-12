@@ -19,7 +19,7 @@ public class Click extends DoozerAction {
         try {
             submitButton.click();
         } catch (ElementClickInterceptedException e) {
-            logger.warn("click() failed due to: " + e.getMessage() + ". Retrying.");
+            LOG.warn("click() failed due to: " + e.getMessage() + ". Retrying.");
             submitButton = getDriver().findElement(getDoozerSelector().getBySelector());
             submitButton.click();
         }        
