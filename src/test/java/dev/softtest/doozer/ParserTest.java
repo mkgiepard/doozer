@@ -120,7 +120,7 @@ public class ParserTest {
         path = "src/test/java/dev/softtest/doozer/scripts/firstTest/firstTest.doozer";
         parser = new Parser(new Context(), path);
 
-        List<DoozerAction> actions = parser.parse();
+        List<DoozerAction> actions = parser.parseScriptIntoActions();
 
         assertEquals(7, actions.size());
         assertEquals("url", actions.get(0).getActionName());
@@ -150,7 +150,7 @@ public class ParserTest {
         path = "src/test/java/dev/softtest/doozer/scripts/commentTest/commentTest.doozer";
         parser = new Parser(new Context(), path);
 
-        List<DoozerAction> actions = parser.parse();
+        List<DoozerAction> actions = parser.parseScriptIntoActions();
 
         assertEquals(3, actions.size());
     }

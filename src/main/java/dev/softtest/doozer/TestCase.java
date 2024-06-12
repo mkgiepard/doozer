@@ -73,7 +73,7 @@ public class TestCase {
 
     public void readTestScript() throws Exception {
         Parser p = new Parser(ctx, testScriptPath);
-        setActions(p.parse());
+        setActions(p.parseScriptIntoActions());
     }
 
     public void run() throws Exception {

@@ -28,7 +28,7 @@ public class Parser {
         this.filePath = filePath;
     }
 
-    public List<DoozerAction> parse() throws Exception {
+    public List<DoozerAction> parseScriptIntoActions() throws Exception {
         Path path = FileSystems.getDefault().getPath(this.filePath).toAbsolutePath();
 
         try (BufferedReader reader = Files.newBufferedReader(path, charset)) {
@@ -52,7 +52,7 @@ public class Parser {
                 LOG.info(logMsg);
                 if (action.getActionName().equals("import")) {
                     Parser p = new Parser(ctx, action.getOption("default"));
-                    actions.addAll(p.parse());
+                    actions.addAll(p.parseScriptIntoActions());
                 } else {
                     actions.add(action);
                 }
