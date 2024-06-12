@@ -30,7 +30,7 @@ public class TestRunReport extends TestReport {
     private String generateTestReport() {
         String htmlReport = "<html>";
         htmlReport += includeCSS();
-        htmlReport += includeHeader();
+        htmlReport += includeHeader("Doozer Test Run Report");
         
         htmlReport += "<body>";
         htmlReport += "<div class=\"container-main\">";
@@ -50,10 +50,6 @@ public class TestRunReport extends TestReport {
         htmlReport += includeJS();
         htmlReport += "</html>";
         return htmlReport;
-    }
-
-    private String includeHeader() {
-        return div(h1("Doozer Test Run Report")).withClass("header").renderFormatted();
     }
 
     private String getTestCaseSummaryAndStep(TestCase tc) {

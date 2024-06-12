@@ -30,7 +30,7 @@ public class TestCaseReport extends TestReport {
     private String generateTestReport() {
         String htmlReport = "<html>";
         htmlReport += includeCSS();
-        htmlReport += includeHeader();
+        htmlReport += includeHeader("Doozer Test Report");
 
         htmlReport += "<body>";
         htmlReport += "<div class=\"container-main\">";
@@ -128,9 +128,4 @@ public class TestCaseReport extends TestReport {
                 .withClasses("container-teststep-images").withId(id);
 
     }
-
-    private String includeHeader() {
-        return div(h1("Doozer Test Report")).withClass("header").renderFormatted();
-    }
-
 }

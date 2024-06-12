@@ -5,11 +5,14 @@ import static j2html.TagCreator.*;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 
+
+/**
+ * Base class for test reports created with j2html.
+ */
 public abstract class TestReport {
     protected final String REPORT_FILENAME = "doozer-report.html";
     protected final String resultsDir;
     
-
     public TestReport(String resultsDir) {
         this.resultsDir = resultsDir;
     }
@@ -60,5 +63,7 @@ public abstract class TestReport {
         return script;
     }
 
-
+    protected String includeHeader(String header) {
+        return div(h1(header)).withClass("header").renderFormatted();
+    }
 }
