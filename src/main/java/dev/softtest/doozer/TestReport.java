@@ -6,9 +6,7 @@ import java.nio.file.Paths;
 import java.nio.file.Files;
 
 
-/**
- * Base class for test reports created with j2html.
- */
+/** Base class for test reports created with j2html. */
 public abstract class TestReport {
     protected final String REPORT_FILENAME = "doozer-report.html";
     protected final String resultsDir;
