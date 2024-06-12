@@ -30,11 +30,11 @@ public class TestCaseReport extends TestReport {
     private String generateTestReport() {
         String htmlReport = "<html>";
         htmlReport += includeCSS();
-        htmlReport += includeHeader("Doozer Test Report");
+        htmlReport += includePageHeader("Doozer Test Report");
 
         htmlReport += "<body>";
         htmlReport += "<div class=\"container-main\">";
-        htmlReport += getHeader();
+        htmlReport += getHeaderRow();
 
         htmlReport += "<div class=\"container-testcase\">";
         htmlReport += getTestCaseSummary(this.testCase);

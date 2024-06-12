@@ -30,11 +30,11 @@ public class TestRunReport extends TestReport {
     private String generateTestReport() {
         String htmlReport = "<html>";
         htmlReport += includeCSS();
-        htmlReport += includeHeader("Doozer Test Run Report");
+        htmlReport += includePageHeader("Doozer Test Run Report");
         
         htmlReport += "<body>";
         htmlReport += "<div class=\"container-main\">";
-        htmlReport += getHeader();
+        htmlReport += getHeaderRow();
 
         for (TestCase tc : testCases.stream()
                 .sorted((tc1, tc2) -> tc1.getTestCaseName().compareTo(tc2.getTestCaseName()))

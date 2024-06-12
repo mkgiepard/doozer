@@ -33,7 +33,11 @@ public abstract class TestReport {
         return script(readScriptFromFile("src/main/resources/script.js")).render();
     }
 
-    protected String getHeader() {
+    protected String includePageHeader(String header) {
+        return div(h1(header)).withClass("header").renderFormatted();
+    }
+
+    protected String getHeaderRow() {
         return div(div(join(
                 div("Test Case"),
                 div("RESULT").withClass("center"),
@@ -61,9 +65,5 @@ public abstract class TestReport {
             System.out.println(e);
         }
         return script;
-    }
-
-    protected String includeHeader(String header) {
-        return div(h1(header)).withClass("header").renderFormatted();
     }
 }
