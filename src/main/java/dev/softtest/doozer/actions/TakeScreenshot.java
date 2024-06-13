@@ -31,10 +31,7 @@ public class TakeScreenshot extends DoozerAction {
         }
         fileName += "-" + getContext().getDoozerDriver().getBrowserDesc() + ".png";
         
-        Path goldensPath = Paths.get(
-            "src/test/java/dev/softtest/doozer/scripts/"
-            + getContext().getResultsDir().substring("target/doozer-tests/".length())
-            + "/goldens/");
+        Path goldensPath = Paths.get(getContext().getTestRootPath().toString(), "goldens/");
         Path resultsPath = Paths.get(getContext().getResultsDir() + "/");
 
         goldenImgPath = Paths.get(goldensPath.toString(), fileName);

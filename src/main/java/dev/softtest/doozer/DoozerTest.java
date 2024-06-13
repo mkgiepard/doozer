@@ -79,6 +79,7 @@ public class DoozerTest {
         ThreadContext.put(LOGGING_KEY, tc.getTestCaseName());
         tc.getContext().setDoozerDriver(initDriver());
         tc.getContext().setResultsDir(getResultsDirectory(tInfo.getDisplayName()).toString());
+        tc.getContext().setTestRootPath(testScriptPath.getParent());
         testCaseRegistry.put(tInfo.getDisplayName(), tc);
         
         LOG.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");

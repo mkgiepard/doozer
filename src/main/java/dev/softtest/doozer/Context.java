@@ -1,6 +1,7 @@
 package dev.softtest.doozer;
 
 import org.openqa.selenium.WebDriver;
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -8,6 +9,7 @@ public class Context {
     private Map<String, String> variables;
     private String resultsDir;
     private DoozerDriver doozerDriver;
+    private Path testRootPath;
 
     public Context() {
         variables = new HashMap<String, String>();
@@ -40,4 +42,13 @@ public class Context {
     public WebDriver getWebDriver() {
         return doozerDriver.getDriver();
     }
+
+    public void setTestRootPath(Path testRootPath) {
+        this.testRootPath = testRootPath;
+    }
+
+    public Path getTestRootPath() {
+        return testRootPath;
+    }
+
 } 
