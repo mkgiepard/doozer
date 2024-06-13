@@ -27,32 +27,34 @@ public class TestCase {
     private final Duration WAIT_DOCUMENT_READY = Duration.ofSeconds(10);
     private Context ctx;
     private List<DoozerAction> actions;
-    private String testScriptPath;
+    private Path testScriptPath;
+    private String testCaseName;
     private TestResult result;
     private TestStatus status;
     private List<TestStep> steps;
 
-    public TestCase(String testScriptPath) {
+    public TestCase(Path testScriptPath) {
         this.testScriptPath = testScriptPath;
         ctx = new Context();
         actions = new ArrayList<DoozerAction>();
         result = TestResult.UNKNOWN;
         status = TestStatus.NEW;
         steps = new ArrayList<TestStep>();
+        
+        String fileName = testScriptPath.getFileName().toString();
+        testCaseName = fileName.substring(0, fileName.lastIndexOf(".doozer"));
     }
 
     public Context getContext() {
         return ctx;
     }
 
-    public String getTestScriptPath() {
+    public Path getTestScriptPath() {
         return testScriptPath;
     }
 
     public String getTestCaseName() {
-        return testScriptPath.substring(
-            testScriptPath.lastIndexOf("/") + 1,
-            testScriptPath.lastIndexOf(".doozer"));
+        return testCaseName;
     }
 
     public List<DoozerAction> getActions() {
@@ -72,7 +74,7 @@ public class TestCase {
     }
 
     public void readTestScript() throws Exception {
-        Parser p = new Parser(ctx, testScriptPath);
+        Parser p = new Parser(ctx, testScriptPath.toString());
         setActions(p.parseScriptIntoActions());
     }
 
@@ -93,7 +95,7 @@ public class TestCase {
                 if (!action.isOptional()) {
                     LOG.error("EXECUTION FAILED IN ACTION: " + action.getOriginalAction() + " >>> Root cause:");
                     e.printStackTrace();
-                    saveDom(ctx, testScriptPath);
+                    saveDom();
                     takeScreenshotOnFailure();
                     result = TestResult.FAIL;
                     status = TestStatus.DONE;
@@ -133,9 +135,8 @@ public class TestCase {
                         .equals("complete"));
     }
 
-    private void saveDom(Context ctx, String name) {
-        String[] s = name.split("/");
-        Path path = Paths.get(ctx.getResultsDir() + s[s.length-1] + "-DOM.html");
+    private void saveDom() {
+        Path path = Paths.get(ctx.getResultsDir() + testCaseName + "-DOM.html");
         byte[] domDump = ctx.getWebDriver().getPageSource().getBytes();
     
         try {
@@ -147,8 +148,9 @@ public class TestCase {
 
     private void takeScreenshotOnFailure() {
         byte[] screenshot = ((TakesScreenshot) getContext().getWebDriver()).getScreenshotAs(OutputType.BYTES);
-        String[] s = getTestScriptPath().split("/");
-        Path path = Paths.get(ctx.getResultsDir() + s[s.length-1] + "-onFAILURE.png");
+        String fileName = testScriptPath.getFileName().toString();
+        Path path = Paths.get(ctx.getResultsDir() + testCaseName + "-onFAILURE.png");
+
         try {
             Files.write(path, screenshot);
         } catch (IOException e) {

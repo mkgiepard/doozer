@@ -48,7 +48,7 @@ public class TestCaseReport extends TestReport {
     }
 
     private String getTestCaseSummary(TestCase tc) {
-        String script = tc.getTestScriptPath();
+        String script = tc.getTestScriptPath().toString();
         String diff = "0";
         String id = tc.getTestCaseName();
         for (TestStep step : tc.getTestSteps()) {

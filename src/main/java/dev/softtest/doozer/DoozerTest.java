@@ -4,6 +4,7 @@ import java.util.stream.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.Duration;
 
@@ -64,10 +65,17 @@ public abstract class DoozerTest {
         tr.generate();
     }
 
+
+    /**
+     * Entry point for Doozer test execution.
+     * 
+     * @param testScriptPath The path to doozer test script file, provided by provideDoozerTestFiles()
+     * @param tInfo TestInfo for current ParameterizedTest instance.
+     */
     @ParameterizedTest
     @MethodSource("provideDoozerTestFiles")
-    public void runner(String testFile, TestInfo tInfo) throws Exception {
-        TestCase tc = new TestCase(testFile);
+    public void runner(Path testScriptPath, TestInfo tInfo) throws Exception {
+        TestCase tc = new TestCase(testScriptPath);
         ThreadContext.put(LOGGING_KEY, tc.getTestCaseName());
         tc.getContext().setDoozerDriver(initDriver());
         tc.getContext().setResultsDir(getResultsDirectory(tInfo.getDisplayName()));
@@ -75,7 +83,7 @@ public abstract class DoozerTest {
         
         LOG.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         LOG.info("========================== START =========================");
-        LOG.info("Test: " + testFile);
+        LOG.info("Test: " + testScriptPath);
         
         long startTime = System.nanoTime();
         tc.readTestScript();
@@ -92,6 +100,15 @@ public abstract class DoozerTest {
         }
     }
 
+    /**
+     * Provides doozer test scripts consumed by the runner().
+     * 
+     * The method reads two properties `doozer.test` and `doozer.directory`. If the first one is set 
+     * then the method returns a one element stream. If the latter then the output contains all the
+     * directories found within passed path.
+     * 
+     * @return the stream of Arguments with doozer test scripts.
+     */
     public Stream<Arguments> provideDoozerTestFiles() {
         String test = System.getProperty("doozer.test");
         if (test != null) {
