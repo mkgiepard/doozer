@@ -122,7 +122,7 @@ public class TestCaseReport extends TestReport {
 
     private DivTag getContainerTestCaseImages(TestArtifact ta, String screenshotName, String id) {
         return div(join(
-                div(img().withSrc("../../../" + ta.getGoldensPath() + screenshotName + ".png")).withClass("card"),
+                div(img().withSrc("../../../" + ta.getGoldensPath() + "/" + screenshotName + ".png")).withClass("card"),
                 div(img().withSrc("./" + screenshotName + ".DIFF.png")).withClass("card"),
                 div(img().withSrc("./" + screenshotName + ".png")).withClass("card")))
                 .withClasses("container-teststep-images").withId(id);

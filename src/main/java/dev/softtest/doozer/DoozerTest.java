@@ -78,7 +78,7 @@ public class DoozerTest {
         TestCase tc = new TestCase(testScriptPath);
         ThreadContext.put(LOGGING_KEY, tc.getTestCaseName());
         tc.getContext().setDoozerDriver(initDriver());
-        tc.getContext().setResultsDir(getResultsDirectory(tInfo.getDisplayName()));
+        tc.getContext().setResultsDir(getResultsDirectory(tInfo.getDisplayName()).toString());
         testCaseRegistry.put(tInfo.getDisplayName(), tc);
         
         LOG.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
@@ -141,16 +141,15 @@ public class DoozerTest {
     }
 
     private void createResultsDirectories(String displayedName) throws IOException {
-        String testCaseResultsDir = getResultsDirectory(displayedName);
-        Files.createDirectories(Paths.get(testCaseResultsDir));
+        Path testCaseResultsDir = getResultsDirectory(displayedName);
+        Files.createDirectories(testCaseResultsDir);
     }
 
-    private String getResultsDirectory(String displayedName) {
-        return RESULTS_DIR
+    private Path getResultsDirectory(String displayedName) {
+        return Paths.get(RESULTS_DIR
             + displayedName.substring(
                 displayedName.lastIndexOf("/"),
-                displayedName.lastIndexOf(".doozer"))
-            + "/";
+                displayedName.lastIndexOf(".doozer")));
     }
 
 }

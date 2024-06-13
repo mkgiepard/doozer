@@ -1,6 +1,9 @@
 package dev.softtest.doozer;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.io.IOException;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
@@ -12,8 +15,8 @@ public class ImageDiff {
     protected static final Logger LOG = LogManager.getLogger();
     
     private static final double DEFAULT_THRESHOLD = 0.01;
-    private final String goldenImgPath;
-    private final String resultImgPath;
+    private final Path goldenImgPath;
+    private final Path resultImgPath;
     private final double threshold;
     BufferedImage goldenImg;
     BufferedImage resultImg;
@@ -22,11 +25,11 @@ public class ImageDiff {
     private long diffPixel = 0;
 
 
-    public ImageDiff(String goldenImgPath, String resultImgPath) {
+    public ImageDiff(Path goldenImgPath, Path resultImgPath) {
         this(goldenImgPath, resultImgPath, DEFAULT_THRESHOLD);
     }
 
-    public ImageDiff(String goldenImgPath, String resultImgPath, double threshold) {
+    public ImageDiff(Path goldenImgPath, Path resultImgPath, double threshold) {
         this.goldenImgPath = goldenImgPath;
         this.resultImgPath = resultImgPath;
         this.threshold = threshold;
@@ -34,13 +37,13 @@ public class ImageDiff {
 
     public void compare() throws Exception {
         try {
-            File fileA = new File(goldenImgPath);
+            File fileA = goldenImgPath.toFile();
             goldenImg = ImageIO.read(fileA);
         } catch (IOException e) {
             throw new Exception("Error while reading: " + goldenImgPath + "\n" + e);
         }
         try {
-            File fileB = new File(resultImgPath);
+            File fileB = resultImgPath.toFile();
             resultImg = ImageIO.read(fileB);
         } catch (IOException e) {
             throw new Exception("Error while reading: " + resultImgPath + "\n" + e);
@@ -95,8 +98,10 @@ public class ImageDiff {
 
     public void generateDiffImg(BufferedImage img) {
         try {
-            File f = new File(resultImgPath.substring(0, resultImgPath.lastIndexOf(".png")) + ".DIFF.png");
-            ImageIO.write(img, "png", f);
+            String path = resultImgPath.toString();
+            Path diffImgPath = Paths.get(path.substring(0, path.lastIndexOf(".png")) + ".DIFF.png");
+            Path f = Files.createFile(diffImgPath);
+            ImageIO.write(img, "png", f.toFile());
         } catch (IOException e) {
             System.out.println(e);
         }

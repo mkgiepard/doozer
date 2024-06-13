@@ -1,9 +1,10 @@
 package dev.softtest.doozer.actions;
 
-import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import com.google.common.io.Files;
 
 import dev.softtest.doozer.Context;
 import dev.softtest.doozer.DoozerAction;
@@ -12,8 +13,8 @@ import dev.softtest.doozer.TestArtifact;
 import dev.softtest.doozer.TestArtifactType;
 
 public class TakeScreenshot extends DoozerAction {
-    private String goldensPath;
-    private String resultsPath;
+    private Path goldensPath;
+    private Path resultsPath;
     private ImageDiff differ;
     private String fileName;
 
@@ -29,12 +30,19 @@ public class TakeScreenshot extends DoozerAction {
             fileName = getOptions().getOrDefault("fileName", "screenshot-" + getLineNumber());
         }
         fileName += "-" + getContext().getDoozerDriver().getBrowserDesc() + ".png";
-        Files.write(screenshot, new File(getContext().getResultsDir() + fileName));
+        
+        goldensPath = Paths.get(
+            "src/test/java/dev/softtest/doozer/scripts/"
+            + getContext().getResultsDir().substring("target/doozer-tests/".length())
+            + "/goldens/");
+        resultsPath = Paths.get(getContext().getResultsDir() + "/");
 
-        goldensPath = "src/test/java/dev/softtest/doozer/scripts"
-                + getContext().getResultsDir().substring("target/doozer-tests/".length()) + "goldens/";
-        resultsPath = getContext().getResultsDir();
-        differ = new ImageDiff(goldensPath + fileName, resultsPath + fileName);
+        Path goldenImgPath = Paths.get(goldensPath.toString(), fileName);
+        Path resultImgPath = Paths.get(resultsPath.toString(),  fileName);
+
+        Files.write(resultImgPath, screenshot);
+
+        differ = new ImageDiff(goldenImgPath, resultImgPath);
         
         try {
             differ.compare();
@@ -46,8 +54,8 @@ public class TakeScreenshot extends DoozerAction {
 
     public TestArtifact getTestArtifact() {
         TestArtifact artifact = new TestArtifact.Builder(TestArtifactType.SCREENSHOT)
-            .goldenPath(goldensPath)
-            .resultPath(resultsPath)
+            .goldenPath(goldensPath.toString())
+            .resultPath(resultsPath.toString())
             .diff(differ.getDiffPixel())
             .percentDiff(differ.getDiffRatio())
             .percentDiffThreshold(differ.getThreshold())
