@@ -47,7 +47,7 @@ public class DoozerTest {
 
     @BeforeEach
     public void setup(TestInfo tInfo) throws IOException {
-        createResultsDirectories(tInfo.getDisplayName());
+        createTestResultDirectory(tInfo.getDisplayName());
     }
 
     @AfterEach
@@ -78,7 +78,7 @@ public class DoozerTest {
         TestCase tc = new TestCase(testScriptPath);
         ThreadContext.put(LOGGING_KEY, tc.getTestCaseName());
         tc.getContext().setDoozerDriver(initDriver());
-        tc.getContext().setTestResultPath(getResultsDirectory(tInfo.getDisplayName()));
+        tc.getContext().setTestResultPath(testResultPath(tInfo.getDisplayName()));
         tc.getContext().setTestRootPath(testScriptPath.getParent());
         testCaseRegistry.put(tInfo.getDisplayName(), tc);
         
@@ -141,12 +141,12 @@ public class DoozerTest {
         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
     }
 
-    private void createResultsDirectories(String displayedName) throws IOException {
-        Path testCaseResultsDir = getResultsDirectory(displayedName);
+    private void createTestResultDirectory(String displayedName) throws IOException {
+        Path testCaseResultsDir = testResultPath(displayedName);
         Files.createDirectories(testCaseResultsDir);
     }
 
-    private Path getResultsDirectory(String displayedName) {
+    private Path testResultPath(String displayedName) {
         return Paths.get(RESULTS_DIR
             + displayedName.substring(
                 displayedName.lastIndexOf("/"),
