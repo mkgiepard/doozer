@@ -3,6 +3,7 @@ package dev.softtest.doozer;
 import java.util.Map;
 import java.util.HashMap;
 
+/** Parses <code>option</code> parameter into a key=value HashMap. */
 public class OptionParser {
     // in:                              out:
     // null                             null

@@ -9,6 +9,7 @@ import org.openqa.selenium.By;
 import com.google.common.base.Strings;
 import com.google.semanticlocators.BySemanticLocator;
 
+/** Wrapper class for Selectors used to identify UI elements. */
 public class DoozerSelector {
     protected static final Logger LOG = LogManager.getLogger();
 

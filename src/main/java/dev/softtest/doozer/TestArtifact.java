@@ -2,6 +2,7 @@ package dev.softtest.doozer;
 
 import java.nio.file.Path;
 
+/** Stores an artifact of DoozerAction execution, for example a screenshot with comparison stats. */
 public class TestArtifact {
     private final TestArtifactType type;
     private final String name;

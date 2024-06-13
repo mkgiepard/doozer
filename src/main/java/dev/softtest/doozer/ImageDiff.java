@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/** Compares images, pixel by pixel, creates a DIFF image and comparison statistics. */
 public class ImageDiff {
     protected static final Logger LOG = LogManager.getLogger();
     

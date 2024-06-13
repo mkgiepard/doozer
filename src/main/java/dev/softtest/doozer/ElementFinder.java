@@ -13,6 +13,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.FluentWait;
 
+/** Looks for UI elements on a web page. */
 public class ElementFinder {
     public static final Duration DEFAULT_WAIT_TIMEOUT = Duration.ofSeconds(10);
     private static final Logger LOG = LogManager.getLogger();

@@ -15,7 +15,7 @@ import java.util.HashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/** Parses doozer script file into a list of DoozerActions */
+/** Parses doozer script file into a list of DoozerActions. */
 public class Parser {
     protected static final Logger LOG = LogManager.getLogger();
 

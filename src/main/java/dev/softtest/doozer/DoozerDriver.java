@@ -13,7 +13,7 @@ import com.google.common.base.Strings;
 import org.openqa.selenium.WebDriver;
 
 
-/** Wrapper class for various WebDriver implementations (Chrome, Firefox, Edge and Safari) */
+/** Wrapper class for various WebDriver implementations (Chrome, Firefox, Edge and Safari). */
 public class DoozerDriver {
     private static final String DEFAULT_BROWSER = "chrome-headless";
     private final String browserDesc;
