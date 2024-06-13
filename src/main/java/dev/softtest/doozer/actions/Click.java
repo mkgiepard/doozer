@@ -7,6 +7,10 @@ import dev.softtest.doozer.Context;
 import dev.softtest.doozer.DoozerAction;
 import dev.softtest.doozer.ElementFinder;
 
+/**
+ * Implements <a href="https://www.selenium.dev/documentation/webdriver/elements/interactions/#click">
+ * Click</a> interaction.
+ */
 public class Click extends DoozerAction {
 
     public Click(Context ctx, Integer lineNumber, String actionName, String originalAction) {

@@ -6,6 +6,10 @@ import dev.softtest.doozer.Context;
 import dev.softtest.doozer.DoozerAction;
 import dev.softtest.doozer.ElementFinder;
 
+/**
+ * Implements <a href="https://www.selenium.dev/documentation/webdriver/elements/interactions/#clear">
+ * Clear</a> interaction.
+ */
 public class Clear extends DoozerAction {
 
     public Clear(Context ctx, Integer lineNumber, String actionName, String originalAction) {
