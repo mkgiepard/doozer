@@ -38,7 +38,7 @@ import org.apache.logging.log4j.ThreadContext;
  */
 @TestInstance(Lifecycle.PER_CLASS)
 @Execution(ExecutionMode.CONCURRENT)
-public abstract class DoozerTest {
+public class DoozerTest {
     private static final Logger LOG = LogManager.getLogger();
     private final String LOGGING_KEY = "ROUTINGKEY";
     private final String RESULTS_DIR = "target/doozer-tests/";
