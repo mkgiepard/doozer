@@ -7,8 +7,8 @@ import java.util.HashMap;
 
 public class Context {
     private Map<String, String> variables;
-    private String testResultPath;
     private DoozerDriver doozerDriver;
+    private Path testResultPath;
     private Path testRootPath;
 
     public Context() {
@@ -23,11 +23,11 @@ public class Context {
         return variables.getOrDefault(name, null);
     }
 
-    public void setTestResultPath(String testResultPath) {
+    public void setTestResultPath(Path testResultPath) {
         this.testResultPath = testResultPath;
     }
 
-    public String getTestResultPath() {
+    public Path getTestResultPath() {
         return testResultPath;
     }
 
