@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 public class Context {
     private Map<String, String> variables;
-    private String resultsDir;
+    private String testResultPath;
     private DoozerDriver doozerDriver;
     private Path testRootPath;
 
@@ -23,12 +23,12 @@ public class Context {
         return variables.getOrDefault(name, null);
     }
 
-    public void setResultsDir(String dir) {
-        resultsDir = dir;
+    public void setTestResultPath(String testResultPath) {
+        this.testResultPath = testResultPath;
     }
 
-    public String getResultsDir() {
-        return resultsDir;
+    public String getTestResultPath() {
+        return testResultPath;
     }
 
     public void setDoozerDriver(DoozerDriver driver) {

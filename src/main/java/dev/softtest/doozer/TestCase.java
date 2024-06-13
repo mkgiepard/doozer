@@ -136,7 +136,7 @@ public class TestCase {
     }
 
     private void saveDom() {
-        Path path = Paths.get(ctx.getResultsDir() + "/" + testCaseName + "-DOM.html");
+        Path path = Paths.get(ctx.getTestResultPath() + "/" + testCaseName + "-DOM.html");
         byte[] domDump = ctx.getWebDriver().getPageSource().getBytes();
     
         try {
@@ -148,7 +148,7 @@ public class TestCase {
 
     private void takeScreenshotOnFailure() {
         byte[] screenshot = ((TakesScreenshot) getContext().getWebDriver()).getScreenshotAs(OutputType.BYTES);
-        Path path = Paths.get(ctx.getResultsDir() + "/" +  testCaseName + "-onFAILURE.png");
+        Path path = Paths.get(ctx.getTestResultPath() + "/" +  testCaseName + "-onFAILURE.png");
 
         try {
             Files.write(path, screenshot);
