@@ -12,6 +12,8 @@ import org.openqa.selenium.safari.SafariOptions;
 import com.google.common.base.Strings;
 import org.openqa.selenium.WebDriver;
 
+
+/** Wrapper class for various WebDriver implementations (Chrome, Firefox, Edge and Safari) */
 public class DoozerDriver {
     private static final String DEFAULT_BROWSER = "chrome-headless";
     private final String browserDesc;
@@ -29,6 +31,7 @@ public class DoozerDriver {
         return browserDesc;
     }
 
+    /** Creates a WebDriver instance base on the <code>browserParam</code> set in the constructor. */
     public void init() {
         String[] driverData = browserDesc.split("-");
         switch(driverData[0].toLowerCase()) {
