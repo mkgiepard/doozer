@@ -90,25 +90,21 @@ public class TestRunReport extends TestReport {
 
         if (lastStep.getResult() == TestResult.FAIL && lastStep.getArtifact() != null) {
             String id = tc.getTestCaseName() + lastStep.getAction().getLineNumber();
-            String screenshotName = lastStep.getAction().getOptions().get("default");
-            if (screenshotName == null) {
-                screenshotName = lastStep.getAction().getOptions().getOrDefault("fileName",
-                        "screenshot-" + lastStep.getAction().getLineNumber());
-            }
-            String browserDesc = lastStep.getAction().getContext().getDoozerDriver().getBrowserDesc();
-            screenshotName += "-" + browserDesc;
-            return getContainerTestCaseImages(lastStep.getArtifact(), screenshotName, id).render();
+            return getContainerTestCaseImages(lastStep.getArtifact(), id).render();
         }
         return "";
     }
 
-    private DivTag getContainerTestCaseImages(TestArtifact ta, String screenshotName, String id) {
+    private DivTag getContainerTestCaseImages(TestArtifact ta, String id) {
+        String parentDir = ta.getResultsPath().getParent().toString();
+        String screenshotName = ta.getName();
+        String diffName = screenshotName.substring(0, screenshotName.lastIndexOf(".png")) + ".DIFF.png";
+        
         return div(join(
-            div(img().withSrc("../../" + ta.getGoldensPath()+"/"+screenshotName+".png")).withClass("card"),
-            div(img().withSrc("./" + ta.getResultsPath().substring("target/doozer-tests/".length())+"/" + screenshotName + ".DIFF.png")).withClass("card"),
-            div(img().withSrc("./" + ta.getResultsPath().substring("target/doozer-tests/".length())+"/" + screenshotName + ".png")).withClass("card")
+            div(img().withSrc("../../" + ta.getGoldensPath().toString())).withClass("card"),
+            div(img().withSrc("../../" + parentDir + "/" + diffName)).withClass("card"),
+            div(img().withSrc("../../" + ta.getResultsPath().toString())).withClass("card")
         )).withClasses("container-teststep-images", "hidden").withId(id);
-
     }
 
 }

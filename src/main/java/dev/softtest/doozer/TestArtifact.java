@@ -1,9 +1,12 @@
 package dev.softtest.doozer;
 
+import java.nio.file.Path;
+
 public class TestArtifact {
     private final TestArtifactType type;
-    private final String goldensPath;
-    private final String resultsPath;
+    private final String name;
+    private final Path goldensPath;
+    private final Path resultsPath;
     private final long diff;
     private final double percentDiff;
     private final long diffThreshold;
@@ -11,6 +14,7 @@ public class TestArtifact {
 
     private TestArtifact(Builder builder) {
         this.type = builder.type;
+        this.name = builder.name;
         this.goldensPath = builder.goldenPath;
         this.resultsPath = builder.resultPath;
         this.diff = builder.diff;
@@ -21,10 +25,13 @@ public class TestArtifact {
     public TestArtifactType getType() {
         return type;
     }
-    public String getGoldensPath() {
+    public String getName() {
+        return name;
+    }
+    public Path getGoldensPath() {
         return goldensPath;
     }
-    public String getResultsPath() {
+    public Path getResultsPath() {
         return resultsPath;
     }
     public long getDiff() {
@@ -42,23 +49,25 @@ public class TestArtifact {
 
     public static class Builder {
         private final TestArtifactType type;
-        private String goldenPath;
-        private String resultPath;
+        private String name;
+        private Path goldenPath;
+        private Path resultPath;
         private long diff;
         private double percentDiff;
         private long diffThreshold;
         private double percentDiffThreshold;
 
-        public Builder(TestArtifactType type) {
+        public Builder(TestArtifactType type, String name) {
             this.type = type;
+            this.name = name;
         }
 
-        public Builder goldenPath(String goldenPath) {
+        public Builder goldenPath(Path goldenPath) {
             this.goldenPath = goldenPath;
             return this;
         }
 
-        public Builder resultPath(String resultPath) {
+        public Builder resultPath(Path resultPath) {
             this.resultPath = resultPath;
             return this;
         }

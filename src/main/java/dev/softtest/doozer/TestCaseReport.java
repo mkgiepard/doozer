@@ -107,24 +107,20 @@ public class TestCaseReport extends TestReport {
         TestStep lastStep = step;
 
         if (lastStep.getArtifact() != null) {
-            String screenshotName = lastStep.getAction().getOptions().get("default");
-            if (screenshotName == null) {
-                screenshotName = lastStep.getAction().getOptions().getOrDefault("fileName",
-                        "screenshot-" + lastStep.getAction().getLineNumber());
-            }
-            String browserDesc = lastStep.getAction().getContext().getDoozerDriver().getBrowserDesc();
-            screenshotName += "-" + browserDesc;
-            return getContainerTestCaseImages(lastStep.getArtifact(), screenshotName,
+            return getContainerTestCaseImages(lastStep.getArtifact(),
                     step.getAction().getLineNumber().toString()).render();
         }
         return "";
     }
 
-    private DivTag getContainerTestCaseImages(TestArtifact ta, String screenshotName, String id) {
+    private DivTag getContainerTestCaseImages(TestArtifact ta, String id) {
+        String screenshotName = ta.getName();
+        String diffName = screenshotName.substring(0, screenshotName.lastIndexOf(".png")) + ".DIFF.png";
+
         return div(join(
-                div(img().withSrc("../../../" + ta.getGoldensPath() + "/" + screenshotName + ".png")).withClass("card"),
-                div(img().withSrc("./" + screenshotName + ".DIFF.png")).withClass("card"),
-                div(img().withSrc("./" + screenshotName + ".png")).withClass("card")))
+                div(img().withSrc("../../../" + ta.getGoldensPath().toString())).withClass("card"),
+                div(img().withSrc("./" + diffName)).withClass("card"),
+                div(img().withSrc("./" + ta.getResultsPath().getFileName().toString())).withClass("card")))
                 .withClasses("container-teststep-images").withId(id);
 
     }

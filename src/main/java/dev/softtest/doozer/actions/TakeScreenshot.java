@@ -13,8 +13,8 @@ import dev.softtest.doozer.TestArtifact;
 import dev.softtest.doozer.TestArtifactType;
 
 public class TakeScreenshot extends DoozerAction {
-    private Path goldensPath;
-    private Path resultsPath;
+    private Path goldenImgPath;
+    private Path resultImgPath;
     private ImageDiff differ;
     private String fileName;
 
@@ -31,14 +31,14 @@ public class TakeScreenshot extends DoozerAction {
         }
         fileName += "-" + getContext().getDoozerDriver().getBrowserDesc() + ".png";
         
-        goldensPath = Paths.get(
+        Path goldensPath = Paths.get(
             "src/test/java/dev/softtest/doozer/scripts/"
             + getContext().getResultsDir().substring("target/doozer-tests/".length())
             + "/goldens/");
-        resultsPath = Paths.get(getContext().getResultsDir() + "/");
+        Path resultsPath = Paths.get(getContext().getResultsDir() + "/");
 
-        Path goldenImgPath = Paths.get(goldensPath.toString(), fileName);
-        Path resultImgPath = Paths.get(resultsPath.toString(),  fileName);
+        goldenImgPath = Paths.get(goldensPath.toString(), fileName);
+        resultImgPath = Paths.get(resultsPath.toString(),  fileName);
 
         Files.write(resultImgPath, screenshot);
 
@@ -53,9 +53,9 @@ public class TakeScreenshot extends DoozerAction {
     }
 
     public TestArtifact getTestArtifact() {
-        TestArtifact artifact = new TestArtifact.Builder(TestArtifactType.SCREENSHOT)
-            .goldenPath(goldensPath.toString())
-            .resultPath(resultsPath.toString())
+        TestArtifact artifact = new TestArtifact.Builder(TestArtifactType.SCREENSHOT, fileName)
+            .goldenPath(goldenImgPath)
+            .resultPath(resultImgPath)
             .diff(differ.getDiffPixel())
             .percentDiff(differ.getDiffRatio())
             .percentDiffThreshold(differ.getThreshold())
