@@ -20,7 +20,7 @@ public class WaitForElement extends DoozerAction {
     public void execute() throws Exception {
         WebElement element = ElementFinder.findElement(getContext(), getDoozerSelector());
         org.openqa.selenium.support.ui.Wait<WebDriver> wait = new WebDriverWait(getDriver(),
-                Duration.ofSeconds(Integer.getInteger(getOption("seconds"))));
+                Duration.ofSeconds(Integer.parseInt(getOption("seconds"))));
         wait.until(d -> element.isDisplayed());
     }
 }
