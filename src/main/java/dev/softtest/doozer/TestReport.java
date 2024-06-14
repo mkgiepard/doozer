@@ -2,9 +2,10 @@ package dev.softtest.doozer;
 
 import static j2html.TagCreator.*;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.Files;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.stream.Collectors;
 
 
 /** Base class for test reports created with j2html. */
@@ -24,12 +25,12 @@ public abstract class TestReport {
                 .withHref(
                         "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0")
                 .render();
-        String css = style(readCssFromFile()).render();
+        String css = style(readResource("/styles.css")).render();
         return materialFontLink + css;
     }
 
     protected String includeJS() {
-        return script(readScriptFromFile()).render();
+        return script(readResource("/script.js")).render();
     }
 
     protected String includePageHeader(String header) {
@@ -45,25 +46,14 @@ public abstract class TestReport {
                 .withClass("container-testcase").render();
     }
 
-    protected String readCssFromFile() {
-        Path stylesPath = Paths.get(this.getClass().getResource("/styles.css").getPath());
-        String stylesContent = "";
-        try {
-            stylesContent = new String(Files.readAllBytes(stylesPath));
+    private String readResource(String name) {
+        String result = "";
+        InputStream in = getClass().getResourceAsStream(name);
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
+            result = reader.lines().collect(Collectors.joining("\n"));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return stylesContent;
-    }
-
-    protected String readScriptFromFile() {
-        Path scriptJsPath = Paths.get(this.getClass().getResource("/script.js").getPath());
-        String scriptJsContent = "";
-        try {
-            scriptJsContent = new String(Files.readAllBytes(scriptJsPath));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return scriptJsContent;
+        return result;
     }
 }
