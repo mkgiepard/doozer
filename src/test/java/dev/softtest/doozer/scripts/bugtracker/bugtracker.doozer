@@ -1,0 +1,10 @@
+url args:"http://localhost:4200/login"
+takeScreenshot args:"login"
+
+type selector:"By.id('mat-input-0')" args:"mario"
+type selector:"By.id('mat-input-1')" args:"magic"
+click selector:"SL({button 'Login'})"
+
+waitForElement selector:"SL({button 'Create'})" args:"seconds=10"
+waitForElement selector:"By.className('mat-mdc-table')" args:"seconds=10"
+takeScreenshot args:"home"
