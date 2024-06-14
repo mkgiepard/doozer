@@ -62,7 +62,11 @@ public class DoozerTest {
     @AfterAll
     public void tearDown(TestInfo tInfo) {
         TestRunReport tr = new TestRunReport(RESULTS_DIR, testCaseRegistry.values());
-        tr.generate();
+        try {
+            tr.generate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
