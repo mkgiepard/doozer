@@ -2,6 +2,7 @@ package dev.softtest.doozer;
 
 import static j2html.TagCreator.*;
 
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.Files;
 
@@ -23,12 +24,12 @@ public abstract class TestReport {
                 .withHref(
                         "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0")
                 .render();
-        String css = style(readCssFromFile("src/main/resources/styles.css")).render();
+        String css = style(readCssFromFile()).render();
         return materialFontLink + css;
     }
 
     protected String includeJS() {
-        return script(readScriptFromFile("src/main/resources/script.js")).render();
+        return script(readScriptFromFile()).render();
     }
 
     protected String includePageHeader(String header) {
@@ -44,24 +45,25 @@ public abstract class TestReport {
                 .withClass("container-testcase").render();
     }
 
-    protected String readCssFromFile(String cssFilePath) {
-        String styles = "";
+    protected String readCssFromFile() {
+        Path stylesPath = Paths.get(this.getClass().getResource("/styles.css").getPath());
+        String stylesContent = "";
         try {
-            styles = new String(
-                    Files.readAllBytes(Paths.get(cssFilePath)));
+            stylesContent = new String(Files.readAllBytes(stylesPath));
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
-        return styles;
+        return stylesContent;
     }
 
-    protected String readScriptFromFile(String jsFilePath) {
-        String script = "";
+    protected String readScriptFromFile() {
+        Path scriptJsPath = Paths.get(this.getClass().getResource("/script.js").getPath());
+        String scriptJsContent = "";
         try {
-            script = new String(Files.readAllBytes(Paths.get(jsFilePath)));
+            scriptJsContent = new String(Files.readAllBytes(scriptJsPath));
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
-        return script;
+        return scriptJsContent;
     }
 }
