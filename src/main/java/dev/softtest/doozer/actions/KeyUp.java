@@ -5,6 +5,10 @@ import org.openqa.selenium.interactions.Actions;
 import dev.softtest.doozer.Context;
 import dev.softtest.doozer.DoozerAction;
 
+/**
+ * Implements <a href="https://www.selenium.dev/documentation/webdriver/actions_api/keyboard/#key-up">
+ * Key up</a> interaction.
+ */
 public class KeyUp extends DoozerAction {
 
     public KeyUp(Context ctx, Integer lineNumber, String actionName, String originalAction) {

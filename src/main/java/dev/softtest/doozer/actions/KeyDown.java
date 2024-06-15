@@ -5,6 +5,11 @@ import org.openqa.selenium.interactions.Actions;
 import dev.softtest.doozer.Context;
 import dev.softtest.doozer.DoozerAction;
 
+
+/**
+ * Implements <a href="https://www.selenium.dev/documentation/webdriver/actions_api/keyboard/#key-down">
+ * Key down</a> interaction.
+ */
 public class KeyDown extends DoozerAction {
 
     public KeyDown(Context ctx, Integer lineNumber, String actionName, String originalAction) {
