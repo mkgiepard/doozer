@@ -7,6 +7,10 @@ import dev.softtest.doozer.Context;
 import dev.softtest.doozer.DoozerAction;
 import dev.softtest.doozer.ElementFinder;
 
+/**
+ * Implements <a href="https://www.selenium.dev/documentation/webdriver/actions_api/mouse/#double-click">
+ * Double click</a> interaction.
+ */
 public class DoubleClick extends DoozerAction {
 
     public DoubleClick(Context ctx, Integer lineNumber, String actionName, String originalAction) {

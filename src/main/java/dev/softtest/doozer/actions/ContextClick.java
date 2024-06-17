@@ -7,6 +7,10 @@ import dev.softtest.doozer.Context;
 import dev.softtest.doozer.DoozerAction;
 import dev.softtest.doozer.ElementFinder;
 
+/**
+ * Implements <a href="https://www.selenium.dev/documentation/webdriver/actions_api/mouse/#context-click">
+ * Context click (aka right click)</a> interaction.
+ */
 public class ContextClick extends DoozerAction {
 
     public ContextClick(Context ctx, Integer lineNumber, String actionName, String originalAction) {
