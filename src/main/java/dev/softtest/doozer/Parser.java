@@ -31,6 +31,9 @@ public class Parser {
 
     public List<DoozerAction> parseScriptIntoActions() throws Exception {
         Path path = FileSystems.getDefault().getPath(this.filePath).toAbsolutePath();
+        if (!Files.exists(path)) {
+            throw new Exception("File '" + path.toString() + "' does not exist.");
+        }
 
         try (BufferedReader reader = Files.newBufferedReader(path, charset)) {
             String sourceFileName = filePath.substring(filePath.lastIndexOf("/") + 1);
