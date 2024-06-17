@@ -71,7 +71,7 @@ public class TestRunReport extends TestReport {
         }
         String resultIcon = tc.getTestResult() == TestResult.PASS ? "check" : "cancel";
         String resultStyle = tc.getTestResult() == TestResult.PASS ? "pass" : "fail";
-        String buttonHidden = tc.getTestResult() == TestResult.PASS || diff == "0" ? "hidden" : "";
+        String buttonHidden = tc.getTestResult() == TestResult.PASS || diff == "-" ? "hidden" : "";
 
         return join(
             div(
