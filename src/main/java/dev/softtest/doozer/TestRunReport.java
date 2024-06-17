@@ -54,7 +54,7 @@ public class TestRunReport extends TestReport {
 
     private String getTestCaseSummaryAndStep(TestCase tc) {
         String script = tc.getTestScriptPath().toString();
-        String diff = "0";
+        String diff = "-";
         String id = tc.getTestCaseName();
         String actionText = "";
         for (TestStep step : tc.getTestSteps()) {
