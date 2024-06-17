@@ -49,7 +49,7 @@ public class TestCaseReport extends TestReport {
 
     private String getTestCaseSummary(TestCase tc) {
         String script = tc.getTestScriptPath().toString();
-        String diff = "0";
+        String diff = "-";
         String id = tc.getTestCaseName();
         for (TestStep step : tc.getTestSteps()) {
             if (step.getResult().equals(TestResult.FAIL)) {
