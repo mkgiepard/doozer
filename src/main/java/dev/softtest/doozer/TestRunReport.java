@@ -40,7 +40,7 @@ public class TestRunReport extends TestReport {
         comparator = comparator.reversed();
         comparator = comparator.thenComparing(Comparator.comparing(tc -> tc.getTestCaseName()));
     
-        for (TestCase tc : testCases.stream()
+        for (TestCase tc : testCases.stream().parallel()
                 .sorted(comparator)
                 .collect(Collectors.toList())) {
             htmlReport += "<div class=\"container-testcase\">";
@@ -89,6 +89,7 @@ public class TestRunReport extends TestReport {
     }
 
     private String getTestCaseImages(TestCase tc) {
+        if (tc.getTestSteps().size() == 0) return "";
         TestStep lastStep = tc.getTestSteps().get(tc.getTestSteps().size() - 1);
 
         if (lastStep.getResult() == TestResult.FAIL && lastStep.getArtifact() != null) {
