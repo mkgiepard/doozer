@@ -10,6 +10,12 @@ import dev.softtest.doozer.DoozerAction;
 
 import java.time.Duration;
 
+/**
+ * Implements interactions with <a href="https://www.selenium.dev/documentation/webdriver/interactions/alerts">
+ * Alert.</a>
+ * 
+ * Supported options: confirm, dismiss, prompt.
+ */
 public class Alert extends DoozerAction {
 
     public Alert(Context ctx, Integer lineNumber, String actionName, String originalAction) {
