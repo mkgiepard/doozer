@@ -36,9 +36,12 @@ public class TestRunReport extends TestReport {
         htmlReport += "<div class=\"container-main\">";
         htmlReport += getHeaderRow();
 
+        Comparator<TestCase> comparator = Comparator.comparing(tc -> tc.getTestResult());
+        comparator = comparator.reversed();
+        comparator = comparator.thenComparing(Comparator.comparing(tc -> tc.getTestCaseName()));
+    
         for (TestCase tc : testCases.stream()
-                .sorted((tc1, tc2) -> tc1.getTestCaseName().compareTo(tc2.getTestCaseName()))
-                .sorted((tc1, tc2) -> tc2.getTestResult().compareTo(tc1.getTestResult()))
+                .sorted(comparator)
                 .collect(Collectors.toList())) {
             htmlReport += "<div class=\"container-testcase\">";
             htmlReport += getTestCaseSummaryAndStep(tc);
