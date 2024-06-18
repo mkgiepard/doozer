@@ -97,14 +97,14 @@ public class ImageDiff {
         }
     }
 
-    public void generateDiffImg(BufferedImage img) {
+    public void generateDiffImg(BufferedImage img) throws IOException {
         try {
             String path = resultImgPath.toString();
             Path diffImgPath = Paths.get(path.substring(0, path.lastIndexOf(".png")) + ".DIFF.png");
-            Path f = Files.createFile(diffImgPath);
-            ImageIO.write(img, "png", f.toFile());
+            ImageIO.write(img, "png", diffImgPath.toFile());
         } catch (IOException e) {
-            System.out.println(e);
+            e.printStackTrace();
+            throw e;
         }
     }
 
