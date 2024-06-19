@@ -16,4 +16,11 @@ function toggleDisplay(id) {
       step.style.display = "none";
     }
   }
-} 
+}
+
+function approve(id) {
+  var cmdContainer = document.getElementById("command-container");
+  const p = document.createElement("p");
+  p.textContent = "approve: " + id;
+  cmdContainer.appendChild(p);
+}

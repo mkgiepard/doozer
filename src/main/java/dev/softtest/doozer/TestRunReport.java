@@ -48,8 +48,10 @@ public class TestRunReport extends TestReport {
             htmlReport += getTestCaseImages(tc);
             htmlReport += "</div>";
         }
-        ;
-        htmlReport += "</div></body>";
+
+        htmlReport += "</div>";
+        htmlReport += "<div id=\"command-container\"></div>";
+        htmlReport += "</body>";
         htmlReport += includeJS();
         htmlReport += "</html>";
         return htmlReport;
@@ -79,12 +81,12 @@ public class TestRunReport extends TestReport {
         return join(
             div(
                 join(
-                    div(script).withClass("testcase-name"),
+                    div(script).withClass("testcase-name").attr("onclick", "toggleDisplay('" + id + "')"),
                     div(span(resultIcon).withClass("material-symbols-outlined")).withClasses("center", resultStyle),
                     div(diff).withClass("center"),
-                    div(button("APPROVE").withClass(buttonHidden)).withClass("center"),
+                    div(button("APPROVE").attr("onclick", "approve('" + id + "')").withClass(buttonHidden)).withClass("center"),
                     div(a(span("open_in_new").withClass("material-symbols-outlined")).withHref("./" + tc.getTestCaseName() + "/doozer-report.html")).withClass("center")))
-            .withClass("container-testcase-summary").attr("onclick", "toggleDisplay('" + id + "')"),
+            .withClass("container-testcase-summary"),
             div(actionText).withClasses("step-name", "hidden").withId(id+"step")).render();
     }
 
