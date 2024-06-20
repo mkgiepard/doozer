@@ -18,9 +18,9 @@ function toggleDisplay(id) {
   }
 }
 
-function approve(id) {
+function approve(id, goldenPath) {
   var cmdContainer = document.getElementById("command-container");
   const p = document.createElement("p");
-  p.textContent = "approve: " + id;
+  p.textContent = "approve: " + id + "; goldenPath: " + goldenPath;
   cmdContainer.appendChild(p);
 }
