@@ -18,9 +18,9 @@ function toggleDisplay(id) {
   }
 }
 
-function approve(id, goldenPath) {
+function approve(id, goldenPath, resultPath) {
   var cmdContainer = document.getElementById("command-container");
   const p = document.createElement("p");
-  p.textContent = "approve: " + id + "; goldenPath: " + goldenPath;
+  p.textContent = "approve: " + id + "; cp " + goldenPath + " " + resultPath + ";";
   cmdContainer.appendChild(p);
 }

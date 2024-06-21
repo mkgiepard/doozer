@@ -63,6 +63,7 @@ public class TestRunReport extends TestReport {
         String id = tc.getTestCaseName();
         String actionText = "";
         String goldenPath = "";
+        String resultPath = "";
         for (TestStep step : tc.getTestSteps()) {
             if (step.getResult().equals(TestResult.FAIL)) {
                 actionText = step.getAction().getSourceFileName() + "> "
@@ -73,6 +74,8 @@ public class TestRunReport extends TestReport {
                     diff = Long.toString(step.getArtifact().getDiff());
                     id += step.getAction().getLineNumber();
                     goldenPath = step.getArtifact().getGoldensPath().toAbsolutePath().toString();
+                    resultPath = step.getArtifact().getResultsPath().toAbsolutePath().toString();
+
                 }
             }
         }
@@ -86,7 +89,7 @@ public class TestRunReport extends TestReport {
                     div(script).withClass("testcase-name").attr("onclick", "toggleDisplay('" + id + "')"),
                     div(span(resultIcon).withClass("material-symbols-outlined")).withClasses("center", resultStyle),
                     div(diff).withClass("center"),
-                    div(button("APPROVE").attr("onclick", "approve('" + id + "', '" + goldenPath + "')").withClass(buttonHidden)).withClass("center"),
+                    div(button("APPROVE").attr("onclick", "approve('" + id + "', '" + resultPath + "', '" + goldenPath + "')").withClass(buttonHidden)).withClass("center"),
                     div(a(span("open_in_new").withClass("material-symbols-outlined")).withHref("./" + tc.getTestCaseName() + "/doozer-report.html")).withClass("center")))
             .withClass("container-testcase-summary"),
             div(actionText).withClasses("step-name", "hidden").withId(id+"step")).render();
