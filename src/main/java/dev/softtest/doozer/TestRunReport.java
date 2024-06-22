@@ -48,9 +48,8 @@ public class TestRunReport extends TestReport {
             htmlReport += getTestCaseImages(tc);
             htmlReport += "</div>";
         }
-
+        htmlReport += "<div>" + getCommandContainer() + "</div>";
         htmlReport += "</div>";
-        htmlReport += "<div id=\"command-container\"></div>";
         htmlReport += "</body>";
         htmlReport += includeJS();
         htmlReport += "</html>";
@@ -116,6 +115,15 @@ public class TestRunReport extends TestReport {
             div(img().withSrc("../../" + parentDir + "/" + diffName)).withClass("card"),
             div(img().withSrc("../../" + ta.getResultsPath().toString())).withClass("card")
         )).withClasses("container-teststep-images", "hidden").withId(id);
+    }
+
+    private String getCommandContainer() {
+        return div(textarea()
+            .withPlaceholder("Commands to update approved goldens")
+            .withId("command-container")
+            .withRows("5")
+            .withCols("5")
+            .withClass("commands")).toString();
     }
 
 }

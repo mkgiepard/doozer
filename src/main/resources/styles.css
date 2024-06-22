@@ -11,6 +11,9 @@ button {
 ul {
     list-style: none;
 }
+textarea {
+    min-width: 99%;
+}
 .header {
     background-color: #28b76b;
     color: white;

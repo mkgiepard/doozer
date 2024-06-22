@@ -20,7 +20,7 @@ function toggleDisplay(id) {
 
 function approve(id, goldenPath, resultPath) {
   var cmdContainer = document.getElementById("command-container");
-  const p = document.createElement("p");
-  p.textContent = "approve: " + id + "; cp " + goldenPath + " " + resultPath + ";";
-  cmdContainer.appendChild(p);
+  const commands = cmdContainer.textContent;
+  var nextCommand = "cp " + goldenPath + " " + resultPath + ";";
+  cmdContainer.textContent = commands + nextCommand;
 }
