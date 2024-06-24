@@ -24,3 +24,8 @@ function approve(id, goldenPath, resultPath) {
   var nextCommand = "cp " + goldenPath + " " + resultPath + ";";
   cmdContainer.textContent = commands + nextCommand;
 }
+
+function copy() {
+  var cmdContainer = document.getElementById("command-container");
+  navigator.clipboard.writeText(cmdContainer.textContent);
+}

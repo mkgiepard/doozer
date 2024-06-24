@@ -49,6 +49,7 @@ public class TestRunReport extends TestReport {
             htmlReport += "</div>";
         }
         htmlReport += "<div>" + getCommandContainer() + "</div>";
+        htmlReport += "<button onclick=\"copy()\">Copy to clipboard</button>";
         htmlReport += "</div>";
         htmlReport += "</body>";
         htmlReport += includeJS();
