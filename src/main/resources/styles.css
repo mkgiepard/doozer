@@ -12,7 +12,7 @@ ul {
     list-style: none;
 }
 textarea {
-    min-width: 99%;
+    min-width: 100%;
 }
 .header {
     background-color: #28b76b;
@@ -54,6 +54,12 @@ textarea {
 }
 .container-teststeps {
     display: grid;
+}
+.container-commands {
+    display: grid;
+    row-gap: 6px;
+    width: 100%;
+    padding: 3px 12px;
 }
 .testcase-image {
     text-align: center;

@@ -48,8 +48,10 @@ public class TestRunReport extends TestReport {
             htmlReport += getTestCaseImages(tc);
             htmlReport += "</div>";
         }
-        htmlReport += "<div>" + getCommandContainer() + "</div>";
+        htmlReport += "<div class=\"container-commands\">"; 
+        htmlReport += getCommandTextArea();
         htmlReport += "<button onclick=\"copy()\">Copy to clipboard</button>";
+        htmlReport += "</div>";
         htmlReport += "</div>";
         htmlReport += "</body>";
         htmlReport += includeJS();
@@ -118,13 +120,13 @@ public class TestRunReport extends TestReport {
         )).withClasses("container-teststep-images", "hidden").withId(id);
     }
 
-    private String getCommandContainer() {
-        return div(textarea()
+    private String getCommandTextArea() {
+        return textarea()
             .withPlaceholder("Commands to update approved goldens")
             .withId("command-container")
             .withRows("5")
             .withCols("5")
-            .withClass("commands")).toString();
+            .withClass("commands").toString();
     }
 
 }
