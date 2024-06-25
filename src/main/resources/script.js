@@ -29,3 +29,8 @@ function copy() {
   var cmdContainer = document.getElementById("command-container");
   navigator.clipboard.writeText(cmdContainer.textContent);
 }
+
+function clearCommands() {
+  var cmdContainer = document.getElementById("command-container");
+  cmdContainer.textContent = "";
+}

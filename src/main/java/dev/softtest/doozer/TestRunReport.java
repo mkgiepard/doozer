@@ -50,6 +50,7 @@ public class TestRunReport extends TestReport {
         }
         htmlReport += "<div class=\"container-commands\">"; 
         htmlReport += getCommandTextArea();
+        htmlReport += "<button onclick=\"clearCommands()\">Clear</button>";
         htmlReport += "<button onclick=\"copy()\">Copy to clipboard</button>";
         htmlReport += "</div>";
         htmlReport += "</div>";
