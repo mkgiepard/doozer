@@ -41,7 +41,13 @@ public class TestCaseReport extends TestReport {
         htmlReport += getTestCaseSteps(this.testCase);
         htmlReport += "</div>";
 
-        htmlReport += "</div></body>";
+        htmlReport += "<div class=\"container-commands\">"; 
+        htmlReport += getCommandTextArea();
+        htmlReport += "<button onclick=\"clearCommands()\">Clear</button>";
+        htmlReport += "<button onclick=\"copy()\">Copy to clipboard</button>";
+        htmlReport += "</div>";
+        htmlReport += "</div>";
+        htmlReport += "</body>";
         htmlReport += includeJS();
         htmlReport += "</html>";
         return htmlReport;
@@ -51,11 +57,15 @@ public class TestCaseReport extends TestReport {
         String script = tc.getTestScriptPath().toString();
         String diff = "-";
         String id = tc.getTestCaseName();
+        String goldenPath = "";
+        String resultPath = "";
         for (TestStep step : tc.getTestSteps()) {
             if (step.getResult().equals(TestResult.FAIL)) {
                 if (step.getArtifact() != null && step.getArtifact().getDiff() != 0) {
                     diff = Long.toString(step.getArtifact().getDiff());
                     id += step.getAction().getLineNumber();
+                    goldenPath = step.getArtifact().getGoldensPath().toAbsolutePath().toString();
+                    resultPath = step.getArtifact().getResultsPath().toAbsolutePath().toString();
                 }
             }
         }
@@ -67,7 +77,7 @@ public class TestCaseReport extends TestReport {
                 div(div(script).withClass("testcase-name")),
                 div(span(resultIcon).withClass("material-symbols-outlined")).withClasses("center", resultStyle),
                 div(diff).withClass("center"),
-                div(button("APPROVE")).withClasses("center", buttonHidden))).withClass("container-testcase-summary")
+                div(button("APPROVE").attr("onclick", "approve('" + id + "', '" + resultPath + "', '" + goldenPath + "')")).withClasses("center", buttonHidden))).withClass("container-testcase-summary")
                 .attr("onclick", "toggleDisplay('" + id + "')").renderFormatted();
 
     }
@@ -123,5 +133,14 @@ public class TestCaseReport extends TestReport {
                 div(img().withSrc("./" + ta.getResultsPath().getFileName().toString())).withClass("card")))
                 .withClasses("container-teststep-images").withId(id);
 
+    }
+
+    private String getCommandTextArea() {
+        return textarea()
+            .withPlaceholder("Commands to update approved goldens")
+            .withId("command-container")
+            .withRows("5")
+            .withCols("5")
+            .withClass("commands").toString();
     }
 }
