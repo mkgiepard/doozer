@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.time.Duration;
 
 import org.junit.jupiter.api.TestInfo;
@@ -64,6 +65,9 @@ public class DoozerTest {
         TestRunReport tr = new TestRunReport(RESULTS_DIR, testCaseRegistry.values());
         try {
             tr.generate();
+            Files.write(
+                Paths.get("target/doozer-tests/doozer-report.txt"),
+                "<<< will put test summary here >>>".getBytes());
         } catch (Exception e) {
             e.printStackTrace();
         }
