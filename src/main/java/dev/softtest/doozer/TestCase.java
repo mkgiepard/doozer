@@ -93,8 +93,7 @@ public class TestCase {
                 }
             } catch (Exception e) {
                 if (!action.isOptional()) {
-                    LOG.error("EXECUTION FAILED IN ACTION: " + action.getOriginalAction() + " >>> Root cause:");
-                    e.printStackTrace();
+                    String errMsg = "TEST CASE `"+ getTestCaseName() + "` FAILED IN ACTION: `" + action.getOriginalAction() + "` >>> Root cause: " + e.getMessage();
                     saveDom();
                     takeScreenshotOnFailure();
                     result = TestResult.FAIL;
@@ -106,7 +105,8 @@ public class TestCase {
                         step.setArtifact(((TakeScreenshot) action).getTestArtifact());
                     }
                     steps.add(step);
-                    fail("TEST CASE '"+ getTestCaseName() + "' EXECUTION FAILED IN ACTION: " + action.getOriginalAction() + " >>> Root cause: " + e.getMessage());
+                    LOG.error(errMsg);
+                    fail(errMsg);
                 }
                 else {
                     if (action.getActionName().equalsIgnoreCase("takeScreenshot")) {
