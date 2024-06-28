@@ -10,6 +10,11 @@ import dev.softtest.doozer.Context;
 import dev.softtest.doozer.DoozerAction;
 import dev.softtest.doozer.ElementFinder;
 
+
+/**
+ * Implements <a href="https://www.selenium.dev/documentation/webdriver/waits/#explicit-waits">
+ * Explicit wait</a> interaction.
+ */
 public class WaitForElement extends DoozerAction {
 
     public WaitForElement(Context ctx, Integer lineNumber, String actionName, String originalAction) {
