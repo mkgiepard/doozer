@@ -4,7 +4,7 @@ import dev.softtest.doozer.Context;
 import dev.softtest.doozer.DoozerAction;
 
 /**
- * Wait, by default it is set to 5 [s], this can be overwritten by setting the expected value (in seconds) in args.
+ * Stops test execution for 5 [s], this value can be overwritten by setting the expected time (in seconds) in args.
  */
 public class Wait extends DoozerAction {
     private final int DEFAULT_WAIT_MS = 5000;
