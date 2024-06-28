@@ -63,11 +63,10 @@ public class DoozerTest {
     @AfterAll
     public void tearDown(TestInfo tInfo) {
         TestRunReport tr = new TestRunReport(RESULTS_DIR, testCaseRegistry.values());
+        TestRunSummary ts = new TestRunSummary(testCaseRegistry.values());
         try {
             tr.generate();
-            Files.write(
-                Paths.get("target/doozer-tests/doozer-report.txt"),
-                "<<< will put test summary here >>>".getBytes());
+            ts.generate();
         } catch (Exception e) {
             e.printStackTrace();
         }
