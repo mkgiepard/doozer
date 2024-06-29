@@ -120,6 +120,9 @@ public class DoozerTest {
     public Stream<Arguments> provideDoozerTestFiles() {
         String test = System.getProperty("doozer.test");
         if (test != null) {
+            if (Files.notExists(Path.of(test)))
+                throw new RuntimeException("'" + test + "' must exist to proceed.");
+
             return Stream.of(Arguments.of(test));
         }
 
@@ -127,7 +130,13 @@ public class DoozerTest {
         if (directory == null)
             throw new RuntimeException("'doozer.test' or 'doozer.directory' must be defined to proceed.");
 
+        if (Files.notExists(Path.of(directory)))
+            throw new RuntimeException("'" + directory + "' must exist to proceed.");
+
         File[] directories = new File(directory).listFiles(File::isDirectory);
+        if (directories == null)
+            throw new RuntimeException("'doozer.directory' does not contain any doozer test folders.");
+
         return Arrays.stream(directories)
                 .map(d -> Arguments.of(directory + d.getName() + "/" + d.getName() + ".doozer"));
     }

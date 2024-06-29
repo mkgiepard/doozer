@@ -17,6 +17,8 @@ public class TestRunSummary {
     }
 
     public void generate() throws Exception {
+        if (testCases == null || testCases.isEmpty()) return;
+
         Comparator<TestCase> comparator = Comparator.comparing(tc -> tc.getTestResult());
         comparator = comparator.reversed();
         comparator = comparator.thenComparing(Comparator.comparing(tc -> tc.getTestCaseName()));
