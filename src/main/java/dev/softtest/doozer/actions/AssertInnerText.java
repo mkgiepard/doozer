@@ -6,6 +6,9 @@ import dev.softtest.doozer.Context;
 import dev.softtest.doozer.DoozerAction;
 import dev.softtest.doozer.ElementFinder;
 
+/**
+ * Asserts the text value of an element defined by selector.
+ */
 public class AssertInnerText extends DoozerAction {
 
     public AssertInnerText(Context ctx, Integer lineNumber, String actionName, String originalAction) {
