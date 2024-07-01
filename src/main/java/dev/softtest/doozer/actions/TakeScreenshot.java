@@ -12,6 +12,17 @@ import dev.softtest.doozer.ImageDiff;
 import dev.softtest.doozer.TestArtifact;
 import dev.softtest.doozer.TestArtifactType;
 
+
+/**
+ * <code>takeScreenshot</code> action takeS a snapshot of a current view and compares it with
+ * the reference file stored in TEST_DIRECTORY/goldens directory.
+ * 
+ * <p>
+ * The action will fail if a system property <code>doozer.failOnPixelDiff</code> is set to
+ * <code>true</code> and the image comparison shows differences bigger than accepted threshold
+ * (default value is set to 0.01%).
+ * </p>
+ */
 public class TakeScreenshot extends DoozerAction {
     private Path goldenImgPath;
     private Path resultImgPath;
