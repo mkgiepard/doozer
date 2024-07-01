@@ -5,7 +5,7 @@ import dev.softtest.doozer.DoozerAction;
 
 
 /**
- * Set action for adding variables to TestContext.
+ * <code>Set</code> action for adding variables to TestContext.
  */
 public class Set extends DoozerAction {
 
