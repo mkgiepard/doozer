@@ -13,7 +13,20 @@ import com.google.common.base.Strings;
 import org.openqa.selenium.WebDriver;
 
 
-/** Wrapper class for various WebDriver implementations (Chrome, Firefox, Edge and Safari). */
+/** 
+ * Wrapper class for various WebDriver implementations (Chrome, Firefox, Edge and Safari).
+ * 
+ * <p>
+ * Supported options:
+ * <ul>
+ * <li>chrome</li>
+ * <li>firefox</li>
+ * <li>edge</li>
+ * <li>safari</li>
+ * </ul>
+ * chrome, firefox and edge can be suffixed with "-headless" to run the test in headless mode, for
+ * example: chrome-headless
+ * */
 public class DoozerDriver {
     private static final String DEFAULT_BROWSER = "chrome-headless";
     private final String browserDesc;
