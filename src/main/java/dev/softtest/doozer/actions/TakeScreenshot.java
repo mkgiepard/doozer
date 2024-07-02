@@ -35,6 +35,7 @@ public class TakeScreenshot extends DoozerAction {
 
     @Override
     public void execute() throws Exception {
+        waitBeforeTakeScreenshotFor(2000);
         byte[] screenshot = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.BYTES);
         fileName = getOptions().get("default");
         if (fileName == null) {
@@ -69,5 +70,11 @@ public class TakeScreenshot extends DoozerAction {
             .percentDiffThreshold(differ.getThreshold())
             .build();
         return artifact;
+    }
+
+    private void waitBeforeTakeScreenshotFor(int ms) {
+        try {
+            Thread.sleep(ms);
+        } catch (InterruptedException e) {}
     }
 }
