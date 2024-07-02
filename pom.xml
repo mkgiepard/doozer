@@ -6,7 +6,7 @@
 
   <groupId>dev.softtest</groupId>
   <artifactId>doozer</artifactId>
-  <version>0.0.1</version>
+  <version>0.2.0</version>
 
   <name>${project.groupId}:${project.artifactId}</name>
   <description>UI testing framework for non-coders.</description>
