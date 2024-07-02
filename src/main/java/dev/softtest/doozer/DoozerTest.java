@@ -154,7 +154,7 @@ public class DoozerTest {
     }
 
     protected void setupTimeouts(WebDriver driver) {
-        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
+        driver.manage().timeouts().implicitlyWait(Duration.ofMillis(2000));
     }
 
     private void createTestResultDirectory(String displayedName) throws IOException {
