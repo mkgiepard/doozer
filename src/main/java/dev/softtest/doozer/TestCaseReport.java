@@ -7,6 +7,7 @@ import j2html.tags.specialized.DivTag;
 
 import static j2html.TagCreator.*;
 
+/** The class for HTML report generation per test case. */
 public class TestCaseReport extends TestReport {
     private final String testCaseDir;
     protected final TestCase testCase;

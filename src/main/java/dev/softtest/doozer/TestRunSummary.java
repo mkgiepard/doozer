@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+/** The class for TXT report generation for the whole run. */
 public class TestRunSummary {
     private final Collection<TestCase> testCases;
     private Formatter f = new Formatter(new StringBuilder());

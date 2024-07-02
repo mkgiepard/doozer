@@ -9,6 +9,7 @@ import j2html.tags.specialized.DivTag;
 
 import static j2html.TagCreator.*;
 
+/** The class for HTML report generation for the whole run. */
 public class TestRunReport extends TestReport {
     private final Collection<TestCase> testCases;
 

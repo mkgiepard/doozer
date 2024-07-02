@@ -21,7 +21,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import dev.softtest.doozer.actions.TakeScreenshot;
 
-
+/**
+ * The class representing a single test case, provides a run() method with iterates over actions
+ * and executed them one by one.
+ */
 public class TestCase {
     protected static final Logger LOG = LogManager.getLogger();
     private final Duration WAIT_DOCUMENT_READY = Duration.ofSeconds(10);
