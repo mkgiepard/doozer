@@ -96,6 +96,7 @@ public class DoozerTest {
         long startTime = System.nanoTime();
         tc.readTestScript();
         try {
+            System.out.println("Running: " + tInfo.getDisplayName());
             tc.run();
         } catch (Exception e) {
             throw e;
