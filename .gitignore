@@ -25,3 +25,6 @@ replay_pid*
 
 # Maven target directory
 target/
+
+# Other
+.DS_Store
