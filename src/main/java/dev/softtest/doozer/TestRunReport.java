@@ -22,6 +22,9 @@ public class TestRunReport extends TestReport {
         Path path = Paths.get(resultsDir + REPORT_FILENAME);
         String htmlReport = generateTestReport();    
         try {
+            if (Files.notExists(path, LinkOption.NOFOLLOW_LINKS)) {
+                Files.createDirectories(Paths.get(resultsDir));
+            }
             Files.write(path, htmlReport.getBytes());
         } catch (IOException e) {
             e.printStackTrace();
