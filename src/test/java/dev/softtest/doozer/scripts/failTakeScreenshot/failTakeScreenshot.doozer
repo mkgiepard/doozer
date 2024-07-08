@@ -1,2 +1,3 @@
+takeScreenshot "failHere-1"
 url args:"https://doozer.softtest.dev"
-takeScreenshot "failHere"
+takeScreenshot "failHere-2"
