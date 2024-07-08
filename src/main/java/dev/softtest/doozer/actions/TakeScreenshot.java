@@ -9,6 +9,7 @@ import org.openqa.selenium.TakesScreenshot;
 import dev.softtest.doozer.Context;
 import dev.softtest.doozer.DoozerAction;
 import dev.softtest.doozer.ImageDiff;
+import dev.softtest.doozer.ImageDiff.ImageDiffException;
 import dev.softtest.doozer.TestArtifact;
 import dev.softtest.doozer.TestArtifactType;
 
@@ -55,7 +56,7 @@ public class TakeScreenshot extends DoozerAction {
         
         try {
             differ.compare();
-        } catch (Exception e) {
+        } catch (ImageDiffException e) {
             if (Boolean.parseBoolean(System.getProperty("doozer.failOnPixelDiff", "true")))
                 throw e;
         }

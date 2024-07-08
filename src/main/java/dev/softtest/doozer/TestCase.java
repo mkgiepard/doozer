@@ -104,7 +104,8 @@ public class TestCase {
                     step.setResult(TestResult.FAIL);
                     step.setStatus(TestStatus.DONE);
                     step.setError(e.getMessage());
-                    if (action.getActionName().equalsIgnoreCase("takeScreenshot")) {
+                    if (action.getActionName().equalsIgnoreCase("takeScreenshot") &&
+                        e instanceof ImageDiff.ImageDiffException) {
                         step.setArtifact(((TakeScreenshot) action).getTestArtifact());
                     }
                     steps.add(step);
@@ -112,7 +113,8 @@ public class TestCase {
                     fail(errMsg);
                 }
                 else {
-                    if (action.getActionName().equalsIgnoreCase("takeScreenshot")) {
+                    if (action.getActionName().equalsIgnoreCase("takeScreenshot") &&
+                        e instanceof ImageDiff.ImageDiffException) {
                         step.setArtifact(((TakeScreenshot) action).getTestArtifact());
                     }
                     step.setError("EXECUTION FAILED but ignoring the failure as the action is optional.");

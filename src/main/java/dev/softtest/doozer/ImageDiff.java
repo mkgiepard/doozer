@@ -41,13 +41,13 @@ public class ImageDiff {
             File fileA = goldenImgPath.toFile();
             goldenImg = ImageIO.read(fileA);
         } catch (IOException e) {
-            throw new Exception("Error while reading: " + goldenImgPath + "\n" + e);
+            throw new IOException("Error while reading: " + goldenImgPath + "\n" + e);
         }
         try {
             File fileB = resultImgPath.toFile();
             resultImg = ImageIO.read(fileB);
         } catch (IOException e) {
-            throw new Exception("Error while reading: " + resultImgPath + "\n" + e);
+            throw new IOException("Error while reading: " + resultImgPath + "\n" + e);
         }
 
         if (goldenImg != null && resultImg != null) {
@@ -90,7 +90,7 @@ public class ImageDiff {
                 generateDiffImg(diffImg);
                 if (diffRatio > 0 && diffRatio > threshold) {
                     LOG.error("Image comparison failed!");
-                    throw new Exception("Image comparison failed!");
+                    throw new ImageDiffException("Image comparison failed!");
                 }
 
             }
@@ -118,5 +118,12 @@ public class ImageDiff {
 
     public double getThreshold() {
         return threshold;
+    }
+
+    public class ImageDiffException extends Exception {
+        public ImageDiffException(String errorMessage) {
+            super(errorMessage);
+            LOG.error(errorMessage);
+        }
     }
 }

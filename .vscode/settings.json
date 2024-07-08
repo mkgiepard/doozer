@@ -3,7 +3,7 @@
   "java.configuration.updateBuildConfiguration": "automatic",
   "java.test.config": {
     "name": "doozerTestConfig",
-    "vmArgs": ["-Ddoozer.test=src/test/java/dev/softtest/doozer/scripts/softtestTest/softtestTest.doozer",
+    "vmArgs": ["-Ddoozer.test=src/test/java/dev/softtest/doozer/scripts/failTakeScreenshot/failTakeScreenshot.doozer",
                "-Ddoozer.browser=chrome-headless"]
   }  
 }
