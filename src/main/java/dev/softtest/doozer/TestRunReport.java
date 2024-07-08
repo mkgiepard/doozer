@@ -83,8 +83,8 @@ public class TestRunReport extends TestReport {
                     goldenPath = step.getArtifact().getGoldensPath().toAbsolutePath().toString();
                     resultPath = step.getArtifact().getResultsPath().toAbsolutePath().toString();
                     if (System.getProperty("os.name").contains("Windows")) {
-                        goldenPath = goldenPath.replaceAll("\\", "\\\\");
-                        resultPath = resultPath.replaceAll("\\", "\\\\");
+                        goldenPath = goldenPath.replaceAll("\\\\", "\\\\\\\\");
+                        resultPath = resultPath.replaceAll("\\\\", "\\\\\\\\");
                     }
                 }
             }
