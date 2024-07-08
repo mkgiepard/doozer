@@ -30,7 +30,7 @@ public class TestRunSummary {
                 .sorted(comparator)
                 .collect(Collectors.toList())) {
             String tcPath = tc.getTestScriptPath().toString();
-            String err = tc.getTestSteps().getLast().getError();
+            String err = tc.getTestSteps().size() != 0 ? tc.getTestSteps().getLast().getError() : null;
             err = err == null ? "" : err;
             err = err.contains("\n") ? err.substring(0, err.indexOf("\n")) : err;
             f.format("%-100.80s %10s   %-20s%n",
