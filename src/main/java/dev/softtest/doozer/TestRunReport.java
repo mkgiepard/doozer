@@ -82,7 +82,10 @@ public class TestRunReport extends TestReport {
                     id += step.getAction().getLineNumber();
                     goldenPath = step.getArtifact().getGoldensPath().toAbsolutePath().toString();
                     resultPath = step.getArtifact().getResultsPath().toAbsolutePath().toString();
-
+                    if (System.getProperty("os.name").contains("Windows")) {
+                        goldenPath = goldenPath.replaceAll("\\", "\\\\");
+                        resultPath = resultPath.replaceAll("\\", "\\\\");
+                    }
                 }
             }
         }
