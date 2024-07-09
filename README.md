@@ -1,5 +1,98 @@
 # doozer
+
 Dead simple UI testing framework.
+
+## Installation
+
+Doozer is released into Maven central repository and can be installed by adding this dependency into
+pom.xml file:
+
+```
+<dependency>
+    <groupId>dev.softtest</groupId>
+    <artifactId>doozer</artifactId>
+    <version>0.2.3</version>
+</dependency>
+```
+
+Current version - 0.2.3 - is not final but it is functional enough to try it out.
+
+## Setup
+
+Prerequisites:
+
+- Java SDK
+- Maven
+
+Steps:
+
+0. Create Maven [project](https://maven.apache.org/guides/getting-started/maven-in-five-minutes.html)
+
+    - If you are creating a project from scratch then you need to update the Java version used by compiler
+    (at least to version 8) in the pom.xml:
+
+    ```xml
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    ```
+
+    - Ensure all works well by running `mvn test` command.
+
+1. Add `doozer` dependency into pom.xml
+2. Create `MyDoozerTest` class that extends `DoozerTest`
+
+    ```java
+    import dev.softtest.doozer.DoozerTest;
+
+    public class MyDoozerTest extends DoozerTest {}
+    ```
+
+    This class is an entry point for various customizations, as long as you are not doing them it
+    stays empty like at the example above.
+
+
+## First Test
+
+Doozer test has a following structure:
+
+```
+firstTest                 (test directory)
+├── firstTest.doozer      (main test script named the same way as a directory + .doozer suffix)
+└── goldens               (directory for reference files, like images, a11y snapshots, logs, etc)
+    ├── screenshot-1.png  (exemplary golden file)
+```
+
+Steps:
+
+1. Create a test directory, for example `firstTest`
+2. Inside this directory, create
+    - a test script called: `firstTest.doozer`
+    - a `goldens` directory for reference files
+3. Edit `firstTest.doozer` and add first actions
+
+    ```bash
+    url args:"https://doozer.softtest.dev/test-pages/webform.html"
+    assertPageTitle args:"doozerByExample - exemplary page to testing doozer actions"
+    ```
+
+4. Run the test with the following command:
+
+    ```bash
+    mvn test -Ddoozer.test=<path_to_your_test>/firstTest/firstTest.doozer -Ddoozer.browser=chrome
+    ```
+
+    or if you are running on Windows, add quotes around command parameters, like this:
+
+    ```bash
+    mvn test "-Ddoozer.test=<path_to_your_test>/firstTest/firstTest.doozer" "-Ddoozer.browser=chrome"
+    ```
+
+    > **_NOTE:_**  Running the test with `-Ddoozer.browser=chrome` tells the doozer to use
+    Chrome as a browser for testing. By default the test would run on Chrome in headless mode so
+    you'll not see much, with this parameter the browser is in headful mode.
+
+5. The results will be displayed in the console but also you can check all the logs at:
+`<your_working_directory>/target/doozer-tests`, feel free to explore.
 
 
 ## Syntax
@@ -90,3 +183,29 @@ One of:
 - `doozer.browser` - defines a browser to use during test, default: `chrome-headless`
 - `doozer.failOnPixelDiff` - when set to `false` all the `takeScreenshot` actions are treated as optional,
 default: `true`
+
+## License
+
+The project is licensed with The Apache License, Version 2.0.
+(http://www.apache.org/licenses/LICENSE-2.0.txt).
+
+
+## Versions
+
+### 0.2.3 Bug fixes
+
+- Bug fixes for 'Approve' on Windows
+
+
+### 0.2.2 Broken release, please don't use it :(
+
+### 0.2.1 Bug fixes
+
+- Bug fixes for `takeScreenshot` action
+
+### 0.2.0 Initial release
+
+
+## Contact
+
+Feel free to reach me out on github or at info [ at ] softtest.dev.
