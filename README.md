@@ -190,7 +190,7 @@ The project is licensed with The Apache License, Version 2.0.
 (http://www.apache.org/licenses/LICENSE-2.0.txt).
 
 
-## Versions
+## Release Notes
 
 ### 0.2.3 Bug fixes
 
@@ -209,3 +209,5 @@ The project is licensed with The Apache License, Version 2.0.
 ## Contact
 
 Feel free to reach me out on github or at info [ at ] softtest.dev.
+
+**Enjoy!**
