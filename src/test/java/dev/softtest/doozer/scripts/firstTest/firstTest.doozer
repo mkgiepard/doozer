@@ -1,6 +1,6 @@
-url "" "https://doozer.softtest.dev/test-pages/webform.html"
-assertPageTitle "" "doozerByExample - exemplary page to testing doozer actions"
-takeScreenshot "" "first"
+url args:"https://doozer.softtest.dev/test-pages/webform.html"
+assertPageTitle args:"doozerByExample - exemplary page to testing doozer actions"
+takeScreenshot args:"first"
 
 type "By.name('name')" "Doozer"
 click "By.cssSelector('button')"
