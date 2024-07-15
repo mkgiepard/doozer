@@ -156,6 +156,7 @@ click selector:"Sl({button 'Accept *'})"
   - `url`
 
 - Generics
+  - `iframe`
   - `import`
   - `set`
   - `takeScreenshot`
