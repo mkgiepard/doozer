@@ -19,6 +19,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import dev.softtest.doozer.ImageDiff.ImageDiffIOException;
 import dev.softtest.doozer.actions.TakeScreenshot;
 
 /**
@@ -105,7 +106,8 @@ public class TestCase {
                     step.setStatus(TestStatus.DONE);
                     step.setError(e.getMessage());
                     if (action.getActionName().equalsIgnoreCase("takeScreenshot") &&
-                        e instanceof ImageDiff.ImageDiffException) {
+                        (e instanceof ImageDiff.ImageDiffException ||
+                         e instanceof ImageDiff.ImageDiffIOException)) {
                         step.setArtifact(((TakeScreenshot) action).getTestArtifact());
                     }
                     steps.add(step);
@@ -114,7 +116,8 @@ public class TestCase {
                 }
                 else {
                     if (action.getActionName().equalsIgnoreCase("takeScreenshot") &&
-                        e instanceof ImageDiff.ImageDiffException) {
+                        (e instanceof ImageDiff.ImageDiffException ||
+                         e instanceof ImageDiff.ImageDiffIOException)) {
                         step.setArtifact(((TakeScreenshot) action).getTestArtifact());
                     }
                     step.setError("EXECUTION FAILED but ignoring the failure as the action is optional.");

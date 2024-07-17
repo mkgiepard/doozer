@@ -10,6 +10,7 @@ import dev.softtest.doozer.Context;
 import dev.softtest.doozer.DoozerAction;
 import dev.softtest.doozer.ImageDiff;
 import dev.softtest.doozer.ImageDiff.ImageDiffException;
+import dev.softtest.doozer.ImageDiff.ImageDiffIOException;
 import dev.softtest.doozer.TestArtifact;
 import dev.softtest.doozer.TestArtifactType;
 
@@ -56,7 +57,7 @@ public class TakeScreenshot extends DoozerAction {
         
         try {
             differ.compare();
-        } catch (ImageDiffException e) {
+        } catch (ImageDiffException|ImageDiffIOException e) {
             if (Boolean.parseBoolean(System.getProperty("doozer.failOnPixelDiff", "true")))
                 throw e;
         }

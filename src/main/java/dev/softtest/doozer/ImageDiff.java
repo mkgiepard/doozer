@@ -41,13 +41,13 @@ public class ImageDiff {
             File fileA = goldenImgPath.toFile();
             goldenImg = ImageIO.read(fileA);
         } catch (IOException e) {
-            throw new IOException("Error while reading: " + goldenImgPath + "\n" + e);
+            throw new ImageDiffIOException("Error while reading: " + goldenImgPath + "\n" + e);
         }
         try {
             File fileB = resultImgPath.toFile();
             resultImg = ImageIO.read(fileB);
         } catch (IOException e) {
-            throw new IOException("Error while reading: " + resultImgPath + "\n" + e);
+            throw new ImageDiffIOException("Error while reading: " + resultImgPath + "\n" + e);
         }
 
         if (goldenImg != null && resultImg != null) {
@@ -122,6 +122,13 @@ public class ImageDiff {
 
     public class ImageDiffException extends Exception {
         public ImageDiffException(String errorMessage) {
+            super(errorMessage);
+            LOG.error(errorMessage);
+        }
+    }
+
+    public class ImageDiffIOException extends Exception {
+        public ImageDiffIOException(String errorMessage) {
             super(errorMessage);
             LOG.error(errorMessage);
         }
