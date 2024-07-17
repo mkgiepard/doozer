@@ -17,7 +17,7 @@ public class AssertCurrentUrl extends DoozerAction {
     @Override
     public void execute() throws Exception {
         String url = getDriver().getCurrentUrl();
-        if (!url.equals(getOptions().get("default")))
-            throw new Exception("The current URL content is different!\nExpected: " + getOptions() + "\nIs: " + url);
+        if (!url.equals(getOptions().get("default").trim()))
+            throw new Exception("The current URL content is different!\nExpected: " + getOptions().get("default") + "\nIs: " + url);
     } 
 }

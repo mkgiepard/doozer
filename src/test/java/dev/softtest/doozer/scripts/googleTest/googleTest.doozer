@@ -2,9 +2,10 @@
 
 // this is too
 
-set name:"google.url" value:"https://www.google.com?hl\=en"
+set name:"google.url" value:"https://www.google.com/?hl\=en"
 navigateTo args:"${google.url}"
 
+assertCurrentUrl args:"${google.url}"
 // url args:"https://www.google.com"
 
 //click selector:"By.xpath('//button[contains(.,\"Accept\")]')"
