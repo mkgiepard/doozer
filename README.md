@@ -1,6 +1,6 @@
 # doozer
 
-Dead simple UI testing framework.
+Dead simple UI testing framework. ([doozer.softtest.dev](https://doozer.softtest.dev/))
 
 ## Installation
 
