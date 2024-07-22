@@ -11,11 +11,11 @@ pom.xml file:
 <dependency>
     <groupId>dev.softtest</groupId>
     <artifactId>doozer</artifactId>
-    <version>0.2.3</version>
+    <version>0.2.4</version>
 </dependency>
 ```
 
-Current version - 0.2.3 - is not final but it is functional enough to try it out.
+Current version - 0.2.4 - is not final but it is functional enough to try it out.
 
 ## Setup
 
@@ -192,6 +192,11 @@ The project is licensed with The Apache License, Version 2.0.
 
 
 ## Release Notes
+
+### 0.2.4 Bug fixes
+
+- Bug fixes for test run HTML reports
+- Bug fix for `assertCurrentUrl` action
 
 ### 0.2.3 Bug fixes
 
