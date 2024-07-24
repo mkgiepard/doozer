@@ -5,6 +5,7 @@ import static j2html.TagCreator.*;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Paths;
 import java.util.stream.Collectors;
 
 
@@ -34,7 +35,16 @@ public abstract class TestReport {
     }
 
     protected String includePageHeader(String header) {
-        return div(h1(header)).withClass("header").renderFormatted();
+        String logoPath; 
+        try {
+            logoPath = Paths.get(getClass().getResource("/doozer-logo.svg").toURI()).toString();
+        } catch (Exception e) {
+            logoPath = "";
+        }
+        return div(
+                join(img().withSrc(logoPath).withClass("logo"), h1(header))
+            ).withClasses("header", "fixed-top")
+             .renderFormatted();
     }
 
     protected String getHeaderRow() {

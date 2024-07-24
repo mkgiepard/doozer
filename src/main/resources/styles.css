@@ -15,16 +15,21 @@ textarea {
     min-width: 100%;
 }
 .header {
-    background-color: #28b76b;
-    color: white;
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
+    color: black;
+    background-color: white;
     padding: 6px;
     margin-bottom: 12px;
+    box-shadow: 0 0 0.5rem lightgray;
 }
 .container-main {
     display: grid;
     row-gap: 1px;
     margin: auto;
     width:95%;
+    padding-top: 100px;
 }
 .container-testcase {
     display: grid;
@@ -112,4 +117,16 @@ img {
 }
 .step-name {
     font-family: 'Courier New', Courier, monospace;
+}
+.logo {
+    width: 40px;
+    height: 40px;
+    border: 0;
+    box-shadow: 0 0;
+}
+.fixed-top {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
 }
