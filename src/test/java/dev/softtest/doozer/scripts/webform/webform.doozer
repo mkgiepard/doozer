@@ -1,4 +1,5 @@
 url args:"https://doozer.softtest.dev/test-pages/webform.html"
+assertPageTitle args:"doozerByExample - exemplary page to testing doozer actions"
 takeScreenshot args:"form.empty"
 
 type selector:"By.name('name')" args:"Doozer"
@@ -7,3 +8,9 @@ takeScreenshot args:"form.with.data"
 click selector:"By.cssSelector('button')"
 assertInnerText selector:"By.id('message')" args:"Hello Doozer!"
 takeScreenshot args:"form.submitted"
+
+navigateBack
+clear selector:"By.name('name')"
+type selector:"By.name('name')" args:"Better Doozer"
+click selector:"By.cssSelector('button')"
+takeScreenshot args:"form.resubmitted."
