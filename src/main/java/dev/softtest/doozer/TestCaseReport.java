@@ -82,8 +82,10 @@ public class TestCaseReport extends TestReport {
                 div(div(script).withClass("testcase-name")),
                 div(span(resultIcon).withClass("material-symbols-outlined")).withClasses("center", resultStyle),
                 div(diff).withClass("center"),
-                div(button("APPROVE").attr("onclick", "approve('" + id + "', '" + resultPath + "', '" + goldenPath + "')")).withClasses("center", buttonHidden))).withClass("container-testcase-summary")
-                .attr("onclick", "toggleDisplay('" + id + "')").renderFormatted();
+                div())
+               ).withClass("container-testcase-summary")
+                .attr("onclick", "toggleDisplay('" + id + "')")
+                .renderFormatted();
 
     }
 
@@ -99,11 +101,22 @@ public class TestCaseReport extends TestReport {
                 + ": "
                 + step.getAction().getOriginalAction();
         String diff = "0";
+        String id = step.getAction().getSourceFileName() + "_" + step.getAction().getLineNumber();
+        String goldenPath = "";
+        String resultPath = "";
+        
         if (step.getArtifact() != null && step.getArtifact().getDiff() != 0) {
             diff = Long.toString(step.getArtifact().getDiff());
+            goldenPath = step.getArtifact().getGoldensPath().toAbsolutePath().toString();
+            resultPath = step.getArtifact().getResultsPath().toAbsolutePath().toString();
+            if (System.getProperty("os.name").contains("Windows")) {
+                goldenPath = goldenPath.replaceAll("\\\\", "\\\\\\\\");
+                resultPath = resultPath.replaceAll("\\\\", "\\\\\\\\");
+            }
         }
         String resultIcon = step.getResult() == TestResult.PASS ? "check" : "cancel";
         String resultStyle = step.getResult() == TestResult.PASS ? "pass" : "fail";
+        String buttonHidden = diff == "-" || diff == "0" ? "hidden" : "";
         return div(join(
                     div(
                         join(
@@ -111,8 +124,7 @@ public class TestCaseReport extends TestReport {
                             div(span(resultIcon).withClass("material-symbols-outlined")).withClasses("center",
                                 resultStyle),
                             div(diff).withClass("center"),
-                            div()
-                        )
+                            div(button("APPROVE").attr("onclick", "approve('" + id + "', '" + resultPath + "', '" + goldenPath + "')")).withClasses("center", buttonHidden))
                     ).withClass("container-teststep-summary"),
                     getTestStepImages(step))
                 ).withClass("container-teststep");
