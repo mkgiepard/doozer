@@ -41,7 +41,7 @@ public class ImageDiff {
             File fileA = goldenImgPath.toFile();
             goldenImg = ImageIO.read(fileA);
         } catch (IOException e) {
-            throw new ImageDiffIOException("Error while reading: " + goldenImgPath + "\n" + e);
+            LOG.warn("Error while reading: " + goldenImgPath + "\n" + e);
         }
         try {
             File fileB = resultImgPath.toFile();
@@ -50,7 +50,11 @@ public class ImageDiff {
             throw new ImageDiffIOException("Error while reading: " + resultImgPath + "\n" + e);
         }
 
-        if (goldenImg != null && resultImg != null) {
+        if (resultImg != null) {
+            if (goldenImg == null) {
+                goldenImg = new BufferedImage(resultImg.getWidth(), resultImg.getHeight(), resultImg.getType());
+            }
+
             int goldenWidth = goldenImg.getWidth();
             int resultWidth = resultImg.getWidth();
             int goldenHeight = goldenImg.getHeight();
