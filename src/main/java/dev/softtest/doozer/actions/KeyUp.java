@@ -1,5 +1,6 @@
 package dev.softtest.doozer.actions;
 
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
 
 import dev.softtest.doozer.Context;
@@ -17,7 +18,8 @@ public class KeyUp extends DoozerAction {
 
     @Override
     public void execute() throws Exception {
-        new Actions(getDriver()).keyUp(getOption("default"));
+        Keys key = Keys.valueOf(getOption("default").toUpperCase());
+        new Actions(getDriver()).keyUp(key).perform();
     }
     
 }
