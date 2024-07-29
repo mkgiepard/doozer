@@ -28,6 +28,6 @@ public class HoverByOffset extends DoozerAction {
         new Actions(getDriver()).moveToElement(
                 element,
                 Integer.parseInt(getOption("x")),
-                Integer.parseInt(getOption("y")));
+                Integer.parseInt(getOption("y"))).perform();
     }
 }

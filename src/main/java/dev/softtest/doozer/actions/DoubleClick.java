@@ -20,6 +20,6 @@ public class DoubleClick extends DoozerAction {
     @Override
     public void execute() throws Exception {
         WebElement element = ElementFinder.findElement(getContext(), getDoozerSelector());
-        new Actions(getDriver()).doubleClick(element);      
+        new Actions(getDriver()).doubleClick(element).perform();      
     }
 }

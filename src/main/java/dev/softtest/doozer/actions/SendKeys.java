@@ -17,7 +17,7 @@ public class SendKeys extends DoozerAction {
 
     @Override
     public void execute() throws Exception {
-        new Actions(getDriver()).sendKeys(getOption("default"));
+        new Actions(getDriver()).sendKeys(getOption("default")).perform();
     }
     
 }

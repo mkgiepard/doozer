@@ -20,6 +20,6 @@ public class Hover extends DoozerAction {
     @Override
     public void execute() throws Exception {
         WebElement element = ElementFinder.findElement(getContext(), getDoozerSelector());
-        new Actions(getDriver()).moveToElement(element);      
+        new Actions(getDriver()).moveToElement(element).perform();      
     }
 }
