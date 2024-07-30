@@ -5,7 +5,9 @@ import static j2html.TagCreator.*;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.Files;
 import java.util.stream.Collectors;
 
 
@@ -16,6 +18,7 @@ public abstract class TestReport {
     
     public TestReport(String resultsDir) {
         this.resultsDir = resultsDir;
+        copyLogoFromResources();
     }
 
     public abstract void generate();
@@ -35,12 +38,7 @@ public abstract class TestReport {
     }
 
     protected String includePageHeader(String header) {
-        String logoPath; 
-        try {
-            logoPath = Paths.get(getClass().getResource("/doozer-logo.svg").toURI()).toString();
-        } catch (Exception e) {
-            logoPath = "";
-        }
+        String logoPath = Paths.get(resultsDir + "/doozer-logo.svg").toAbsolutePath().toString();
         return div(
                 join(img().withSrc(logoPath).withClass("logo"), h1(header))
             ).withClasses("header", "fixed-top")
@@ -54,6 +52,17 @@ public abstract class TestReport {
                 div("PIXEL DIFF").withClass("center"),
                 div("ACTION").withClass("center"))).withClasses("container-testcase-header", "title"))
                 .withClass("container-testcase").render();
+    }
+
+    private void copyLogoFromResources() {
+        Path path = Paths.get(resultsDir + "/doozer-logo.svg").toAbsolutePath();
+        try (InputStream in = getClass().getResourceAsStream("/doozer-logo.svg")) {
+            if (Files.notExists(path)) {
+                Files.copy(in, path);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private String readResource(String name) {
