@@ -40,10 +40,10 @@ public class ElementFinder {
                 return false;
             });
         } catch (TimeoutException e) {
-            throw new Exception("Cannot find displayed element for selector: " + selector + "\n" + e);
+            throw new Exception("Cannot find displayed element for selector: " + selector.getSelectorDesc() + "\n" + e);
         }
         if (list.size() == 0)
-            throw new Exception("Cannot find displayed element for selector: " + selector);
+            throw new Exception("Cannot find displayed element for selector: " + selector.getSelectorDesc());
         return list.get(0);
     }
 }
