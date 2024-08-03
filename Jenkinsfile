@@ -10,7 +10,7 @@ pipeline {
         stage ('Test'){
             steps{
                 sh '''
-                mvn test -Dgroups=\!DOOZER
+                mvn test -Dgroups=\\!DOOZER
                 '''
             }
             post {
