@@ -16,6 +16,7 @@ import org.junit.jupiter.api.parallel.ExecutionMode;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -80,6 +81,7 @@ public class DoozerTest {
      */
     @ParameterizedTest
     @MethodSource("provideDoozerTestFiles")
+    @Tag("DOOZER")
     public void runner(Path testScriptPath, TestInfo tInfo) throws Exception {
         TestCase tc = new TestCase(testScriptPath);
         ThreadContext.put(LOGGING_KEY, tc.getTestCaseName());
