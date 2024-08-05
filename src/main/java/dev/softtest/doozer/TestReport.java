@@ -39,6 +39,9 @@ public abstract class TestReport {
 
     protected String includePageHeader(String header) {
         String logoPath = Paths.get(resultsDir + "/doozer-logo.svg").toAbsolutePath().toString();
+        if (System.getProperty("os.name").contains("Windows")) {
+            logoPath = "file://" + logoPath;
+        }
         return div(
                 join(img().withSrc(logoPath).withClass("logo"), h1(header))
             ).withClasses("header", "fixed-top")
