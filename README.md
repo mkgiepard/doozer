@@ -195,8 +195,9 @@ The project is licensed with The Apache License, Version 2.0.
 
 ### 0.2.5 Bug fixes / Improvements
 
-- Bug fixes for test run HTML reports
-- Bug fix for `assertCurrentUrl` action
+- Fix Doozer actions based on Selenium Actions (like keyUp, keDown etc)
+- Improve TestRun, TestCase report pages
+- Improve error messages reported on missing Selector
 
 ### 0.2.4 Bug fixes
 
