@@ -11,11 +11,11 @@ pom.xml file:
 <dependency>
     <groupId>dev.softtest</groupId>
     <artifactId>doozer</artifactId>
-    <version>0.2.5</version>
+    <version>0.2.6</version>
 </dependency>
 ```
 
-Current version - 0.2.5 - is not final but it is functional enough to try it out.
+Current version - 0.2.6 - is not final but it is functional enough to try it out.
 
 ## Setup
 
@@ -192,6 +192,10 @@ The project is licensed with The Apache License, Version 2.0.
 
 
 ## Release Notes
+
+### 0.2.6 Bug fixes / Improvements
+
+- Fix missing icon on TestRun, TestCase pages on Windows
 
 ### 0.2.5 Bug fixes / Improvements
 
