@@ -28,11 +28,14 @@ public class ElementFinder {
                 .ignoring(ElementNotInteractableException.class, NoSuchElementException.class);
         try {
             wait.until((d) -> {
-                LOG.info("looking for element: '" + selector.getSelectorDesc() + "'");
+                LOG.info("looking for element: \"" + selector.getSelectorDesc() + "\"");
                 List<WebElement> elements = ctx.getWebDriver().findElements(selector.getBySelector());
                 if (selector.getIndex() >= 0 && selector.getIndex() < elements.size()) {
                     WebElement element = elements.get(selector.getIndex());
-                    if (element != null && element.isDisplayed()) {
+                    if (element != null) {
+                        if (!element.isDisplayed()) {
+                            LOG.warn("element located with: \"" + selector.getSelectorDesc() + "\" has `isDisplayed() = false`");
+                        }
                         list.add(0, element);
                         return true;
                     }
