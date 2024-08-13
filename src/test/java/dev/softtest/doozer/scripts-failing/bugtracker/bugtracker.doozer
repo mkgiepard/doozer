@@ -1,5 +1,5 @@
 url args:"http://localhost:4200/login"
-takeScreenshot args:"login"
+takeScreenshot? args:"login"
 
 type selector:"By.id('mat-input-0')" args:"mario"
 type selector:"By.id('mat-input-1')" args:"magic"
@@ -7,4 +7,13 @@ click selector:"SL({button 'Login'})"
 
 waitForElement selector:"SL({button 'Create'})"
 waitForElement selector:"By.className('mat-mdc-table')"
-takeScreenshot args:"home"
+takeScreenshot? args:"home"
+
+// Create new BR
+click selector:"SL({button 'Create'})"
+type selector:"SL({textbox 'Title'})" args:"bugtracker2 does not work if there is power in the building"
+type selector:"SL({textbox 'Description'})" args:"Yesterday there was no power in our building and as a result the bugtracker2 was not working."
+click selector:"SL({radio 'P0'})"
+takeScreenshot? args:"bugreport-new-filled"
+
+click selector:"SL({button 'Save'})"
