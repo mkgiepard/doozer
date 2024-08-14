@@ -35,14 +35,19 @@ function clearCommands() {
   cmdContainer.textContent = "";
 }
 
-function openModal(imgSrc) {
+function openModal(imgSrc1, imgSrc2, imgSrc3) {
   var modal = document.getElementById("modal");
   var modalImg = document.getElementById("modalImg");
+  var nextSrc = imgSrc2;
 
   modal.style.display = "block";
-  modalImg.src = imgSrc;
+  modalImg.src = imgSrc1;
   modalImg.onclick = function () {
-    modal.style.display = "none";
+    modalImg.src = nextSrc;
+    // Rotate images onclick
+    if (nextSrc === imgSrc2) { nextSrc = imgSrc3; }
+    else if (nextSrc === imgSrc3) { nextSrc = imgSrc1; }
+    else { nextSrc = imgSrc2; }
   }
 
   var span = document.getElementsByClassName("close")[0];
