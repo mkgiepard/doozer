@@ -58,6 +58,7 @@ public class TestRunReport extends TestReport {
         htmlReport += "<button onclick=\"copy()\">Copy to clipboard</button>";
         htmlReport += "</div>";
         htmlReport += "</div>";
+        htmlReport += getModal();
         htmlReport += "</body>";
         htmlReport += includeJS();
         htmlReport += "</html>";
@@ -120,11 +121,14 @@ public class TestRunReport extends TestReport {
         String parentDir = ta.getResultsPath().getParent().toString();
         String screenshotName = ta.getName();
         String diffName = screenshotName.substring(0, screenshotName.lastIndexOf(".png")) + ".DIFF.png";
+        String goldenSrc = "../../" + ta.getGoldensPath().toString();
+        String diffSrc = "../../" + parentDir + "/" + diffName;
+        String testSrc = "../../" + ta.getResultsPath().toString();
         
         return div(join(
-            div(img().withSrc("../../" + ta.getGoldensPath().toString())).withClass("card"),
-            div(img().withSrc("../../" + parentDir + "/" + diffName)).withClass("card"),
-            div(img().withSrc("../../" + ta.getResultsPath().toString())).withClass("card")
+            div(img().withSrc(goldenSrc).attr("onclick", "openModal('" + goldenSrc + "')")).withClass("card"),
+            div(img().withSrc(diffSrc).attr("onclick", "openModal('" + diffSrc + "')")).withClass("card"),
+            div(img().withSrc(testSrc).attr("onclick", "openModal('" + testSrc + "')")).withClass("card")
         )).withClasses("container-teststep-images", "hidden").withId(id);
     }
 

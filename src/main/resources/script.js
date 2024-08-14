@@ -34,3 +34,19 @@ function clearCommands() {
   var cmdContainer = document.getElementById("command-container");
   cmdContainer.textContent = "";
 }
+
+function openModal(imgSrc) {
+  var modal = document.getElementById("modal");
+  var modalImg = document.getElementById("modalImg");
+
+  modal.style.display = "block";
+  modalImg.src = imgSrc;
+  modalImg.onclick = function () {
+    modal.style.display = "none";
+  }
+
+  var span = document.getElementsByClassName("close")[0];
+  span.onclick = function () {
+      modal.style.display = "none";
+  } 
+}

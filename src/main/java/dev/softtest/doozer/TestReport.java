@@ -10,12 +10,11 @@ import java.nio.file.Paths;
 import java.nio.file.Files;
 import java.util.stream.Collectors;
 
-
 /** Base class for test reports created with j2html. */
 public abstract class TestReport {
     protected final String REPORT_FILENAME = "doozer-report.html";
     protected final String resultsDir;
-    
+
     public TestReport(String resultsDir) {
         this.resultsDir = resultsDir;
         copyLogoFromResources();
@@ -43,9 +42,8 @@ public abstract class TestReport {
             logoPath = "file://" + logoPath;
         }
         return div(
-                join(img().withSrc(logoPath).withClass("logo"), h1(header))
-            ).withClasses("header", "fixed-top")
-             .renderFormatted();
+                join(img().withSrc(logoPath).withClass("logo"), h1(header))).withClasses("header", "fixed-top")
+                .renderFormatted();
     }
 
     protected String getHeaderRow() {
@@ -55,6 +53,16 @@ public abstract class TestReport {
                 div("PIXEL DIFF").withClass("center"),
                 div("ACTION").withClass("center"))).withClasses("container-testcase-header", "title"))
                 .withClass("container-testcase").render();
+    }
+
+    protected String getModal() {
+        return div(
+                join(
+                        span("x").withClass("close"),
+                        img().withId("modalImg").withClass("modal-content")))
+                .withId("modal")
+                .withClass("modal")
+                .render();
     }
 
     private void copyLogoFromResources() {

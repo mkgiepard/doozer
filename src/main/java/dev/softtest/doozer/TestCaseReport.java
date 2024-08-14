@@ -48,6 +48,7 @@ public class TestCaseReport extends TestReport {
         htmlReport += "<button onclick=\"copy()\">Copy to clipboard</button>";
         htmlReport += "</div>";
         htmlReport += "</div>";
+        htmlReport += getModal();
         htmlReport += "</body>";
         htmlReport += includeJS();
         htmlReport += "</html>";
@@ -143,13 +144,15 @@ public class TestCaseReport extends TestReport {
     private DivTag getContainerTestCaseImages(TestArtifact ta, String id) {
         String screenshotName = ta.getName();
         String diffName = screenshotName.substring(0, screenshotName.lastIndexOf(".png")) + ".DIFF.png";
+        String goldenSrc = "../../../" + ta.getGoldensPath().toString();
+        String diffSrc = "./" + diffName;
+        String testSrc = "./" + ta.getResultsPath().getFileName().toString();
 
         return div(join(
-                div(img().withSrc("../../../" + ta.getGoldensPath().toString())).withClass("card"),
-                div(img().withSrc("./" + diffName)).withClass("card"),
-                div(img().withSrc("./" + ta.getResultsPath().getFileName().toString())).withClass("card")))
+                div(img().withSrc(goldenSrc).attr("onclick", "openModal('" + goldenSrc + "')")).withClass("card"),
+                div(img().withSrc(diffSrc).attr("onclick", "openModal('" + diffSrc + "')")).withClass("card"),
+                div(img().withSrc(testSrc).attr("onclick", "openModal('" + testSrc + "')")).withClass("card")))
                 .withClasses("container-teststep-images").withId(id);
-
     }
 
     private String getCommandTextArea() {

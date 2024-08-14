@@ -1,132 +1,178 @@
 body {
-    font-family: Helvetica, sans-serif;
-    font-size: small;
-    font-weight: 300;
-    margin: 0;
-    --card-color: lightgray;
+  font-family: Helvetica, sans-serif;
+  font-size: small;
+  font-weight: 300;
+  margin: 0;
+  --card-color: lightgray;
 }
 button {
-    font-size: x-small;
+  font-size: x-small;
 }
 ul {
-    list-style: none;
+  list-style: none;
 }
 textarea {
-    min-width: 100%;
+  min-width: 100%;
 }
 .header {
-    display: flex;
-    align-items: center;
-    column-gap: 10px;
-    color: black;
-    background-color: white;
-    padding: 6px;
-    margin-bottom: 12px;
-    box-shadow: 0 0 0.5rem lightgray;
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+  color: black;
+  background-color: white;
+  padding: 6px;
+  margin-bottom: 12px;
+  box-shadow: 0 0 0.5rem lightgray;
 }
 .container-main {
-    display: grid;
-    row-gap: 1px;
-    margin: auto;
-    width:95%;
-    padding-top: 100px;
+  display: grid;
+  row-gap: 1px;
+  margin: auto;
+  width: 95%;
+  padding-top: 100px;
 }
 .container-testcase {
-    display: grid;
-    row-gap: 6px;
-    width: 100%;
-    border-bottom: 1px solid lightgrey;
-    padding: 3px 12px;
+  display: grid;
+  row-gap: 6px;
+  width: 100%;
+  border-bottom: 1px solid lightgrey;
+  padding: 3px 12px;
 }
 .container-testcase-header,
 .container-testcase-summary,
 .container-teststep-summary {
-    display: grid;
-    grid-template-columns: 15fr 1fr 1fr 1fr 20px;
-    line-height: 19px;
+  display: grid;
+  grid-template-columns: 15fr 1fr 1fr 1fr 20px;
+  line-height: 19px;
 }
 .container-testcase-summary:hover,
 .container-teststep-summary:hover {
-    background-color: #f8f8f8;
-    cursor: pointer;
-    z-index: 99;
+  background-color: #f8f8f8;
+  cursor: pointer;
+  z-index: 99;
 }
 .container-teststep-images {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    column-gap: 12px;
-    margin-bottom: 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  column-gap: 12px;
+  margin-bottom: 12px;
 }
 .container-teststeps {
-    display: grid;
+  display: grid;
 }
 .container-commands {
-    display: grid;
-    row-gap: 6px;
-    width: 100%;
-    padding: 3px 12px;
+  display: grid;
+  row-gap: 6px;
+  width: 100%;
+  padding: 3px 12px;
 }
 .testcase-image {
-    text-align: center;
+  text-align: center;
 }
 .testcase-data {
-    margin-top: 6px;
+  margin-top: 6px;
 }
 .step-name {
-    padding-left: 24px;
+  padding-left: 24px;
 }
 .card {
-    padding: 6px;
-    text-align: center;
-    background-color: white;
+  padding: 6px;
+  text-align: center;
+  background-color: white;
 }
 img {
-    width: 95%;
-    height: auto;
-    border: 1px solid lightgray;
-    box-shadow: 0 0.5rem 1rem lightgray;
+  width: 95%;
+  height: auto;
+  border: 1px solid lightgray;
+  box-shadow: 0 0.5rem 1rem lightgray;
 }
 .pass {
-    color: green;
-    --card-color: green;
+  color: green;
+  --card-color: green;
 }
 .fail {
-    color: red;
-    --card-color: red;
+  color: red;
+  --card-color: red;
 }
 .center {
-    justify-self: center;
+  justify-self: center;
 }
 .hidden {
-    display: none;
+  display: none;
 }
 .title {
-    font-weight: 900;
+  font-weight: 900;
 }
 .testcase-data {
-    display: grid;
-    grid-template-columns: 100px auto;
-    justify-items: left;
-    margin-bottom: 6px;
+  display: grid;
+  grid-template-columns: 100px auto;
+  justify-items: left;
+  margin-bottom: 6px;
 }
 .label {
-    padding-left: 12px;
+  padding-left: 12px;
 }
 .material-symbols-outlined {
-    font-size: 16px;
+  font-size: 16px;
 }
 .step-name {
-    font-family: 'Courier New', Courier, monospace;
+  font-family: "Courier New", Courier, monospace;
 }
 .logo {
-    width: 40px;
-    height: 40px;
-    border: 0;
-    box-shadow: 0 0;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  box-shadow: 0 0;
 }
 .fixed-top {
-    position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+}
+
+.card img:hover {
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 50px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (Image) */
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 90%;
+  box-shadow: none;
+}
+
+/* The Close Button */
+.close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 20px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
 }
