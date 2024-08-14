@@ -59,7 +59,8 @@ public abstract class TestReport {
         return div(
                 join(
                         span("x").withClass("close"),
-                        img().withId("modalImg").withClass("modal-content")))
+                        img().withId("modalImg").withClass("modal-content"),
+                        div().withId("caption")))
                 .withId("modal")
                 .withClass("modal")
                 .render();

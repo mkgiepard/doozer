@@ -35,23 +35,24 @@ function clearCommands() {
   cmdContainer.textContent = "";
 }
 
-function openModal(imgSrc1, imgSrc2, imgSrc3) {
+function openModal(goldenSrc, diffSrc, testSrc, startIndex) {
+  const srcs = [goldenSrc, diffSrc, testSrc];
+  const captions = ['GOLDEN', 'DIFF', 'TEST']; 
   var modal = document.getElementById("modal");
   var modalImg = document.getElementById("modalImg");
-  var nextSrc = imgSrc2;
+  var captionText = document.getElementById("caption");
 
+  captionText.innerHTML = captions[startIndex];
   modal.style.display = "block";
-  modalImg.src = imgSrc1;
+  modalImg.src = srcs[startIndex];
   modalImg.onclick = function () {
-    modalImg.src = nextSrc;
-    // Rotate images onclick
-    if (nextSrc === imgSrc2) { nextSrc = imgSrc3; }
-    else if (nextSrc === imgSrc3) { nextSrc = imgSrc1; }
-    else { nextSrc = imgSrc2; }
+      startIndex = (startIndex + 1) % 3;
+      modalImg.src = srcs[startIndex];
+      captionText.innerHTML = captions[startIndex];
   }
 
   var span = document.getElementsByClassName("close")[0];
   span.onclick = function () {
       modal.style.display = "none";
-  } 
+  }
 }

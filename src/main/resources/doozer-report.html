@@ -36,8 +36,11 @@
             <div id="id110" class="container-teststep-images hidden">
                 <div class="card">
                     <div class="testcase-image">
-                        <img onclick='openModal("../../test/java/dev/softtest/doozer/scripts/googleTest/goldens/search-doozer-chrome-headless.png")'
-                            src="../../test/java/dev/softtest/doozer/scripts/googleTest/goldens/search-doozer-chrome-headless.png">
+                        <img onclick='openModal(
+                            "../../test/java/dev/softtest/doozer/scripts/googleTest/goldens/search-doozer-chrome-headless.png",
+                            "../../../target/doozer-tests/googleTest/search-doozer-chrome-headless.DIFF.png",
+                            "../../../target/doozer-tests/googleTest/search-doozer-chrome-headless.png",
+                            0)' src="../../test/java/dev/softtest/doozer/scripts/googleTest/goldens/search-doozer-chrome-headless.png">
                     </div>
                     <div class="testcase-data-container">
                         <div class="testcase-data">
@@ -50,8 +53,11 @@
                 </div>
                 <div class="card">
                     <div class="testcase-image fadein">
-                        <img onclick='openModal("../../../target/doozer-tests/googleTest/search-doozer-chrome-headless.DIFF.png")'
-                            src="../../../target/doozer-tests/googleTest/search-doozer-chrome-headless.DIFF.png">
+                        <img onclick='openModal(
+                            "../../test/java/dev/softtest/doozer/scripts/googleTest/goldens/search-doozer-chrome-headless.png",
+                            "../../../target/doozer-tests/googleTest/search-doozer-chrome-headless.DIFF.png",
+                            "../../../target/doozer-tests/googleTest/search-doozer-chrome-headless.png",
+                            1)' src="../../../target/doozer-tests/googleTest/search-doozer-chrome-headless.DIFF.png">
                     </div>
                     <div class="testcase-data">
                         <div class="label"># of pixels:</div>
@@ -68,7 +74,11 @@
                 </div>
                 <div class="card fail">
                     <div class="testcase-image"><img
-                            src="../../../target/doozer-tests/googleTest/search-doozer-chrome-headless.png">
+                        onclick='openModal(
+                            "../../test/java/dev/softtest/doozer/scripts/googleTest/goldens/search-doozer-chrome-headless.png",
+                            "../../../target/doozer-tests/googleTest/search-doozer-chrome-headless.DIFF.png",
+                            "../../../target/doozer-tests/googleTest/search-doozer-chrome-headless.png",
+                            2)' src="../../../target/doozer-tests/googleTest/search-doozer-chrome-headless.png">
                     </div>
                     <div class="testcase-data">
                         <div class="label">result:</div>
@@ -233,7 +243,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- The Modal -->
     <div id="modal" class="modal">
         <!-- The Close Button -->
@@ -277,18 +287,25 @@
         cmdContainer.textContent = "";
     }
 
-    function openModal(imgSrc) {
+    function openModal(goldenSrc, diffSrc, testSrc, startIndex) {
+        const srcs = [goldenSrc, diffSrc, testSrc];
+        const captions = ['GOLDEN', 'DIFF', 'TEST']; 
         var modal = document.getElementById("modal");
         var modalImg = document.getElementById("modalImg");
+        var captionText = document.getElementById("caption");
 
+        captionText.innerHTML = captions[startIndex];
         modal.style.display = "block";
-        modalImg.src = imgSrc;
+        modalImg.src = srcs[startIndex];
+        modalImg.onclick = function () {
+            startIndex = (startIndex + 1) % 3;
+            modalImg.src = srcs[startIndex];
+            captionText.innerHTML = captions[startIndex];
+        }
 
-        // Get the <span> element that closes the modal
         var span = document.getElementsByClassName("close")[0];
-        // When the user clicks on <span> (x), close the modal
         span.onclick = function () {
             modal.style.display = "none";
-        } 
+        }
     }
 </script>

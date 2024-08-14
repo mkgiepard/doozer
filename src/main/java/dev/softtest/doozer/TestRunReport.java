@@ -126,9 +126,9 @@ public class TestRunReport extends TestReport {
         String testSrc = "../../" + ta.getResultsPath().toString();
         
         return div(join(
-            div(img().withSrc(goldenSrc).attr("onclick", "openModal('" + goldenSrc + "', '" + diffSrc + "', '" + testSrc + "')")).withClass("card"),
-            div(img().withSrc(diffSrc).attr("onclick", "openModal('" + diffSrc + "', '" + testSrc + "', '" + goldenSrc + "')")).withClass("card"),
-            div(img().withSrc(testSrc).attr("onclick", "openModal('" + testSrc + "', '" + goldenSrc + "', '" + diffSrc + "')")).withClass("card")
+            div(img().withSrc(goldenSrc).attr("onclick", "openModal('" + goldenSrc + "', '" + diffSrc + "', '" + testSrc + "', 0)")).withClass("card"),
+            div(img().withSrc(diffSrc).attr("onclick", "openModal('" + goldenSrc + "', '" + diffSrc + "', '" + testSrc + "', 1)")).withClass("card"),
+            div(img().withSrc(testSrc).attr("onclick", "openModal('" + goldenSrc + "', '" + diffSrc + "', '" + testSrc + "', 2)")).withClass("card")
         )).withClasses("container-teststep-images", "hidden").withId(id);
     }
 

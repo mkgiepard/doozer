@@ -155,7 +155,8 @@ img {
 .modal-content {
   margin: auto;
   display: block;
-  width: 90%;
+  max-height: 90%;
+  width: auto;
   box-shadow: none;
 }
 
@@ -175,4 +176,22 @@ img {
   color: #bbb;
   text-decoration: none;
   cursor: pointer;
+}
+
+/* Caption of Modal Image (Image Text) - Same Width as the Image */
+#caption {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px 0;
+  height: 50px;
+}
+
+/* Add Animation - Zoom in the Modal */
+.modal-content, #caption {
+  animation-name: zoom;
+  animation-duration: 0.6s;
 }
