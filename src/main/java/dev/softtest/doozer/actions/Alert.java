@@ -29,7 +29,7 @@ public class Alert extends DoozerAction {
 
         if (getOptions().get("default").equals("confirm")) alert.accept();
         if (getOptions().get("default").equals("dismiss")) alert.dismiss();
-        if (!getOptions().get("prompt").isEmpty()) {
+        if (getOptions().get("prompt") != null && !getOptions().get("prompt").isEmpty()) {
             alert.sendKeys(getOptions().get("prompt"));
             alert.accept();
         }
