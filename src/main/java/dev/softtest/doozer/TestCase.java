@@ -18,12 +18,14 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Wait;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.UnhandledAlertException;
 
 import dev.softtest.doozer.ImageDiff.ImageDiffIOException;
 import dev.softtest.doozer.actions.TakeScreenshot;
 
 /**
- * The class representing a single test case, provides a run() method with iterates over actions
+ * The class representing a single test case, provides a run() method with
+ * iterates over actions
  * and executed them one by one.
  */
 public class TestCase {
@@ -44,7 +46,7 @@ public class TestCase {
         result = TestResult.UNKNOWN;
         status = TestStatus.NEW;
         steps = new ArrayList<TestStep>();
-        
+
         String fileName = testScriptPath.getFileName().toString();
         testCaseName = fileName.substring(0, fileName.lastIndexOf(".doozer"));
     }
@@ -90,14 +92,16 @@ public class TestCase {
                 LOG.info("execute: " + action.getOriginalAction());
                 waitForPageLoaded(ctx.getWebDriver());
                 action.resolveVariables();
-                if (action.getActionName() != "set") action.resolveDoozerSelector();
+                if (action.getActionName() != "set")
+                    action.resolveDoozerSelector();
                 action.execute();
                 if (action.getActionName().equalsIgnoreCase("takeScreenshot")) {
                     step.setArtifact(((TakeScreenshot) action).getTestArtifact());
                 }
             } catch (Exception e) {
                 if (!action.isOptional()) {
-                    String errMsg = "TEST CASE `"+ getTestCaseName() + "` FAILED IN ACTION: `" + action.getOriginalAction() + "` >>> Root cause: " + e.getMessage();
+                    String errMsg = "TEST CASE `" + getTestCaseName() + "` FAILED IN ACTION: `"
+                            + action.getOriginalAction() + "` >>> Root cause: " + e.getMessage();
                     saveDom();
                     takeScreenshotOnFailure();
                     result = TestResult.FAIL;
@@ -106,18 +110,17 @@ public class TestCase {
                     step.setStatus(TestStatus.DONE);
                     step.setError(e.getMessage());
                     if (action.getActionName().equalsIgnoreCase("takeScreenshot") &&
-                        (e instanceof ImageDiff.ImageDiffException ||
-                         e instanceof ImageDiff.ImageDiffIOException)) {
+                            (e instanceof ImageDiff.ImageDiffException ||
+                                    e instanceof ImageDiff.ImageDiffIOException)) {
                         step.setArtifact(((TakeScreenshot) action).getTestArtifact());
                     }
                     steps.add(step);
                     LOG.error(errMsg);
                     fail(errMsg);
-                }
-                else {
+                } else {
                     if (action.getActionName().equalsIgnoreCase("takeScreenshot") &&
-                        (e instanceof ImageDiff.ImageDiffException ||
-                         e instanceof ImageDiff.ImageDiffIOException)) {
+                            (e instanceof ImageDiff.ImageDiffException ||
+                                    e instanceof ImageDiff.ImageDiffIOException)) {
                         step.setArtifact(((TakeScreenshot) action).getTestArtifact());
                     }
                     step.setError("EXECUTION FAILED but ignoring the failure as the action is optional.");
@@ -138,15 +141,19 @@ public class TestCase {
 
     private void waitForPageLoaded(WebDriver driver) {
         Wait<WebDriver> wait = new WebDriverWait(driver, WAIT_DOCUMENT_READY);
-        wait.until(
-                d -> ((JavascriptExecutor) d).executeScript("return document.readyState")
-                        .equals("complete"));
+        try {
+            wait.until(
+                    d -> ((JavascriptExecutor) d).executeScript("return document.readyState")
+                            .equals("complete"));
+        } catch (UnhandledAlertException e) {
+            LOG.warn("UnhandledAlertException thrown in waitForPageLoaded.");
+        }
     }
 
     private void saveDom() {
         Path path = Paths.get(ctx.getTestResultPath() + "/" + testCaseName + "-DOM.html");
         byte[] domDump = ctx.getWebDriver().getPageSource().getBytes();
-    
+
         try {
             Files.write(path, domDump);
         } catch (IOException e) {
@@ -156,7 +163,7 @@ public class TestCase {
 
     private void takeScreenshotOnFailure() {
         byte[] screenshot = ((TakesScreenshot) getContext().getWebDriver()).getScreenshotAs(OutputType.BYTES);
-        Path path = Paths.get(ctx.getTestResultPath() + "/" +  testCaseName + "-onFAILURE.png");
+        Path path = Paths.get(ctx.getTestResultPath() + "/" + testCaseName + "-onFAILURE.png");
 
         try {
             Files.write(path, screenshot);

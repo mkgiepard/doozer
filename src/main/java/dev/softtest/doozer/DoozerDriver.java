@@ -6,10 +6,13 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.safari.SafariDriver;
 import org.openqa.selenium.safari.SafariOptions;
 
 import com.google.common.base.Strings;
+
+import org.openqa.selenium.UnexpectedAlertBehaviour;
 import org.openqa.selenium.WebDriver;
 
 
@@ -54,6 +57,7 @@ public class DoozerDriver {
                     chromeOptions.addArguments("--headless=new");
                 }
                 chromeOptions.addArguments("--force-device-scale-factor=1");
+                chromeOptions.setCapability(CapabilityType.UNHANDLED_PROMPT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
                 driver = new ChromeDriver(chromeOptions);
                 break;
             case "firefox":
@@ -61,6 +65,7 @@ public class DoozerDriver {
                 if (driverData.length == 2 && driverData[1].equals("headless")) {
                     firefoxOptions.addArguments("-headless");
                 }
+                firefoxOptions.setCapability(CapabilityType.UNHANDLED_PROMPT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
                 driver = new FirefoxDriver(firefoxOptions);
                 break;
             case "edge":
@@ -69,6 +74,7 @@ public class DoozerDriver {
                     edgeOptions.addArguments("--headless=new");
                 }
                 edgeOptions.addArguments("--force-device-scale-factor=1");
+                edgeOptions.setCapability(CapabilityType.UNHANDLED_PROMPT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
                 driver = new EdgeDriver(edgeOptions);
                 break;
             case "safari":
@@ -79,6 +85,7 @@ public class DoozerDriver {
                 ChromeOptions defaultOptions = new ChromeOptions();
                 defaultOptions.addArguments("--headless=new");
                 defaultOptions.addArguments("--force-device-scale-factor=1");
+                defaultOptions.setCapability(CapabilityType.UNHANDLED_PROMPT_BEHAVIOUR, UnexpectedAlertBehaviour.IGNORE);
                 driver = new ChromeDriver(defaultOptions);
         }
     }
