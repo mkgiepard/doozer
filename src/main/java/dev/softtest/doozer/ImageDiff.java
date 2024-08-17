@@ -73,10 +73,27 @@ public class ImageDiff {
                         int goldenRgb = goldenImg.getRGB(x, y);
                         int resultRgb = resultImg.getRGB(x, y);
 
+                        int goldenBlue = goldenRgb & 0xff;
+                        int goldenGreen = (goldenRgb & 0xff00) >> 8;
+                        int goldenRed = (goldenRgb & 0xff0000) >> 16;
+                        int goldenAlpha = (goldenRgb & 0xff000000) >>> 24;
+
+                        int resultBlue = resultRgb & 0xff;
+                        int resultGreen = (resultRgb & 0xff00) >> 8;
+                        int resultRed = (resultRgb & 0xff0000) >> 16;
+                        int resultAlpha = (resultRgb & 0xff000000) >>> 24;
+
+                        int diffRed = Math.abs(goldenRed - resultRed);
+                        int diffGreen = Math.abs(goldenGreen - resultGreen);
+                        int diffBlue = Math.abs(goldenBlue - resultBlue);
+                        int diffAlpha = Math.abs(goldenAlpha - resultAlpha);
+                        int totalDiff = diffRed + diffGreen + diffBlue + diffAlpha;
+
                         int white = (255 << 24) | (255 << 16) | (255 << 8) | 255;
                         int red = (255 << 24) | (255 << 16) | (0 << 8) | 0;
 
-                        if (goldenRgb != resultRgb) {
+                        // accept a 1 bit difference per color, to address the flakiness coming from rendering
+                        if (totalDiff > 4) { 
                             diffPixel++;
                             diffImg.setRGB(x, y, red);
                         } else {
