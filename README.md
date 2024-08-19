@@ -191,37 +191,6 @@ The project is licensed with The Apache License, Version 2.0.
 (http://www.apache.org/licenses/LICENSE-2.0.txt).
 
 
-## Release Notes
-
-### 0.2.6 Bug fixes / Improvements
-
-- Fix missing icon on TestRun, TestCase pages on Windows
-
-### 0.2.5 Bug fixes / Improvements
-
-- Fix Doozer actions based on Selenium Actions (like keyUp, keDown etc)
-- Improve TestRun, TestCase report pages
-- Improve error messages reported on missing Selector
-
-### 0.2.4 Bug fixes
-
-- Bug fixes for test run HTML reports
-- Bug fix for `assertCurrentUrl` action
-
-### 0.2.3 Bug fixes
-
-- Bug fixes for 'Approve' on Windows
-
-
-### 0.2.2 Broken release, please don't use it :(
-
-### 0.2.1 Bug fixes
-
-- Bug fixes for `takeScreenshot` action
-
-### 0.2.0 Initial release
-
-
 ## Contact
 
 Feel free to reach me out on github or at info [ at ] softtest.dev.
