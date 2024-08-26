@@ -14,6 +14,9 @@ click selector:"SL({button 'Create'})"
 type selector:"SL({textbox 'Title'})" args:"bugtracker2 does not work if there is power in the building"
 type selector:"SL({textbox 'Description'})" args:"Yesterday there was no power in our building and as a result the bugtracker2 was not working."
 click selector:"SL({radio 'P0'})"
+
+executeScript args:"document.getElementsByClassName('date')[0].innerHTML\='2020/01/01 12:12'"
+executeScript args:"document.getElementsByClassName('date')[1].innerHTML\='2020/01/01 12:12'"
 takeScreenshot args:"bugreport-new-filled"
 
 click selector:"SL({button 'Save'})"
