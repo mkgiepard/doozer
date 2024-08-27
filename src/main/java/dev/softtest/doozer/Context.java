@@ -10,9 +10,11 @@ public class Context {
     private DoozerDriver doozerDriver;
     private Path testResultPath;
     private Path testRootPath;
+    private Map<DoozerSelector, String> maskMap;
 
     public Context() {
         variables = new HashMap<String, String>();
+        maskMap = new HashMap<DoozerSelector, String>();
     }
 
     public void setVariable(String name, String value) {
@@ -49,6 +51,14 @@ public class Context {
 
     public Path getTestRootPath() {
         return testRootPath;
+    }
+    
+    public Map<DoozerSelector, String> getMaskMap() {
+        return maskMap;
+    }
+
+    public void addMask(DoozerSelector sel, String s) {
+        maskMap.put(sel, s);
     }
 
 } 

@@ -3,11 +3,16 @@ package dev.softtest.doozer.actions;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebElement;
 
 import dev.softtest.doozer.Context;
 import dev.softtest.doozer.DoozerAction;
+import dev.softtest.doozer.DoozerSelector;
+import dev.softtest.doozer.ElementFinder;
 import dev.softtest.doozer.ImageDiff;
 import dev.softtest.doozer.ImageDiff.ImageDiffException;
 import dev.softtest.doozer.ImageDiff.ImageDiffIOException;
@@ -38,6 +43,7 @@ public class TakeScreenshot extends DoozerAction {
     @Override
     public void execute() throws Exception {
         waitBeforeTakeScreenshotFor(2000);
+        applyMasks();
         byte[] screenshot = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.BYTES);
         fileName = getOptions().get("default");
         if (fileName == null) {
@@ -78,5 +84,21 @@ public class TakeScreenshot extends DoozerAction {
         try {
             Thread.sleep(ms);
         } catch (InterruptedException e) {}
+    }
+
+    private void applyMasks() {
+        for (DoozerSelector sel : getContext().getMaskMap().keySet()) {
+            try {
+                WebElement element = ElementFinder.findElement(getContext(), sel);
+                String script = "elem = document.elementFromPoint(" 
+                    + element.getRect().x + ", " 
+                    + element.getRect().y +");"
+                    + "elem.innerHTML='" + getContext().getMaskMap().get(sel) + "';" ;
+                ((JavascriptExecutor) getDriver()).executeScript(script);
+            } catch (Exception e) {
+                LOG.info("Exception thrown while applying a mask, this will not fail the step. " + e.getMessage());
+            }
+
+        }
     }
 }
