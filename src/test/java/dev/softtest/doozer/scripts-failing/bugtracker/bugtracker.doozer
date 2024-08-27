@@ -18,5 +18,10 @@ click selector:"SL({radio 'P0'})"
 executeScript args:"document.getElementsByClassName('date')[0].innerHTML\='2020/01/01 12:12'"
 executeScript args:"document.getElementsByClassName('date')[1].innerHTML\='2020/01/01 12:12'"
 takeScreenshot args:"bugreport-new-filled"
-
 click selector:"SL({button 'Save'})"
+
+
+click selector:"SL({cell 'bugtracker2 does not work *'})"
+addMask selector:"By.className('date')[0]" args:"2022/01/01 12:13"
+addMask selector:"By.className('date')[1]" args:"2022/01/01 12:13"
+takeScreenshot args:"bugreport-edit-with-mask"
