@@ -60,12 +60,37 @@ public class ImageDiff {
             int goldenHeight = goldenImg.getHeight();
             int resultHeight = resultImg.getHeight();
 
-            diffImg = new BufferedImage(goldenWidth, goldenHeight, goldenImg.getType());
+            long goldenSize = goldenHeight*goldenWidth;
+            long resultSize = resultHeight*resultWidth;
+
+            int white = (255 << 24) | (255 << 16) | (255 << 8) | 255;
+            int red = (255 << 24) | (255 << 16) | (0 << 8) | 0;
+
+            int diffWidth = Math.max(goldenWidth, resultWidth);
+            int diffHeight = Math.max(goldenHeight, resultHeight);
+            
+            diffImg = new BufferedImage(
+                diffWidth,
+                diffHeight,
+                goldenImg.getType());
 
             if ((goldenWidth != resultWidth) || (goldenHeight != resultHeight)) {
                 LOG.error("Image comparison failed, images dimensions mismatch!");
                 LOG.info(goldenWidth + "x" + goldenHeight + " -- " + resultWidth + "x" + resultHeight);
-                throw new Exception("Image comparison failed, images dimensions mismatch!");
+
+                for(int y = 0; y < diffHeight; y++) {
+                    for(int x = 0; x < diffWidth; x++) {
+                        if (y > Math.min(goldenHeight, resultHeight) || x > Math.min(goldenWidth, resultWidth)) {
+                            diffImg.setRGB(x, y, red);
+                        } else {
+                            diffImg.setRGB(x, y, white);
+                        }
+                    } 
+                }
+
+                generateDiffImg(diffImg);
+                diffPixel = Math.abs(resultSize - goldenSize);
+                throw new ImageDiffException("Image comparison failed, images dimensions mismatch! " + diffPixel);
             }
             else {
                 for (int y = 0; y < goldenHeight; y++) {
@@ -88,9 +113,6 @@ public class ImageDiff {
                         int diffBlue = Math.abs(goldenBlue - resultBlue);
                         int diffAlpha = Math.abs(goldenAlpha - resultAlpha);
                         int totalDiff = diffRed + diffGreen + diffBlue + diffAlpha;
-
-                        int white = (255 << 24) | (255 << 16) | (255 << 8) | 255;
-                        int red = (255 << 24) | (255 << 16) | (0 << 8) | 0;
 
                         // accept a 1 bit difference per color, to address the flakiness coming from rendering
                         if (totalDiff > 4) { 
