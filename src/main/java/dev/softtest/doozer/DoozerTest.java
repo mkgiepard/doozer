@@ -43,6 +43,7 @@ public class DoozerTest {
     private static final Logger LOG = LogManager.getLogger();
     private final String LOGGING_KEY = "ROUTINGKEY";
     private final String RESULTS_DIR = "target/doozer-tests/";
+    private final String TEST_DIR_PREFIX = "src/test/java/";
 
     private Map<String, TestCase> testCaseRegistry = new HashMap<>();
 
@@ -84,7 +85,7 @@ public class DoozerTest {
     @Tag("DOOZER")
     public void runner(Path testScriptPath, TestInfo tInfo) throws Exception {
         TestCase tc = new TestCase(testScriptPath);
-        ThreadContext.put(LOGGING_KEY, tc.getTestCaseName());
+        ThreadContext.put(LOGGING_KEY, testResultPath(tInfo.getDisplayName()).toString());
         tc.getContext().setDoozerDriver(initDriver());
         tc.getContext().setTestResultPath(testResultPath(tInfo.getDisplayName()));
         tc.getContext().setTestRootPath(testScriptPath.getParent());
@@ -167,8 +168,8 @@ public class DoozerTest {
     private Path testResultPath(String displayedName) {
         return Paths.get(RESULTS_DIR
             + displayedName.substring(
-                displayedName.lastIndexOf("/"),
-                displayedName.lastIndexOf(".doozer")));
+                displayedName.lastIndexOf(TEST_DIR_PREFIX) + TEST_DIR_PREFIX.length(),
+                displayedName.lastIndexOf("/")));
     }
 
 }

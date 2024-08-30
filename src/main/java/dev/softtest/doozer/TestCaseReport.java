@@ -19,7 +19,7 @@ public class TestCaseReport extends TestReport {
     }
 
     public void generate() {
-        Path path = Paths.get(resultsDir + testCaseDir + "/" + REPORT_FILENAME);
+        Path path = Paths.get(testCase.getContext().getTestResultPath().toString()  + "/" + REPORT_FILENAME);
         String htmlReport = generateTestReport();
         try {
             Files.write(path, htmlReport.getBytes());

@@ -101,7 +101,7 @@ public class TestRunReport extends TestReport {
                     div(span(resultIcon).withClass("material-symbols-outlined")).withClasses("center", resultStyle),
                     div(diff).withClass("center"),
                     div(button("APPROVE").attr("onclick", "approve('" + id + "', '" + resultPath + "', '" + goldenPath + "')").withClass(buttonHidden)).withClass("center"),
-                    div(a(span("open_in_new").withClass("material-symbols-outlined")).withHref("./" + tc.getTestCaseName() + "/doozer-report.html")).withClass("center")))
+                    div(a(span("open_in_new").withClass("material-symbols-outlined")).withHref("./" + tc.getContext().getTestResultPath().toString().substring(resultsDir.length()) + "/doozer-report.html")).withClass("center")))
             .withClass("container-testcase-summary"),
             div(actionText).withClasses("step-name", "hidden").withId(id+"step")).render();
     }
