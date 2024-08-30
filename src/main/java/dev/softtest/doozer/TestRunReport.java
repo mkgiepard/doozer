@@ -118,12 +118,12 @@ public class TestRunReport extends TestReport {
     }
 
     private DivTag getContainerTestCaseImages(TestArtifact ta, String id) {
-        String parentDir = ta.getResultsPath().getParent().toString();
+        String parentDir = ta.getResultsPath().getParent().toAbsolutePath().toString();
         String screenshotName = ta.getName();
         String diffName = screenshotName.substring(0, screenshotName.lastIndexOf(".png")) + ".DIFF.png";
-        String goldenSrc = "../../" + ta.getGoldensPath().toString();
-        String diffSrc = "../../" + parentDir + "/" + diffName;
-        String testSrc = "../../" + ta.getResultsPath().toString();
+        String goldenSrc = ta.getGoldensPath().toAbsolutePath().toString();
+        String diffSrc = parentDir + "/" + diffName;
+        String testSrc = ta.getResultsPath().toAbsolutePath().toString();
         
         return div(join(
             div(img().withSrc(goldenSrc).attr("onclick", "openModal('" + goldenSrc + "', '" + diffSrc + "', '" + testSrc + "', 0)")).withClass("card"),
