@@ -146,7 +146,7 @@ public class TestCaseReport extends TestReport {
         String diffName = screenshotName.substring(0, screenshotName.lastIndexOf(".png")) + ".DIFF.png";
         String goldenSrc = ta.getGoldensPath().toAbsolutePath().toString();
         String diffSrc = "./" + diffName;
-        String testSrc = "./" + ta.getResultsPath().getFileName().toString();`
+        String testSrc = "./" + ta.getResultsPath().getFileName().toString();
 
         return div(join(
                 div(img().withSrc(goldenSrc).attr("onclick", "openModal('" + goldenSrc + "', '" + diffSrc + "', '" + testSrc + "', 0)")).withClass("card"),
