@@ -156,6 +156,8 @@ click selector:"Sl({button 'Accept *'})"
   - `url`
 
 - Generics
+  - `addMask`
+  - `executeScript`
   - `iframe`
   - `import`
   - `set`
