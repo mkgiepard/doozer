@@ -1,5 +1,13 @@
 # Change Log
 
+### 0.2.8 Bug fixes / Improvements
+
+- New: addMask action
+- New: executeScript action
+- New: generate diff image if golden/result have different sizes
+- New: store test results in package-like directory structure
+- Infra: bump selenium version to 4.24.0
+
 ### 0.2.7 Bug fixes / Improvements
 
 - New: rotate between images in preview mode
