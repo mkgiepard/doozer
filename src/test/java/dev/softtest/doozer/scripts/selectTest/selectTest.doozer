@@ -1,5 +1,4 @@
-//url args:"https://www.selftest.dev/test-pages/select.html"
-url args:"file:///Users/mario/gitrepos/doozer-doc/test-pages/select.html"
+url args:"https://doozer.softtest.dev/test-pages/select.html"
 
 select selector:"By.id('multi')" args:"Ham"
 takeScreenshot args:"selected"
