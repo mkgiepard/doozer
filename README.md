@@ -139,6 +139,7 @@ click selector:"Sl({button 'Accept *'})"
   - `clear`
   - `click`
   - `contextClick`
+  - `deselect`
   - `doubleClick`
   - `hover`
   - `hoverByOffset`
