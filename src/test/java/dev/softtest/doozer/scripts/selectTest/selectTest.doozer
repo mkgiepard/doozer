@@ -1,7 +1,11 @@
 url args:"https://doozer.softtest.dev/test-pages/select.html"
+takeScreenshot args:"init"
 
+select selector:"By.id('dropdown')" args:"Eggs"
 select selector:"By.id('multi')" args:"Ham"
+select selector:"By.id('multi')" args:"Sausages"
 takeScreenshot args:"selected"
 
 deselect selector:"By.id('multi')" args:"Ham"
+deselect selector:"By.id('multi')" args:"Sausages"
 takeScreenshot args:"deselected"
