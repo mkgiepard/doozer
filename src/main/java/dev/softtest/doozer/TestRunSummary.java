@@ -45,6 +45,11 @@ public class TestRunSummary {
             Paths.get("target/doozer-tests/doozer-report.txt"),
             f.toString().getBytes());
         System.out.println(f.toString());
+
+        String htmlReportPath = 
+        "file://" + Paths.get("target/doozer-tests/doozer-report.html").toAbsolutePath().toString();
+        System.out.println("Doozer Test Run Report: " + htmlReportPath);
+        System.out.println("");
     }
     
 }
