@@ -148,6 +148,12 @@ public class TestCaseReport extends TestReport {
         String diffSrc = "./" + diffName;
         String testSrc = "./" + ta.getResultsPath().getFileName().toString();
 
+        if (System.getProperty("os.name").contains("Windows")) {
+            goldenSrc = goldenSrc.replaceAll("\\\\", "\\\\\\\\");
+            diffSrc = diffSrc.replaceAll("\\\\", "\\\\\\\\");
+            testSrc = testSrc.replaceAll("\\\\", "\\\\\\\\");
+        }
+
         return div(join(
                 div(img().withSrc(goldenSrc).attr("onclick", "openModal('" + goldenSrc + "', '" + diffSrc + "', '" + testSrc + "', 0)")).withClass("card"),
                 div(img().withSrc(diffSrc).attr("onclick", "openModal('" + goldenSrc + "', '" + diffSrc + "', '" + testSrc + "', 1)")).withClass("card"),

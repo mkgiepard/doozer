@@ -124,6 +124,12 @@ public class TestRunReport extends TestReport {
         String goldenSrc = ta.getGoldensPath().toAbsolutePath().toString();
         String diffSrc = parentDir + "/" + diffName;
         String testSrc = ta.getResultsPath().toAbsolutePath().toString();
+
+        if (System.getProperty("os.name").contains("Windows")) {
+            goldenSrc = goldenSrc.replaceAll("\\\\", "\\\\\\\\");
+            diffSrc = diffSrc.replaceAll("\\\\", "\\\\\\\\");
+            testSrc = testSrc.replaceAll("\\\\", "\\\\\\\\");
+        }
         
         return div(join(
             div(img().withSrc(goldenSrc).attr("onclick", "openModal('" + goldenSrc + "', '" + diffSrc + "', '" + testSrc + "', 0)")).withClass("card"),
