@@ -47,7 +47,13 @@ public class TestRunSummary {
         System.out.println(f.toString());
 
         String htmlReportPath = 
-        "file://" + Paths.get("target/doozer-tests/doozer-report.html").toAbsolutePath().toString();
+            "file://" + Paths.get("target/doozer-tests/doozer-report.html").toAbsolutePath().toString();
+
+        if (System.getProperty("os.name").contains("Windows")) {
+            htmlReportPath = 
+                "file:///" + Paths.get("target\\doozer-tests\\doozer-report.html").toAbsolutePath().toString();
+        }
+
         System.out.println("Doozer Test Run Report: " + htmlReportPath);
         System.out.println("");
     }
