@@ -1,5 +1,11 @@
 # Change Log
 
+### 0.2.9 Bug fixes / Improvements
+
+- New: deselect action
+- New: display a HTML report link in a console
+- Fix: images preview on Windows
+
 ### 0.2.8 Bug fixes / Improvements
 
 - New: addMask action
