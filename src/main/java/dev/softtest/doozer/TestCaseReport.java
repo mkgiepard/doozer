@@ -1,5 +1,6 @@
 package dev.softtest.doozer;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 
@@ -153,11 +154,14 @@ public class TestCaseReport extends TestReport {
             diffSrc = diffSrc.replaceAll("\\\\", "\\\\\\\\");
             testSrc = testSrc.replaceAll("\\\\", "\\\\\\\\");
         }
+    
+        // Firefox does not like absolute paths, to make it work one needs to prefix the img src path with "file:\\"
+        String ffPrefix = "file:\\\\";
 
         return div(join(
-                div(img().withSrc(goldenSrc).attr("onclick", "openModal('" + goldenSrc + "', '" + diffSrc + "', '" + testSrc + "', 0)")).withClass("card"),
-                div(img().withSrc(diffSrc).attr("onclick", "openModal('" + goldenSrc + "', '" + diffSrc + "', '" + testSrc + "', 1)")).withClass("card"),
-                div(img().withSrc(testSrc).attr("onclick", "openModal('" + goldenSrc + "', '" + diffSrc + "', '" + testSrc + "', 2)")).withClass("card")))
+                div(img().withSrc(ffPrefix + goldenSrc).attr("onclick", "openModal('"+ ffPrefix + goldenSrc + "', '" + diffSrc + "', '" + testSrc + "', 0)")).withClass("card"),
+                div(img().withSrc(diffSrc).attr("onclick", "openModal('"+ ffPrefix + goldenSrc + "', '" + diffSrc + "', '" + testSrc + "', 1)")).withClass("card"),
+                div(img().withSrc(testSrc).attr("onclick", "openModal('"+ ffPrefix + goldenSrc + "', '" + diffSrc + "', '" + testSrc + "', 2)")).withClass("card")))
                 .withClasses("container-teststep-images").withId(id);
     }
 

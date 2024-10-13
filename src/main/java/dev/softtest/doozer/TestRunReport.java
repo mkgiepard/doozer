@@ -2,6 +2,7 @@ package dev.softtest.doozer;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 
@@ -122,7 +123,7 @@ public class TestRunReport extends TestReport {
         String screenshotName = ta.getName();
         String diffName = screenshotName.substring(0, screenshotName.lastIndexOf(".png")) + ".DIFF.png";
         String goldenSrc = ta.getGoldensPath().toAbsolutePath().toString();
-        String diffSrc = parentDir + "/" + diffName;
+        String diffSrc = parentDir + File.separator + diffName;
         String testSrc = ta.getResultsPath().toAbsolutePath().toString();
 
         if (System.getProperty("os.name").contains("Windows")) {
@@ -130,11 +131,14 @@ public class TestRunReport extends TestReport {
             diffSrc = diffSrc.replaceAll("\\\\", "\\\\\\\\");
             testSrc = testSrc.replaceAll("\\\\", "\\\\\\\\");
         }
+
+        // Firefox does not like absolute paths, to make it work one needs to prefix the img src path with "file:\\"
+        String ffPrefix = "file:\\\\";
         
         return div(join(
-            div(img().withSrc(goldenSrc).attr("onclick", "openModal('" + goldenSrc + "', '" + diffSrc + "', '" + testSrc + "', 0)")).withClass("card"),
-            div(img().withSrc(diffSrc).attr("onclick", "openModal('" + goldenSrc + "', '" + diffSrc + "', '" + testSrc + "', 1)")).withClass("card"),
-            div(img().withSrc(testSrc).attr("onclick", "openModal('" + goldenSrc + "', '" + diffSrc + "', '" + testSrc + "', 2)")).withClass("card")
+            div(img().withSrc(ffPrefix + goldenSrc).attr("onclick", "openModal('" + ffPrefix + goldenSrc + "', '" + ffPrefix + diffSrc + "', '" + ffPrefix + testSrc + "', 0)")).withClass("card"),
+            div(img().withSrc(ffPrefix + diffSrc).attr("onclick", "openModal('" + ffPrefix + goldenSrc + "', '" + ffPrefix + diffSrc + "', '" + ffPrefix + testSrc + "', 1)")).withClass("card"),
+            div(img().withSrc(ffPrefix + testSrc).attr("onclick", "openModal('" + ffPrefix + goldenSrc + "', '" + ffPrefix + diffSrc + "', '" + ffPrefix + testSrc + "', 2)")).withClass("card")
         )).withClasses("container-teststep-images", "hidden").withId(id);
     }
 
