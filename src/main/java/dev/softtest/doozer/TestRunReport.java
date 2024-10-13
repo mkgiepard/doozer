@@ -127,16 +127,18 @@ public class TestRunReport extends TestReport {
         String diffSrc = resultsRootPath.toAbsolutePath().relativize(Paths.get(parentDir + File.separator + diffName).toAbsolutePath()).toString();
         String testSrc = resultsRootPath.toAbsolutePath().relativize(ta.getResultsPath().toAbsolutePath()).toString();
 
+        String goldenSrcEscapedChars = goldenSrc;
+
         if (System.getProperty("os.name").contains("Windows")) {
-            goldenSrc = goldenSrc.replaceAll("\\\\", "\\\\\\\\");
+            goldenSrcEscapedChars = goldenSrc.replaceAll("\\\\", "\\\\\\\\");
             diffSrc = diffSrc.replaceAll("\\\\", "\\\\\\\\");
             testSrc = testSrc.replaceAll("\\\\", "\\\\\\\\");
         }
 
         return div(join(
-            div(img().withSrc(goldenSrc).attr("onclick", "openModal('" + goldenSrc + "', '" + diffSrc + "', '" + testSrc + "', 0)")).withClass("card"),
-            div(img().withSrc(diffSrc).attr("onclick", "openModal('" + goldenSrc + "', '" + diffSrc + "', '"  + testSrc + "', 1)")).withClass("card"),
-            div(img().withSrc(testSrc).attr("onclick", "openModal('" + goldenSrc + "', '" + diffSrc + "', '" + testSrc + "', 2)")).withClass("card")
+            div(img().withSrc(goldenSrc).attr("onclick", "openModal('" + goldenSrcEscapedChars + "', '" + diffSrc + "', '" + testSrc + "', 0)")).withClass("card"),
+            div(img().withSrc(diffSrc).attr("onclick", "openModal('" + goldenSrcEscapedChars + "', '" + diffSrc + "', '"  + testSrc + "', 1)")).withClass("card"),
+            div(img().withSrc(testSrc).attr("onclick", "openModal('" + goldenSrcEscapedChars + "', '" + diffSrc + "', '" + testSrc + "', 2)")).withClass("card")
         )).withClasses("container-teststep-images", "hidden").withId(id);
     }
 
