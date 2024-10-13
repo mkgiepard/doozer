@@ -43,9 +43,7 @@ public class DoozerTest {
     private static final Logger LOG = LogManager.getLogger();
     private final String LOGGING_KEY = "ROUTINGKEY";
     private final String RESULTS_DIR = "target/doozer-tests/";
-    private final String TEST_DIR_PREFIX = "src/test/java/";
-    private final String DIR_SEPARATOR = "/";
-    private final String WIN_DIR_SEPARATOR = "\\";
+    private final String TEST_DIR_PREFIX = "src/test/";
 
     private Map<String, TestCase> testCaseRegistry = new HashMap<>();
 
@@ -168,11 +166,10 @@ public class DoozerTest {
     }
 
     private Path testResultPath(String displayedName) {
-        boolean onWindows = System.getProperty("os.name").contains("Windows");
         return Paths.get(RESULTS_DIR
             + displayedName.substring(
                 displayedName.lastIndexOf(TEST_DIR_PREFIX) + TEST_DIR_PREFIX.length(),
-                displayedName.lastIndexOf(onWindows ? WIN_DIR_SEPARATOR : DIR_SEPARATOR)));
+                displayedName.lastIndexOf(File.separator)));
     }
 
 }
