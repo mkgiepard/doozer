@@ -42,8 +42,8 @@ import org.apache.logging.log4j.ThreadContext;
 public class DoozerTest {
     private static final Logger LOG = LogManager.getLogger();
     private final String LOGGING_KEY = "ROUTINGKEY";
-    private final String RESULTS_DIR = "target/doozer-tests/";
-    private final String TEST_DIR_PREFIX = "src/test/";
+    private final String RESULTS_DIR = "target" + File.separator + "doozer-tests" + File.separator;
+    private final String TEST_DIR_PREFIX = "src" + File.separator +  "test" + File.separator;
 
     private Map<String, TestCase> testCaseRegistry = new HashMap<>();
 
@@ -141,7 +141,7 @@ public class DoozerTest {
             throw new RuntimeException("'doozer.directory' does not contain any doozer test folders.");
 
         return Arrays.stream(directories)
-                .map(d -> Arguments.of(directory + d.getName() + "/" + d.getName() + ".doozer"));
+                .map(d -> Arguments.of(directory + d.getName() + File.separator + d.getName() + ".doozer"));
     }
 
     private DoozerDriver initDriver() {
