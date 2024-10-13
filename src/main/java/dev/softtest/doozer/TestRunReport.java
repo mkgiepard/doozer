@@ -119,12 +119,13 @@ public class TestRunReport extends TestReport {
     }
 
     private DivTag getContainerTestCaseImages(TestArtifact ta, String id) {
+        Path resultsRootPath = Paths.get("target/doozer-tests/");
         String parentDir = ta.getResultsPath().getParent().toAbsolutePath().toString();
         String screenshotName = ta.getName();
         String diffName = screenshotName.substring(0, screenshotName.lastIndexOf(".png")) + ".DIFF.png";
-        String goldenSrc = ta.getGoldensPath().toAbsolutePath().toString();
-        String diffSrc = parentDir + File.separator + diffName;
-        String testSrc = ta.getResultsPath().toAbsolutePath().toString();
+        String goldenSrc = resultsRootPath.toAbsolutePath().relativize(ta.getGoldensPath().toAbsolutePath()).toString();
+        String diffSrc = resultsRootPath.toAbsolutePath().relativize(Paths.get(parentDir + File.separator + diffName).toAbsolutePath()).toString();
+        String testSrc = resultsRootPath.toAbsolutePath().relativize(ta.getResultsPath().toAbsolutePath()).toString();
 
         if (System.getProperty("os.name").contains("Windows")) {
             goldenSrc = goldenSrc.replaceAll("\\\\", "\\\\\\\\");
@@ -132,13 +133,10 @@ public class TestRunReport extends TestReport {
             testSrc = testSrc.replaceAll("\\\\", "\\\\\\\\");
         }
 
-        // Firefox does not like absolute paths, to make it work one needs to prefix the img src path with "file:\\"
-        String ffPrefix = "file:"+ File.separator + File.separator;
-        
         return div(join(
-            div(img().withSrc(ffPrefix + goldenSrc).attr("onclick", "openModal('" + ffPrefix + goldenSrc + "', '" + ffPrefix + diffSrc + "', '" + ffPrefix + testSrc + "', 0)")).withClass("card"),
-            div(img().withSrc(ffPrefix + diffSrc).attr("onclick", "openModal('" + ffPrefix + goldenSrc + "', '" + ffPrefix + diffSrc + "', '" + ffPrefix + testSrc + "', 1)")).withClass("card"),
-            div(img().withSrc(ffPrefix + testSrc).attr("onclick", "openModal('" + ffPrefix + goldenSrc + "', '" + ffPrefix + diffSrc + "', '" + ffPrefix + testSrc + "', 2)")).withClass("card")
+            div(img().withSrc(goldenSrc).attr("onclick", "openModal('" + goldenSrc + "', '" + diffSrc + "', '" + testSrc + "', 0)")).withClass("card"),
+            div(img().withSrc(diffSrc).attr("onclick", "openModal('" + goldenSrc + "', '" + diffSrc + "', '"  + testSrc + "', 1)")).withClass("card"),
+            div(img().withSrc(testSrc).attr("onclick", "openModal('" + goldenSrc + "', '" + diffSrc + "', '" + testSrc + "', 2)")).withClass("card")
         )).withClasses("container-teststep-images", "hidden").withId(id);
     }
 

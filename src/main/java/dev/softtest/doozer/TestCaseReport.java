@@ -143,9 +143,10 @@ public class TestCaseReport extends TestReport {
     }
 
     private DivTag getContainerTestCaseImages(TestArtifact ta, String id) {
+        Path testResultRootPath = ta.getResultsPath().getParent().toAbsolutePath();
         String screenshotName = ta.getName();
         String diffName = screenshotName.substring(0, screenshotName.lastIndexOf(".png")) + ".DIFF.png";
-        String goldenSrc = ta.getGoldensPath().toAbsolutePath().toString();
+        String goldenSrc = testResultRootPath.toAbsolutePath().relativize(ta.getGoldensPath().toAbsolutePath()).toString();
         String diffSrc = "./" + diffName;
         String testSrc = "./" + ta.getResultsPath().getFileName().toString();
 
@@ -154,14 +155,11 @@ public class TestCaseReport extends TestReport {
             diffSrc = diffSrc.replaceAll("\\\\", "\\\\\\\\");
             testSrc = testSrc.replaceAll("\\\\", "\\\\\\\\");
         }
-    
-        // Firefox does not like absolute paths, to make it work one needs to prefix the img src path with "file:\\"
-        String ffPrefix = "file:"+ File.separator + File.separator;
 
         return div(join(
-                div(img().withSrc(ffPrefix + goldenSrc).attr("onclick", "openModal('"+ ffPrefix + goldenSrc + "', '" + diffSrc + "', '" + testSrc + "', 0)")).withClass("card"),
-                div(img().withSrc(diffSrc).attr("onclick", "openModal('"+ ffPrefix + goldenSrc + "', '" + diffSrc + "', '" + testSrc + "', 1)")).withClass("card"),
-                div(img().withSrc(testSrc).attr("onclick", "openModal('"+ ffPrefix + goldenSrc + "', '" + diffSrc + "', '" + testSrc + "', 2)")).withClass("card")))
+                div(img().withSrc(goldenSrc).attr("onclick", "openModal('" + goldenSrc + "', '" + diffSrc + "', '" + testSrc + "', 0)")).withClass("card"),
+                div(img().withSrc(diffSrc).attr("onclick", "openModal('" + goldenSrc + "', '" + diffSrc + "', '" + testSrc + "', 1)")).withClass("card"),
+                div(img().withSrc(testSrc).attr("onclick", "openModal('" + goldenSrc + "', '" + diffSrc + "', '" + testSrc + "', 2)")).withClass("card")))
                 .withClasses("container-teststep-images").withId(id);
     }
 
