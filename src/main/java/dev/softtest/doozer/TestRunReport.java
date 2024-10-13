@@ -133,7 +133,7 @@ public class TestRunReport extends TestReport {
         }
 
         // Firefox does not like absolute paths, to make it work one needs to prefix the img src path with "file:\\"
-        String ffPrefix = "file:\\\\";
+        String ffPrefix = "file:"+ File.separator + File.separator;
         
         return div(join(
             div(img().withSrc(ffPrefix + goldenSrc).attr("onclick", "openModal('" + ffPrefix + goldenSrc + "', '" + ffPrefix + diffSrc + "', '" + ffPrefix + testSrc + "', 0)")).withClass("card"),
