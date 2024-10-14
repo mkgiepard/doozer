@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VERSION="0.2.9"
+VERSION="0.2.10"
 
 mkdir -p target/dev/softtest/doozer/$VERSION
 

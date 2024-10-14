@@ -1,5 +1,10 @@
 # Change Log
 
+### 0.2.10 Bug fixes / Improvements
+
+- Fix: images preview on Windows
+- Fix: images rendering on Firefox
+
 ### 0.2.9 Bug fixes / Improvements
 
 - New: deselect action
