@@ -1,6 +1,5 @@
 package dev.softtest.doozer;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 
@@ -10,13 +9,11 @@ import static j2html.TagCreator.*;
 
 /** The class for HTML report generation per test case. */
 public class TestCaseReport extends TestReport {
-    private final String testCaseDir;
     protected final TestCase testCase;
 
     public TestCaseReport(String resultsDir, TestCase testCase) {
         super(resultsDir);
         this.testCase = testCase;
-        this.testCaseDir = testCase.getTestCaseName();
     }
 
     public void generate() {
@@ -78,7 +75,6 @@ public class TestCaseReport extends TestReport {
         }
         String resultIcon = tc.getTestResult() == TestResult.PASS ? "check" : "cancel";
         String resultStyle = tc.getTestResult() == TestResult.PASS ? "pass" : "fail";
-        String buttonHidden = tc.getTestResult() == TestResult.PASS || diff == "-" ? "hidden" : "";
 
         return div(join(
                 div(div(script).withClass("testcase-name")),

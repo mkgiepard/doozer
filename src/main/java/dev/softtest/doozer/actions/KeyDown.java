@@ -1,7 +1,5 @@
 package dev.softtest.doozer.actions;
 
-import java.util.Arrays;
-
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.interactions.Actions;
 
