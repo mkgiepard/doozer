@@ -10,11 +10,16 @@ import javax.imageio.ImageIO;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/** Compares images, pixel by pixel, creates a DIFF image and comparison statistics. */
+/**
+ * Compares images, pixel by pixel, creates a DIFF image and comparison
+ * statistics.
+ */
 public class ImageDiff {
     protected static final Logger LOG = LogManager.getLogger();
-    
+
     private static final double DEFAULT_THRESHOLD = 0.01;
+    private static final double DEFAULT_DELTA_E_THRESHOLD = 5.0;
+
     private final Path goldenImgPath;
     private final Path resultImgPath;
     private final double threshold;
@@ -23,7 +28,6 @@ public class ImageDiff {
     BufferedImage diffImg;
     private double diffRatio = 0;
     private long diffPixel = 0;
-
 
     public ImageDiff(Path goldenImgPath, Path resultImgPath) {
         this(goldenImgPath, resultImgPath, DEFAULT_THRESHOLD);
@@ -59,39 +63,38 @@ public class ImageDiff {
             int goldenHeight = goldenImg.getHeight();
             int resultHeight = resultImg.getHeight();
 
-            long goldenSize = goldenHeight*goldenWidth;
-            long resultSize = resultHeight*resultWidth;
+            long goldenSize = goldenHeight * goldenWidth;
+            long resultSize = resultHeight * resultWidth;
 
             int white = (255 << 24) | (255 << 16) | (255 << 8) | 255;
             int red = (255 << 24) | (255 << 16) | (0 << 8) | 0;
 
             int diffWidth = Math.max(goldenWidth, resultWidth);
             int diffHeight = Math.max(goldenHeight, resultHeight);
-            
+
             diffImg = new BufferedImage(
-                diffWidth,
-                diffHeight,
-                goldenImg.getType());
+                    diffWidth,
+                    diffHeight,
+                    goldenImg.getType());
 
             if ((goldenWidth != resultWidth) || (goldenHeight != resultHeight)) {
                 LOG.error("Image comparison failed, images dimensions mismatch!");
                 LOG.info(goldenWidth + "x" + goldenHeight + " -- " + resultWidth + "x" + resultHeight);
 
-                for(int y = 0; y < diffHeight; y++) {
-                    for(int x = 0; x < diffWidth; x++) {
+                for (int y = 0; y < diffHeight; y++) {
+                    for (int x = 0; x < diffWidth; x++) {
                         if (y > Math.min(goldenHeight, resultHeight) || x > Math.min(goldenWidth, resultWidth)) {
                             diffImg.setRGB(x, y, red);
                         } else {
                             diffImg.setRGB(x, y, white);
                         }
-                    } 
+                    }
                 }
 
                 generateDiffImg(diffImg);
                 diffPixel = Math.abs(resultSize - goldenSize);
                 throw new ImageDiffException("Image comparison failed, images dimensions mismatch! " + diffPixel);
-            }
-            else {
+            } else {
                 for (int y = 0; y < goldenHeight; y++) {
                     for (int x = 0; x < goldenWidth; x++) {
                         int goldenRgb = goldenImg.getRGB(x, y);
@@ -107,14 +110,15 @@ public class ImageDiff {
                         int resultRed = (resultRgb & 0xff0000) >> 16;
                         int resultAlpha = (resultRgb & 0xff000000) >>> 24;
 
-                        int diffRed = Math.abs(goldenRed - resultRed);
-                        int diffGreen = Math.abs(goldenGreen - resultGreen);
-                        int diffBlue = Math.abs(goldenBlue - resultBlue);
-                        int diffAlpha = Math.abs(goldenAlpha - resultAlpha);
-                        int totalDiff = diffRed + diffGreen + diffBlue + diffAlpha;
+                        ColorComparator comparator = new ColorComparator();
+                        double deltaE = comparator.compareColors(
+                            new int[] { goldenRed, goldenGreen, goldenBlue },
+                            new int[] { resultRed, resultGreen, resultBlue }
+                        );
 
-                        // accept a 1 bit difference per color, to address the flakiness coming from rendering
-                        if (totalDiff > 4) { 
+                        // accept a 1 bit difference per color, to address the flakiness coming from
+                        // rendering
+                        if (deltaE > DEFAULT_DELTA_E_THRESHOLD) {
                             diffPixel++;
                             diffImg.setRGB(x, y, red);
                         } else {
@@ -126,8 +130,8 @@ public class ImageDiff {
                 diffRatio = (diffPixel / totalPixels) * 100;
 
                 LOG.info("Number of different pixels: " + diffPixel);
-                LOG.info("Percent of different pixels: " + diffRatio 
-                    + "% with acceptable difference threshold set to: " + threshold + "%");
+                LOG.info("Percent of different pixels: " + diffRatio
+                        + "% with acceptable difference threshold set to: " + threshold + "%");
 
                 generateDiffImg(diffImg);
                 if (diffRatio > 0 && diffRatio > threshold) {
