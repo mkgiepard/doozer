@@ -1,5 +1,9 @@
 # Change Log
 
+### 1.0.1 Bug fixes
+
+- Fix: downgrade maven-surefire-plugin to address the tests discovery issue
+
 ### 1.0.0 Bug fixes / Improvements
 
 - New: improve image comparison algorithm with logic detecting if the pixel colors are significantly different

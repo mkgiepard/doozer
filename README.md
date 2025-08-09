@@ -11,11 +11,10 @@ pom.xml file:
 <dependency>
     <groupId>dev.softtest</groupId>
     <artifactId>doozer</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
-Current version - 1.0.0 - is not final but it is functional enough to try it out.
 
 ## Setup
 
