@@ -15,6 +15,20 @@ pom.xml file:
 </dependency>
 ```
 
+With the latest updated in `junit-jupiter-engine` you need to also add the following plugin into the
+plugins section to address the test discovery issue:
+
+```
+<plugin>
+  <artifactId>maven-surefire-plugin</artifactId>
+  <version>3.5.3</version>
+  <configuration>
+    <systemPropertyVariables>
+      <environment>${test.folder}</environment>
+          </systemPropertyVariables>
+  </configuration>
+</plugin>
+```
 
 ## Setup
 
