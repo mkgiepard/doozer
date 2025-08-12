@@ -1,5 +1,7 @@
 package dev.softtest.doozer;
 
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.util.stream.*;
 import java.io.File;
 import java.io.IOException;
@@ -49,6 +51,8 @@ public class DoozerTest {
 
     @BeforeEach
     public void setup(TestInfo tInfo) throws IOException {
+        if (tInfo.getDisplayName().length() < TEST_DIR_PREFIX.length())
+            fail("'doozer.test' or 'doozer.directory' not defined");
         createTestResultDirectory(tInfo.getDisplayName());
     }
 
@@ -130,8 +134,10 @@ public class DoozerTest {
         }
 
         String directory = System.getProperty("doozer.directory");
-        if (directory == null)
-            throw new RuntimeException("'doozer.test' or 'doozer.directory' must be defined to proceed.");
+        if (directory == null) {
+            LOG.error("'doozer.test' or 'doozer.directory' must be defined to proceed.");
+            return Stream.of(Arguments.of());
+        }
 
         if (Files.notExists(Path.of(directory)))
             throw new RuntimeException("'" + directory + "' must exist to proceed.");

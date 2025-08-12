@@ -12,10 +12,10 @@ public class DoozerTestTest {
     @Test
     @ClearSystemProperty(key = "doozer.test")
     @ClearSystemProperty(key = "doozer.directory")
-    public void provideDoozerTestFiles_throws_exception_wo_doozer_parameters(){
+    public void provideDoozerTestFiles_returns_empty_stream_of_arguments_wo_doozer_parameters(){
         DoozerTest dt = new DoozerTest();
-        RuntimeException thrown = assertThrows(RuntimeException.class, () -> dt.provideDoozerTestFiles());
-        assertEquals("'doozer.test' or 'doozer.directory' must be defined to proceed.", thrown.getMessage());
+        assertEquals(1, dt.provideDoozerTestFiles().toList().size());
+        assertEquals(0, dt.provideDoozerTestFiles().toList().get(0).get().length);
     }
 
     @Test
